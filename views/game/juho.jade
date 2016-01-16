@@ -1,0 +1,54 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/game/juho.css")
+ 
+block content
+  include ../includes/header.jade
+  div#game
+    div(class = "game start")
+      button#start 새로 키우기 
+      button#continue 이어하기 
+    div(class = "game play")
+      div(class = "juho room")
+        div.character
+         div.cloth
+        span.memo
+      div#inventory
+      div.menu
+        button#rice 밥맥이기
+        button#study 공부시키기
+        button#game 놀기
+        br
+        button#store 상점
+        button#inven 창고
+        button#save 저장
+    div.store
+      button.super
+      button.bookstore
+      button.clothing
+      button.general
+  script(src = "/javascripts/game/juho.js")
+  script.
+    var game = new Child();
+
+    $("#start").click(function(){
+      $("div.start").css("display", "none");
+      $("div.play").css("display", "block");
+      game.newGame();
+    });
+    
+    $("#save").click(function(){
+      var data = {};
+      data.name = "juho";
+
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url:'/game/juhoSave',
+        success: function(data){
+          console.log('sucess');
+        }
+      }); 
+    });

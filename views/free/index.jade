@@ -1,0 +1,46 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/board.css")
+
+block content
+  include ../includes/header
+  div(id = "freeboard")
+    table(class = "table table-hover")
+      thead
+        tr
+          th(width = "60%") 제목
+          th(width = "150") 작성자
+          th(width = "150" class = "hidden-xs") 작성일
+          th(width = "150") 조회수
+      tbody
+        if (rows.length > 0)
+          - for(var i = page.from; i < page.to; i++)
+            if (rows[i])
+              tr
+                td
+                  a(href = "/free/detail/?id=#{rows[i]._id}&page=#{page.number + 1}") #{rows[i].title} 
+                    if(rows[i].comments.length > 0)       
+                      span  [#{rows[i].comments.length}]             
+                td #{rows[i].name}
+                td #{rows[i].date}
+                td #{rows[i].hits}
+        else
+          tr
+            td(colspan = "5") 등록된 게시글이 없습니다.
+
+    div#page
+      ul.pagination
+        li
+          a(href = "#" aria-label = "Previous")
+            span(aria-hidden = "true") &laquo;
+        - for (var i = 0; i < page.count; i++)
+          li
+            a(href = "/free/?page=#{i+1}")  #{i+1}
+        li
+          a(href = "#" aria-label = "Next")
+            span(aria-hidden = "true") &raquo;
+
+    button(type = "button" class = "btn btn-primary" onclick = "location.href='/free/write'") 글쓰기
+
+

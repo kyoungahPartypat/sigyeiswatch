@@ -1,0 +1,35 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/board.css")
+
+block content
+  include ../includes/header.jade
+  div#freeboard
+    form(method = "post" id = "writeForm")
+      input(type = "text" name = "title" id = "title" placeholder = "제목" class = "form-control")
+      textarea(name = "content" id = "content")
+      div.button
+        button(type = "submit" class = "btn btn-primary") 확인
+        button(type = "button" class = "btn btn-default" onclick = "location.href = '/free'") 취소
+
+  script(type = "text/javascript" src = "/tinymce/js/tinymce/tinymce.js")
+  script.
+    tinyMCE.init({
+      //General options
+      selector: "#content",
+      theme: "modern",
+      toolbar: [
+        'undo redo | styleselect | bold italic | link image',
+        'alignleft aligncenter alignright'
+      ]
+    });
+
+    $('#writeForm').submit(function(){
+      var title = $('#title').val();
+
+      if(title.length <= 0){
+        $("#title").focus();
+        return false;
+      }
+    });

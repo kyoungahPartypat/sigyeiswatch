@@ -1,0 +1,47 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/photos.css")
+
+block content
+  include ../includes/header.jade
+  div#photo
+    div.image
+      img(src = "/photos/#{photo.path}")
+      ul.info
+        li.title
+          span #{photo.name}
+        li.name
+          span by.#{photo.user}
+      ul.ccl-icon
+        li.cc
+        li.by
+        if(photo.noncommercial == "y")
+          li.non
+        if(photo.secondCreation == "NDW")
+          li.ndw
+        else if(photo.secondCreation == "share")
+          li.share 
+      div.button
+        button(type = "button" class = "btn btn-primary" onclick = "location.href='/photos/detail/#{id}/download'" class = "download") 다운로드  
+        button(type = "button" class = "btn btn-default" onclick = "location.href = '/photos?page=#{page}'")  목록
+  div#ccl
+    div
+      ul.role
+        li(class=  "role_class by")
+          span.role_tit Attribution (저작자 표시)
+          br
+          | 저작자의 이름, 출처 등 저작자를 반드시 표시해야 한다는, 라이선스에 반드시 포함하는 필수 조항 입니다.
+        li(class = "role_class nc")
+          span.role_tit  Noncommercial (비영리)
+          br
+          | 저작물을 영리 목적으로 이용할 수 없습니다. 영리목적의 이용을 위해서는, 별도의 계약이 필요하다는 의미입니다.
+        li(class = "role_class nd")
+          span.role_tit No Derviative Works (변경금지)
+          br
+          | 저작물을 변경하거나 저작물을 이용한 2차적 저작물 제작을 금지한다는 의미입니다.
+        li(class = "role_class sa")
+          span.role_tit Share Alike (동일조건변경허락)
+          br
+          | 2차적 저작물 제작을 허용하되, 2차적 저작물에 원 저작물과 동일한 라이선스를 적용해야 한다는 의미입니다.
+      span.source 출처 : creative commons korea

@@ -1,0 +1,47 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/board.css")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js")
+block content
+  include ../includes/header.jade
+
+  div#freeboard
+    div.top
+      div.title
+        strong #{row.title}
+      div.name  
+        span #{row.name}
+      div.info
+       span.date #{row.date}  |  
+       span.hit 조회 #{row.hits + 1}
+    div.content
+      !{row.content}
+      div
+        button(id= "like" class = "btn btn-default")
+          span #{row.good}
+          br
+          i(class = "glyphicon glyphicon-heart")
+    div.bottom
+      if (user)
+        input(type = "hidden" id = "user" value = "#{user.name}")
+      div#comment
+ 
+  script(type = "text/babel" src = "/javascripts/board/comment.js")
+  script(type = "text/javascript" src = "/javascripts/board/board.js")
+  script. 
+    var id = "#{row._id}";
+    var name = $("#user").val();
+ 
+    $(document).ready(function(){
+      $("#like").click(function(){
+        if(name != "undefined"){
+          plusLike("free", id, name);
+        }else{
+          alert("로그인 해주세요!");
+        }
+      });
+    });

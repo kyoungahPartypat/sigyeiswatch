@@ -1,0 +1,88 @@
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-family:"나눔바른고딕","나눔고딕","NanumGothic","맑은고딕","Malgun Gothic",sans-serif;
+    font-size:14px;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display:block;
+}
+
+ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+}
+
+
+
+/*nav*/
+h1{margin:20px 0}
+h1 > a{display:block; margin:0 auto; width:193px; height:44px; background-image:url("/images/design/watch_logo.png"); background-size:193px 44px}
+
+#lnb{background:none; border:none;}
+
+#lnb > ul.nav-lnb > li > a:hover{color:#777}
+#lnb > ul.nav-lnb > li > a.name{cursor:default}
+
+#lnb > div.navbar-custom{border:0}
+#lnb > div.collapse > ul > li > a{color:#6F7681}
+#lnb:after{display:block; content:""; clear:both}
+#lnb > div.navbar-header > ul.nav-lnb{border:0}
+#lnb > div.navbar-header > ul.nav-lnb > li > a.name{cursor:default}
+#lnb > div.navbar-header > ul.nav-lnb > li > a:hover{background-color:none}
+
+
+
+#gnb > ul.nav-gnb{border-top:1px solid #ddd}
+#gnb > ul.nav-gnb > li > a{color:#262626}

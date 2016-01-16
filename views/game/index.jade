@@ -1,0 +1,18 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/photos.css")
+
+block content
+  include ../includes/header.jade
+  h2 메뉴 제목 멀로하지;
+  div#photoBox
+    ul(id = "game" class = "row")
+        li(class = "col-xs-6 col-md-3")
+          a(href = "/game/kinghts" class = "thumbnail")
+            img(src = "/images/knights.png")
+            span.name 나이트의 여행        
+        li(class = "col-xs-6 col-md-3")
+          a(href = "/game/peg_solitare" class = "thumbnail")
+            img(src = "/images/ㅔㄷㅎ.png")
+            span.name 페그 솔리테어

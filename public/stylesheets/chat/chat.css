@@ -1,0 +1,28 @@
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+  #chat{width:100%; margin:15px auto}
+  #chat > #message{width:100%; height:300px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
+  #chat > #message > span.chat_text{display:block; line-height:23px;}
+  #chat > #message > span.text > span.user{width:80px}
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+  #chat{width:874px}
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}

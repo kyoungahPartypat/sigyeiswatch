@@ -1,0 +1,95 @@
+
+/*custom, Iphone Retina */
+
+@media only screen and (min-width : 320px) {
+  /*index*/
+  h2{font-size:14px; margin:10px 5px}
+
+  #searchForm > div.input-group{margin:5px 0 10px}
+  #searchForm > div.input-group > span.input-group-addon{padding:0}
+  #searchForm > div.input-group > span.input-group-addon > button{background:none; border:none}
+  /*upload*/
+  form > ul.notice{width:100%; margin:10px auto}
+  form > ul.notice > li{margin-bottom:8px}
+  form > #writeForm{width:100%; margin: 10px auto 0;}
+  form > #writeForm > li{margin:20px 0;}
+
+  form > #writeForm > li > input.form-control{width:100%}
+  form > #writeForm > li input[type="checkbox"], form > #writeForm > li input[type="radio"]{margin-top:1px}
+
+  form > #writeForm > li > span{display:block; margin:6px auto}
+  form > #writeForm > li span.btn-file{position:relative; overflow:hidden; vertical-align:middle}
+  form > #writeForm > li span.fileinput-filename{margin-left:2px}
+  form > #writeForm > li #image{position: absolute; top: 0; right: 0; width: 100%; height: 100%; margin: 0; font-size: 23px; cursor: pointer; filter: alpha(opacity=0); opacity: 0; direction: ltr;}
+  
+  /*detail*/
+  #photo{width:100%}
+  #photo > div.image{width:100%; margin:15px auto; text-align:center} 
+
+  #photo > div.image > ul.info > li{margin-top:10px}  
+  #photo > div.image > div.button{margin:10px 0} 
+  #photo > div.image > div.button > button{margin:0 5px}
+
+  /*ccl-icon*/
+  ul.ccl-icon > li{float:left; margin:2px 5px; width:25px; height:25px; background-size:25px auto}
+  ul.ccl-icon > li.cc{background-image:url("/images/cc.png")}
+  ul.ccl-icon > li.by{background-image:url("/images/by.png")}
+  ul.ccl-icon > li.non{background-image:url("/images/nc.png")}
+  ul.ccl-icon > li.ndw{background-image:url("/images/nd.png")}
+  ul.ccl-icon > li.share{background-image:url("/images/sa.png")}
+  ul.ccl-icon:after{content:" "; display:block; clear:both}
+
+  #photo > div.image >  ul.ccl-icon{width:140px; margin:10px auto;}
+
+  /*ccl*/
+  #ccl{width:100%; margin:13px auto 0}
+  #ccl > div{width:100%; padding:10px;  border:2px solid #cdcdcd}
+  #ccl > div:after{content:' '; display:block; clear:both}
+  
+  #ccl > div > ul.role > li.role_class{line-height:20px; margin-top:8px; padding-left:35px}
+  #ccl > div > ul.role > li.role_class:last-child{margin-bottom:8px}
+  #ccl > div > ul.role > li.role_class > span.role_tit{color:#8e8e8e; font-weight:600}
+  #ccl > div > ul.role > li.by{background:url('/images/by.png') no-repeat left center; background-size:25px auto}
+  #ccl > div > ul.role > li.nc{background:url('/images/nc.png') no-repeat left center; background-size:25px auto}
+  #ccl > div > ul.role > li.nd{background:url('/images/nd.png') no-repeat left center; background-size:25px auto}
+  #ccl > div > ul.role > li.sa{background:url('/images/sa.png') no-repeat left center; background-size:25px auto}
+  
+  #ccl > div > span.source{float:right} 
+
+  /*공통*/
+  div > img{max-width:100%; height:auto}
+
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  
+  #searchForm > div.input-group{width:200px; float:right}
+  #searchForm:after{content:" "; display:block; clear:both}
+
+  #photo > div.image{width:600px}
+  div > img{max-width:500px; height:auto}
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+  form > ul.notice{width:700px}
+  form > #writeForm{width:700px}
+  form > #writeForm > li >  input.form-control{width:700px} 
+  #ccl{width:700px}
+
+ #photo > div.image{width:650px}
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+

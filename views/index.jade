@@ -1,0 +1,16 @@
+extends layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/sigyeiswatch.css")
+
+block content
+  include ./includes/header.jade 
+  div.center
+    div(class = "random" style="background:url('/images/watch/#{watch.image}') no-repeat center center;")
+      div.text
+        span.watch 오늘의 시계는?
+        br
+        span.watch= watch.name
+
+    div.ad
+  div.board

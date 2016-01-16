@@ -1,0 +1,40 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/chat/lobby.css")
+
+block content
+  include ../includes/header.jade
+  div#lobby
+    table(id = "room-list" class = "table table-hover")
+      thead
+        tr
+         th(width = "70" class = "hidden-xs") 방번호
+         th(width = "60%") 방제목 
+         th(width = "150" class = "hidden-xs") 방장
+         th(width = "100") 인원
+         th(width = "100") 상태
+      tbody
+    button(type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm") 방만들기 
+    div(id = "create-dialog" class = "modal fade bs-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby = "mySmallModalLabel") 
+      div(class = "modal-dialog modal-sm")
+        div.modal-content
+          form(method = "post" id = "send-form")
+            div.modal-header
+              button(type = "button" class = "close" data-dismiss = "modal" aria-label="Close")
+                span(aria-hidden = "true")
+              h4 방만들기
+            div.modal-body
+              input(type = "text" id = "roomTitle")
+              select(id = "userCount") 인원수
+                option(value = "3") 3
+                option(value = "5") 5
+                option(value = "7") 7
+            div.modal-footer
+              button(type = "submit" class = "btn btn-primary") 만들기
+    div#lobbyChat
+      div#message
+      ul#userList
+    input(type = "text" id = "send-message" class = "form-control")     
+  script(src = "/socket.io/socket.io.js")
+  script(src = "/javascripts/chat/lobby.js" type  = "text/javascript")

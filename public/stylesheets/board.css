@@ -1,0 +1,68 @@
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+  #freeboard{width:100%; margin:15px auto}   
+  #freeboard > table tr > th, #freeboard > table tr > td{text-align:center}
+
+  /*write*/
+  #freeboard > form > input.form-control{margin:10px 0}
+  #freeboard > form > div.button{text-align:center}
+  #freeboard > form > div.button > button{margin:10px 8px}
+
+  /*detail*/
+  #freeboard > div{width:100%}
+
+  #freeboard > div.top{border-bottom:1px solid #ddd}
+  #freeboard > div.top > div.title{margin:5px 0 10px}
+  #freeboard > div.top > div.title > strong{font-size:14px}
+  #freeboard > div.top > div.name{margin:5px 0}
+
+  #freeboard > div.top > div.info{margin-bottom:10px}
+  #freeboard > div.top > div.info > span{font-size:11px; color:#999}
+
+  #freeboard > div.content{padding:10px 0}
+  #freeboard > div.content > p{line-height:24px}
+  #freeboard > div.content > div{width:100%; text-align:center; margin-top:20px}
+  #freeboard > div.content > div > #like{padding:3px 7px}
+  #freeboard > div.content > div > #like > span{font-size:11px}
+  #freeboard > div.content > div > #like > i{color:#F5817F}
+ /*댓글창*/
+  #freeboard > div.bottom > #comment > div.commentBox > ul{margin-bottom:10px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li.comment{border-top:1px solid #ddd; padding:15px 0}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li:last-child{border-bottom:1px solid #ddd}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > span.comment-name{font-size:12px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > span.comment-date{margin-left:5px; font-size:11px; color:#999}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div{margin-top:8px}
+  #freeboard > div.bottom > #comment > div.commentBox > form:after{clear:both}
+  #freeboard > div.bottom > #comment > div.commentBox > form > span.user{font-weight:600;}
+  #freeboard > div.bottom > #comment > div.commentBox > form >textarea{height:80px; margin:10px 0}
+  #freeboard > div.bottom > #comment > div.commentBox > form > button.btn{float:right}
+ 
+  #freeboard > div.bottom > #comment > div.commentBox > div.please-login{text-align:center; box-shadow:none; height:50px; line-height:50px; padding:0}
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+ #freeboard{width:843px}
+
+ /*detail*/
+ #freeboard > div.top > div.title > strong{font-size:20px}
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+ 
+}
+

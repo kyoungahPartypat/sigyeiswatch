@@ -1,0 +1,53 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/photos.css")
+  script(src = "/javascripts/plugin/jQ.bsPhotoGallery.js")
+block content
+  include ../includes/header.jade
+  h2 갤러리
+  div#photoBox
+    form(method = "post" id = "searchForm")
+      div(class = "input-group")
+        input(type = "text" name = "tag" class = "form-control" placeholder = "검색")
+        span(class = "input-group-addon")
+          button(type = "submit" class = "glyphicon glyphicon-search") 
+    ul(id = "photos" class = "row")
+      - for(var i = page.from; i<page.to; i++)
+          if (photos[i])
+            li.thumb
+              div.thumbnail
+                a(href = "/photos/detail/?id=#{photos[i]._id}&page=#{page.count}")
+                  img(src = "/photos/#{photos[i].path}" class = 'img-responsive')
+                  span.name=  photos[i].name
+                ul.ccl-icon
+                  li.cc
+                  li.by
+                  if(photos[i].noncommercial == "y")
+                    li.non
+                  if(photos[i].secondCreation == "NDW")
+                    li.ndw
+                  else if(photos[i].secondCreation == "share")
+                    li.share 
+        
+    div#page
+      ul.pagination
+        li
+          a(href = "#" aria-label = "Previous")
+            span(aria-hidden = "true") &laquo;
+        - for (var i = 0; i < page.count; i++)
+          li
+            a(href = "/free/?page=#{i+1}")  #{i+1}
+        li
+          a(href = "#" aria-label = "Next")
+            span(aria-hidden = "true") &raquo;
+
+    button(type = "button" class = "btn btn-primary" onclick = "location.href='/photos/upload'") 업로드
+
+  script.
+    $(document).ready(function(){
+      $("#photos").bsPhotoGallery({
+        "classes" : "col-lg-3 col-md-3 col-xs-6",
+        "hasModal" : false
+      });
+    });

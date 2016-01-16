@@ -1,0 +1,97 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/photos.css")
+
+block content
+  include ../includes/header.jade
+  h2 사진 업로드
+  form(method = "post" id = "imageForm" enctype = "multipart/form-data")
+    ul.notice
+     li: span *다른 분들이 사용해도 좋다, 싶은 이미지를 업로드 해주세요 :)
+     li: span *본인의 창작물만 업로드 해주세요!
+     li: span *음란물, 고어물, 혐짤 금지!
+    ul#writeForm
+      li
+        input(type = "text" name = "name" id = "name" class = "form-control" placeholder="제목")
+      li
+        input(type = "text" name = "tag" class = "form-control" placeholder="태그")
+      li
+        div(class = "fileinput")
+          span(class = "btn btn-default btn-file")
+            span 파일선택
+            input(type = "file" name = "image" id = "image")
+          span(class = "fileinput-filename") 선택된 파일이 없어요 :Q
+      li
+        span CCL
+        div.checkbox
+          label
+            input(type = "checkbox" name = "non" value = "y")
+            | 비영리
+        div.radio
+          label
+            input(type = "radio" name = "ndsa" value = "NDW") 
+            | 저작물 변경 및 2차 저작물 제작 금지
+        div.radio
+          label 
+            input(type = "radio" name = "ndsa" value = "share")
+            | 2차적 저작물 제작 허용 및 원 저작물과 같은 라이선스 적용
+      li
+        button(type = "submit" class = "btn btn-primary" value = "upload") 업로드
+  div#ccl
+    div
+      ul.role
+        li(class=  "role_class by")
+          span.role_tit Attribution (저작자 표시)
+          br
+          | 저작자의 이름, 출처 등 저작자를 반드시 표시해야 한다는, 라이선스에 반드시 포함하는 필수 조항 입니다.
+        li(class = "role_class nc")
+          span.role_tit  Noncommercial (비영리)
+          br
+          | 저작물을 영리 목적으로 이용할 수 없습니다. 영리목적의 이용을 위해서는, 별도의 계약이 필요하다는 의미입니다.
+        li(class = "role_class nd")
+          span.role_tit No Derviative Works (변경금지)
+          br
+          | 저작물을 변경하거나 저작물을 이용한 2차적 저작물 제작을 금지한다는 의미입니다.
+        li(class = "role_class sa")
+          span.role_tit Share Alike (동일조건변경허락)
+          br
+          | 2차적 저작물 제작을 허용하되, 2차적 저작물에 원 저작물과 동일한 라이선스를 적용해야 한다는 의미입니다.
+      span.source 출처 : creative commons korea  
+  
+  script.
+    $(document).on('change', '.btn-file :file', function(){
+      var input = $(this);
+      var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+      var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+      
+      input.trigger('fileselect', [numFiles, label]);
+    }); 
+
+    $(document).ready(function(){
+      $('.btn-file > input').on('fileselect', function(event, numFiles, label){
+        var input = $(this).parents('.fileinput').find('.fileinput-filename');
+        var log = numFiles > 1 ? numFiles + 'files selected' : label;
+    
+        if(input.length){
+          input.text(log);
+        }else{
+          if(log) alert(log); 
+        }
+      });
+
+      $('#imageForm').submit(function(){
+        var title = $('#name').val();
+        var image = $('#image').val();
+
+        if(title.length <= 0){
+          $('#name').focus();
+          return false;
+        }
+
+        if(image.length <= 0){
+          $('#image').focus();
+          return false;
+        }
+      });
+    });

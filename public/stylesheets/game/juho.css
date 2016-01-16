@@ -1,0 +1,40 @@
+@media all and (min-width:320px){
+
+  div.game{width:100%; margin:15px auto}
+  div.play{display:none}
+  div.juho > div.character{position:absolute; bottom:10px; left:50%; margin-left:-108px; width:216px; height:308px; background:url('/images/juho.png')}
+  div.room{position:relative; width:100%; height:540px; background:url("/images/imsi.png")
+
+}
+
+
+}@media all and (min-width:360px){
+
+}
+@media all and (min-width:384px){
+
+}
+@media all and (min-width:400px){
+
+}
+@media all and (min-width:533px){
+
+}
+@media all and (min-width:600px){
+
+}
+@media all and (min-width:768px){
+  div.game{width:700px}
+  div.room{{width:700px;}
+}
+@media all and (min-width:992px){
+  div.juho{width:800px}
+
+  div.juho > div.character > img{width:300px; height:auto}
+}
+
+@media all and (min-width:1200px){
+
+}
+
+

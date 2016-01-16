@@ -1,0 +1,166 @@
+extends ../layout
+
+block content
+  include ../includes/header.jade
+  h2 회원가입
+  div(class = "col-md-6 com-md-offset-3")
+    form(role = "form" id = "joinForm" method = "post")
+      div(class = "form-group err1")
+        label(for="inputEmail") 이메일주소
+        input(type = "email" name = "email" class = "form-control" id="inputEmail" placeholder = "이메일 주소")
+        span.chk
+      div(class = "form-group err2")
+        label(for="inputPassword1") 비밀번호
+        input(type = "password" name = "password" class = "form-control" id = "inputPassword1" placeholder = "비밀번호")
+        span.chk
+      div(class = "form-group err3")
+        label(for="inputPassword2") 비밀번호 확인
+        input(type = "password" class = "form-control" id = "inputPassword2" placeholder = "비밀번호 확인")
+        span.chk
+      div(class = "form-group err4")
+        label(for="username") 이름
+        input(type = "text" name = "name" class = "form-control" id = "username" placeholder = "닉네임")
+        span.chk
+      div(class = "form-group text-center")
+        button(type = "submit" class = "btn btn-info" id = "join") 회원가입
+         i(class = "fa fa-check spaceLeft")
+        button(type = "button" class = "btn btn-warning" onclick = "'location.href='/'") 가입취소
+         i(class = "fa fa0times spaceLeft")
+  script.
+    var emailchk = false, passchk = false, namechk = false;
+
+    $("#inputEmail").blur(function(){
+      var email = $("#inputEmail").val();
+      var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;   
+
+      var postEmail = {};
+      postEmail.email = email;
+ 
+      if(email.length <= 0){
+        $("div.err1 > span.chk").text("이메일을 입력해주세요.");
+        $("div.err1 > span.chk").css("display", "block");
+        emailchk = false;
+      }else if(!email.match(regExp)){
+        $("div.err1 > span.chk").text("이메일 형식에 맞게 입력해주세요.");
+        $("div.err1 > span.chk").css("display", "block");
+        emailchk = false;
+      }else{
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify(postEmail),
+          contentType: 'application/json',
+          url:'/users/join/emailCheck',
+          success: function(data){
+            console.log(data);
+            if(data == "true"){
+              $("div.err1 > span.chk").css("display", "none");
+              emailchk = true;
+            }else{
+              $("div.err1 > span.chk").text("이미 사용중인 이메일 입니다.");
+              $("div.err1 > span.chk").css("display", "block");
+              emailchk = false;
+            }
+          },
+          error:function(request, status, error){
+           alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+        }); 
+      }
+    });   
+    
+    $("input[type='password']").blur(function(){
+      var pass1 = $("#inputPassword1").val();
+      var pass2 = $("#inputPassword2").val();
+      console.log(pass2);
+
+      if(pass1.length <= 0){
+        $("div.err > span.chk").text("비밀번호를 입력해주세요.");
+        $("div.err2 > span.chk").css("display", "block");
+        passchk = false;
+      }else if(pass1.length < 6){
+        $("div.err2 > span.chk").text("비밀번호는 6자 이상이어야 합니다.");
+        $("div.err2 > span.chk").css("display", "block");
+        passchk = false;
+      }else{
+        $("div.err2 > span.chk").css("display", "none");
+        passchk = true;
+      }      
+
+      if(pass1 != pass2){
+        $("div.err3 > span.chk").text("비밀번호가 일치하지 않습니다.");
+        $("div.err3 > span.chk").css("display", "block");      
+        passchk = false;
+      }else if(pass1 == pass2){
+        $("div.err3 > span.chk").css("display", "none");
+        passchk = true;
+      }
+    });
+
+    $("#username").blur(function(){
+      var name = $("#username").val();
+
+      var postName = {};
+      postName.name = name;
+      
+      var regExp = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/;
+  
+      if(name.length < 2 || name.length > 10){
+        $("div.err4 > span.chk").text("닉네임은 2자 이상 10자 이하여야 합니다.");
+        $("div.err4 > span.chk").css("display", "block");
+        namechk = false;
+      }else if(!name.match(regExp)){
+        $("div.err1 > span.chk").text("사용하실 수 없는 닉네임 입니다.");
+        $("div.err1 > span.chk").css("display", "block");
+        namechk = false;
+      }else{
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify(postName),
+          contentType: 'application/json',
+          url:'/users/join/nameCheck',
+          success: function(data){
+            console.log(data);
+            if(data == "true"){
+              $("div.err4 > span.chk").css("display", "none");
+              namechk = true;
+            }else{
+              $("div.err4 > span.chk").text("이미 사용중인 닉네임 입니다.");
+              $("div.err4 > span.chk").css("display", "block");
+              namechk = false;
+            }
+          },
+          error:function(request, status, error){
+           alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+        }); 
+      }
+    });   
+ 
+    
+    $("#joinForm").submit(function(){
+      console.log(emailchk + " " + passchk + " " + namechk);
+      if($("#inputEmail").val() == ""){
+        $("#inputEmail").focus();
+        return false;
+      }
+
+      if($("#inputPassword1").val() == ""){
+        $("#inputPassword1").focus();
+        return false;
+      }
+
+      if($("#inputPassword2").val() == ""){
+        $("#inputPassword2").focus();
+        return false;
+      }
+     
+      if($("#username").val() == ""){
+        $("#username").focus();
+        return false;
+      }
+
+      if(emailchk == false || passchk == false || namechk == false){
+        return false;
+      }
+
+    });
