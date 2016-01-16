@@ -15,8 +15,8 @@ function divEscapedContentElement(message){
 }
 
 
-function joinRoom(room){
-    socket.emit('roomClick', {num:room.num});
+function joinRoom(num){
+    socket.emit('roomClick', {num:num});
 }
 
 $(document).ready(function(){
@@ -72,15 +72,26 @@ $(document).ready(function(){
        $("#room-list > tbody").append(tr);
     }else{ 
       for(var i = 0; i<data.rooms.length; i++){
-        tr.append("<td class = 'no'>" + rooms[i].num + "</td>");
+        tr.append("<td class = 'no hidden-xs'>" + rooms[i].num + "</td>");
         tr.append("<td class = 'title' onclick = 'joinRoom(" + rooms[i].num + ")'>" + rooms[i].title + "</td>");
-        tr.append("<td class = 'owner'>" + rooms[i].owner + "</td>");
+        tr.append("<td class = 'owner hidden-xs'>" + rooms[i].owner + "</td>");
         tr.append("<td class = 'people'>" + rooms[i].people.length + "/" +  rooms[i].count + "</td>");
         tr.append("<td class = 'status'>" + rooms[i].status+ "</td>");
       
         $("#room-list > tbody").append(tr);
         var tr = $('<tr class ="rooms"></tr>');
       }
+    }
+  });
+
+  socket.on('gotoRoom', function(data){
+    var check = data.join;
+
+    console.log(check);
+    if(check == "yes"){
+      location.href= "/chat/room";
+    }else{
+      return false;
     }
   });
   

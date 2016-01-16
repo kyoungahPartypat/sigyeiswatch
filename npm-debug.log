@@ -10,10 +10,10 @@
 9 verbose lifecycle sigyeiswatch@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/home/ubuntu/sigyeiswatch/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
 10 verbose lifecycle sigyeiswatch@0.0.0~start: CWD: /home/ubuntu/sigyeiswatch
 11 silly lifecycle sigyeiswatch@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
-12 silly lifecycle sigyeiswatch@0.0.0~start: Returned: code: 1  signal: null
+12 silly lifecycle sigyeiswatch@0.0.0~start: Returned: code: 143  signal: null
 13 info lifecycle sigyeiswatch@0.0.0~start: Failed to exec start script
 14 verbose stack Error: sigyeiswatch@0.0.0 start: `node ./bin/www`
-14 verbose stack Exit status 1
+14 verbose stack Exit status 143
 14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:233:16)
 14 verbose stack     at EventEmitter.emit (events.js:110:17)
 14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
@@ -28,7 +28,7 @@
 20 error npm  v3.3.9
 21 error code ELIFECYCLE
 22 error sigyeiswatch@0.0.0 start: `node ./bin/www`
-22 error Exit status 1
+22 error Exit status 143
 23 error Failed at the sigyeiswatch@0.0.0 start script 'node ./bin/www'.
 23 error This is most likely a problem with the sigyeiswatch package,
 23 error not with npm itself.

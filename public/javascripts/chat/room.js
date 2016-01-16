@@ -25,10 +25,33 @@ function processUserInput(chatApp, socket){
   $("#send-message").val('');
 }
 
+function ownerButton(owner){
+  var client = $("a.name").text();
+  
+  if(client == owner){
+    $("span.button").append("<button id = 'start' onclick = 'javascript:start();'>게임시작</button>");
+  }
+}
+
+function start(){
+  var client = $("a.name").text();
+  socket.emit('gameStart', {user: client});
+}
+
 $(document).ready(function(){
   var chatApp = new Chat(socket);
 
   socket.emit('joinRoom', {});
+  
+  socket.on('setRoom', function(data){
+    var title = data.room.title;
+    var owner = data.room.owner;
+
+    $("#roomTitle").text(title);
+    $("#owner").text(owner);
+    ownerButton(owner);
+  });
+
 
   socket.on('userList', function(data){
      
@@ -37,6 +60,7 @@ $(document).ready(function(){
     console.log(data.users);
 
   });
+
 
   $("#send-message").keyup(function(event){
     if(event.which == 13){
@@ -50,9 +74,13 @@ $(document).ready(function(){
     $("#message").scrollTop($("#message").prop('scrollHeight'));
   });
 
+  socket.on('owner', function(data){
+    ownerButton(data);
+  });
+
   socket.on('goOut', function(data){
     var client = $("a.name").text();
-    console.log(client);
+   
     if(client == data.name){
 
       location.replace('/chat');
