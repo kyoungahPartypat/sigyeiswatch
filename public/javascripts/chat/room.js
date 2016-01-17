@@ -86,4 +86,14 @@ $(document).ready(function(){
       location.replace('/chat');
     }
   });
+
+
+  socket.on('gameSet', function(data){
+    var client = $("a.name").text();
+    var people = data.people;
+    var cNum =   people.indexOf(client);
+    var myJob = data.job[cNum];
+
+    $("div.users > span.job").append(myJob);
+  });
 });
