@@ -27,15 +27,12 @@ function processUserInput(chatApp, socket){
 
 function ownerButton(owner){
   var client = $("a.name").text();
-  
+  console.log(owner); 
   if(client == owner){
-    $("span.button").append("<button id = 'start' onclick = 'javascript:start();'>게임시작</button>");
+    $("span.button").append("<button id = 'start' class = 'btn btn-success'>게임시작</button>");
+  }else{
+    $("span.button").empty();
   }
-}
-
-function start(){
-  var client = $("a.name").text();
-  socket.emit('gameStart', {user: client});
 }
 
 $(document).ready(function(){
@@ -48,19 +45,24 @@ $(document).ready(function(){
     var owner = data.room.owner;
 
     $("#roomTitle").text(title);
-    $("#owner").text(owner);
     ownerButton(owner);
   });
 
 
   socket.on('userList', function(data){
-     
+    $("ul.user-list").empty();
     var length = data.users.length;
-    console.log(length);
-    console.log(data.users);
+    
+    for(var i = 0; i < length; i++){
+      var li = $("<li>" + data.users[i] + "</li>");
+      $("ul.user-list").append(li);
+    }
 
   });
 
+  $("#start").click(function(){
+    socket.emit('gameSet', {});
+  });
 
   $("#send-message").keyup(function(event){
     if(event.which == 13){
@@ -75,7 +77,8 @@ $(document).ready(function(){
   });
 
   socket.on('owner', function(data){
-    ownerButton(data);
+    console.log(data);
+    ownerButton(data.owner);
   });
 
   socket.on('goOut', function(data){
@@ -85,15 +88,5 @@ $(document).ready(function(){
 
       location.replace('/chat');
     }
-  });
-
-
-  socket.on('gameSet', function(data){
-    var client = $("a.name").text();
-    var people = data.people;
-    var cNum =   people.indexOf(client);
-    var myJob = data.job[cNum];
-
-    $("div.users > span.job").append(myJob);
   });
 });

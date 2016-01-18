@@ -28,7 +28,7 @@ Chat.prototype.processCommand = function(command){
       words.shift();
 
       var owner = words.join(' ');
-      this.socket.emit('changeRoomOwner', {name: name});
+      this.socket.emit('changeRoomOwner', {name: owner});
       break;
 
     case '강퇴':
