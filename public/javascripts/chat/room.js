@@ -89,4 +89,16 @@ $(document).ready(function(){
       location.replace('/chat');
     }
   });
+
+  socket.on('gameStart', function(data){
+    var client = $("a.name").text();
+    var game = data.game;
+    var people = data.people;
+    var jobNum = game.job.indexOf(client);
+    var myJob = game.job[jobNum];
+
+    $("#message").append("<span>당신의 직업은 " + myJob + "입니다.</span>");
+
+    moveWake(game, people, myJob);
+  });
 });
