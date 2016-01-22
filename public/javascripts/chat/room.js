@@ -1,4 +1,9 @@
-var socket = io.connect();
+var socket = io.connect('',{ 
+  'connect timeout': 10000,
+  'reconnect': true,
+  'reconnection delay': 500,
+  'reconnection attempts': 10
+});
 //var socket = io.connect('http://52.69.146.224:3000');
 /*var socket = io.connect("http://sigyeiswatch.com:3000");*/
 
@@ -25,11 +30,15 @@ function processUserInput(chatApp, socket){
   $("#send-message").val('');
 }
 
+function gameSet(){
+  socket.emit("gameSet", {});
+}
+
 function ownerButton(owner){
   var client = $("a.name").text();
   console.log(owner); 
   if(client == owner){
-    $("span.button").append("<button id = 'start' class = 'btn btn-success'>게임시작</button>");
+    $("span.button").append("<button id = 'start' onclick = 'javascript:gameSet();' class = 'btn btn-success'>게임시작</button>");
   }else{
     $("span.button").empty();
   }
@@ -60,10 +69,6 @@ $(document).ready(function(){
 
   });
 
-  $("#start").click(function(){
-    socket.emit('gameSet', {});
-  });
-
   $("#send-message").keyup(function(event){
     if(event.which == 13){
       processUserInput(chatApp, socket);
@@ -77,7 +82,6 @@ $(document).ready(function(){
   });
 
   socket.on('owner', function(data){
-    console.log(data);
     ownerButton(data.owner);
   });
 
@@ -91,14 +95,16 @@ $(document).ready(function(){
   });
 
   socket.on('gameStart', function(data){
+    console.log(data);
     var client = $("a.name").text();
     var game = data.game;
     var people = data.people;
-    var jobNum = game.job.indexOf(client);
+    var jobNum = people.indexOf(client);
     var myJob = game.job[jobNum];
 
-    $("#message").append("<span>당신의 직업은 " + myJob + "입니다.</span>");
+    $("span.job").text(myJob);
+    $("#message").append("<span class = 'chat_text'>당신의 직업은 " + myJob + "입니다.</span>");
 
-    moveWake(game, people, myJob);
+    moveNight(game, people, myJob);
   });
 });

@@ -2,7 +2,7 @@ extends ../layout
 
 block head
   link(rel="stylesheet" href="/stylesheets/chat/chat.css")
-
+  
 block content
   include ../includes/header.jade
   div#chat
@@ -18,12 +18,21 @@ block content
         div
           span.job
       div#message
-      div#jobActive
+      div(id = "popup" class = "popup-wrapper phide")
+        div.popup-content
+          div.popup-title
+            button(type = "button" class = "popup-close")
+            h3
+          div(id = "jobActive" class = "popup-body")
     div.bottom
       span#name
       input(id = "send-message" class = "form-control") 
       span.button
 
+  
   script(src = "/socket.io/socket.io.js")
-  script(src = "/javascripts/chat/chat.js" type = "text/javascript")
-  script(src = "/javascripts/chat/room.js" type  = "text/javascript")
+  script(src = "/javascripts/plugin/simple-popup.js")
+  script(type = "text/javascript" src = "/javascripts/chat/warewolf.js")
+  script(type = "text/javascript" src = "/javascripts/chat/chat.js")
+  script(type = "text/javascript" src = "/javascripts/chat/room.js")
+

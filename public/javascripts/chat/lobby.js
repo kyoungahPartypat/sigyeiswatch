@@ -1,4 +1,9 @@
-var socket = io.connect();
+var socket = io.connect('',{ 
+  'connect timeout': 10000,
+  'reconnect': true,
+  'reconnection delay': 500,
+  'reconnection attempts': 10
+});
 
 function createRoom(title, count){
   socket.emit('createRoom', {title:title, count:count});
