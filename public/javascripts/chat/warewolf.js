@@ -1,3 +1,4 @@
+var me = document.getElementById('myName').value;
 var popDiv = document.getElementById('popup');
 var jobDiv = document.getElementById('jobActive');
 var cardClick = 0;
@@ -12,9 +13,33 @@ function showCard(li, card){
   }
 }
 
-function surplusCard(popup, myJob, card){
+function selectUsers(people, me){
+  var select = document.createElement('select');
+ 
+  select.onchange = function(){
+    if(myJob == "천리안"){
+      if(cards){
+        var ul = document.getElementById('cards');
+        jobDiv.removeChild(ul);
+      }
+    }
+  }
+  for(var i = 0; i < people.length; i++){
+    if(people[i] != me){
+      var option = document.createElement('option');
+      option.text = people[i];
+      option.value = i;
+      select.appendChild(option);
+    }
+  }
+
+  jobDiv.appendChild(select);
+  
+}
+
+function surplusCard(card, myJob){
   var ul = document.createElement('ul');
-  var card = card;
+  ul.id = "cards";
  
   for(var i = 0; i < card.length; i++){
 
@@ -24,29 +49,38 @@ function surplusCard(popup, myJob, card){
       cardClick++;
  
       if(myJob == "천리안"){
-        var select = document.getElementById('select');
+        var select = document.getElementsByTagName('select');
 
-        if(select){
-           jobDiv.removeChild(select);
+        if(select[0]){
+           jobDiv.removeChild(select[0]);
         }
       }
-     
-      if(cardClick <=2){
-        var indexLi = this;
-        showCard(indexLi, card);
+      
+      if(myJob == "취객"){
+        if(cardClick <=1){
+          var surplusCard = document.getElementsByClassName('surplus-card');
+
+          for( var i = 0; i < surplusCard.length; i++){
+            if(surplusCard[i] == this){
+              socket.emit("showDrunk", {card:card[i]});
+            }
+          }
+        }
       }else{
-        jobDiv.removeChild(ul);
-        popup.close();
-        return;
+        if(cardClick <=2){
+          var indexLi = this;
+          showCard(indexLi, card);
+        }
       }
-    };
+    }
+
     ul.appendChild(li);
   }
 
   jobDiv.appendChild(ul);
 }
 
-function doppelganger(game, people, myJob){
+function doppelganger(game, myJob){
   if(myJob == "도플갱어"){
     console.log('준비중 ㅎ');
   }
@@ -56,7 +90,7 @@ function warewolf(game, myJob){
   var popup = new Popup(popDiv, {width:300, height:150});
   if(myJob == "늑대인간"){
     if(game.ware.length == 1){
-     surplusCard(popup, myJob, game.card); 
+     surplusCard(game.card, myJob); 
      popup.open();
 
     }else if(game.ware.length >= 2){
@@ -77,39 +111,37 @@ function mason(game, myJob){
   }
 };
 
-function seer(game, people, myJob){
+function seer(game, myJob){
 
   if(myJob == "천리안"){
     var popup = new Popup(popDiv, {width:300, height:200});
-    var select = document.createElement('select');    
-    select.id = "select";    
- 
-    for(var i = 0; i < people.length; i++){
-      var option = document.createElement('option');
-      option.value = i;
-      option.onchange = function(){
-        socket.emit("showSeer", {});
-        jobDiv.remove();
-        popup.close();
-      }
-     
-      select.appendChild(option);
-    }
-    jobDiv.appendChild(select);
-    surplusCard(popup, myJob, game.card);
+    selectUsers(game.people, me);
+    surplusCard(game.card, myJob);
     popup.open();
   }
 };
 
-function robber(people, myJob){
+function robber(game, myJob){
   if(myJob == "도둑"){
-
+    var popup = new Popup(popDiv, {width:300, height:100});
+    selectUsers(game.people, me);
+    popop.open();
   }
 };
 
-function drunk(game, myJob){
-  if(myJob == "주정뱅이"){
+function troubleMaker(game, myJob){
+  if(myJob == "문제아"){
+    var popup = new Popup(popDiv, {width:300, height:150});
+    selectUsers(game.people, me);
+    selectUsers(game.people, me);
+  } 
+};
 
+function drunk(game, myJob){
+  if(myJob == "취객"){
+    var popup = new Popup(popDiv, {width:300, height:150});
+    surplusCard(myJob, game,card); 
+    popup.open();
   }
 };
 
@@ -119,7 +151,7 @@ function insomeniac(myJob){
   }
 };
 
-function moveNight(game, people, myJob){
+function moveNight(game, myJob){
   cardClick = 0;
   console.log(myJob);
   for(var i = 0; i < game.wake; i++){
@@ -130,7 +162,7 @@ function moveNight(game, people, myJob){
         var surDoppel = game.card.indexOf('도플갱어');
 
         if(isDoppel != -1 && surDoppel == -1){
-          doppelganger(game, people, myJob);
+          doppelganger(game,  myJob);
         }
         break;
 
@@ -141,15 +173,15 @@ function moveNight(game, people, myJob){
         break;
 
       case 2:
-        seer(game, people, myJob);
+        seer(game, myJob);
         break;
 
       case 3:
-        robber(game, people, myJob);
+        robber(game, myJob);
         break;
 
       case 4:
-        troubleMaker(people, myJob);
+        troubleMaker(game, myJob);
         break;
 
       case 5:

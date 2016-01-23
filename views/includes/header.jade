@@ -8,7 +8,7 @@ header
     div(class = "navbar-custom collapse navbar-collapse")
       if (user)
         ul(class = "nav navbar-nav pull-right nav-lnb")
-          li: a(href = "javascript:;" class = "name") #{user.name}
+          li: a(href = "javascript:;" id = "myName" class = "name") #{user.name}
           li: a(href = "/users/logout") 로그아웃
       else
         ul(class = "nav navbar-nav pull-right nav-lnb")

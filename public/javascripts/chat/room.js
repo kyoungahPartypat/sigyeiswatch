@@ -8,7 +8,7 @@ var socket = io.connect('',{
 /*var socket = io.connect("http://sigyeiswatch.com:3000");*/
 
 function divEscapedContentElement(message){
-  var chatText = $("<span class = 'chat_text'></span>");
+  var chatText = $("<span class = 'chat-text'></span>");
   var user = $("<span class = 'user'></span>").text(message.user);
   var chat = $("<span class = 'text'></span>").text(message.msg);
   chatText.append(user);
@@ -98,13 +98,13 @@ $(document).ready(function(){
     console.log(data);
     var client = $("a.name").text();
     var game = data.game;
-    var people = data.people;
-    var jobNum = people.indexOf(client);
+    var jobNum = game.people.indexOf(client);
     var myJob = game.job[jobNum];
 
     $("span.job").text(myJob);
-    $("#message").append("<span class = 'chat_text'>당신의 직업은 " + myJob + "입니다.</span>");
+    $("#message").empty();
+    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + "입니다.</span>");
 
-    moveNight(game, people, myJob);
+    moveNight(game, myJob);
   });
 });

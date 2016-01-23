@@ -99,7 +99,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-console.log(app.io);
 chatServer.listen(app.io, store, secret);
 /*
 app.io.on('connection', function(socket){
