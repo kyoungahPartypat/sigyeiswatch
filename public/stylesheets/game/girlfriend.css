@@ -1,0 +1,49 @@
+@media all and (min-width:320px){
+  #game > div.game{width:300px; margin:10px auto}
+  #game > div.play > span.girl{font-size:13px; font-weight:600}
+  #game > div.play{display:none}
+  #game > div.bye{display:none}
+}
+@media all and (min-width:360px){
+
+}
+@media all and (min-width:384px){
+
+}
+@media all and (min-width:400px){
+}
+@media all and (min-width:533px){
+
+}
+@media all and (min-width:600px){
+
+}
+@media all and (min-width:768px){
+	#level{display:block}
+	#mobileLevel{display:none}
+	#way{width:600px; margin:20px auto}
+
+}
+@media all and (min-width:1024px){
+
+}
+
+@media all and (min-width:1280px){
+
+}
+
+#level{width:600px; margin:20px auto}
+#level > ul{width:100%}
+#level > ul > li{float:left; width:100px; padding:10px; box-sizing:border-box}
+#level > ul > li > button{width:100%; cursor:pointer; border:1px solid #323232; border-radius:5px}
+#level > ul > li > button:hover{background-color:#d4d4d4}
+#level > ul > li.selected > button{background-color:#d4d4d4}
+#level:after{content:""; display:block; clear:both}
+
+#mobileLevel{width:100%;}
+#mobileLevel > ul{width:100%}
+#mobileLevel > ul > li{float:left; width:16.66%; margin-bottom:10px; box-sizing:border-box; border:1px solid #323232}
+#mobileLevel > ul > li > button{width:100%; cursor:pointer}
+#mobileLevel > ul > li.selected{background-color:#d4d4d4}
+#mobileLevel:after{content:""; display:block; clear:both}
+

@@ -28,18 +28,26 @@ router.get('/', function(req, res, next) {
 });
 
 router.get("/detail", function(req, res, next){
-  board.detail(req, res, next, function(err, row){
+  var id = req.param('id');
+  var page = req.param('page');
+
+  board.detail(id, page, function(err, row){
 
     if(err) return err;
-    res.render('free/detail', {row:row});
+
+    if(row != "noResult"){
+      res.render('free/detail', {row:row});
+    }else{
+      res.redirect('/free');
+    }
   });
 });
 
-router.get("/comment/:id", function(req, res, next){
-  board.readComment(req, res, next, function(err, row){
+router.get("/comment", function(req, res, next){
+  board.commentList(req, res, next, function(err, rows){
     if(err) return err;
-
-    res.send({comment:row});
+ 
+    res.send({comment:rows, page:req.cPage});
   });
 });
 
@@ -68,10 +76,22 @@ router.post('/comment/:id', function(req, res, next){
   var id = req.params.id;
   var name = req.user.name;
   var comment = req.body.text;
-  board.comment(id, name, comment);
-  res.send(id); 
+  board.comment(id, name, comment, function(err, data){
+    if(err) return err;
+
+    res.send(data);
+  });
 });
 
+router.post('/reComment/:id', function(req, res, next){
+  var id = req.params.id;
+  var name = req.user.name;
+  var cId = req.body.grp;
+  var comment = req.body.comment;
+ 
+  board.childComment(id, cId, name, comment);
+  res.send(id);
+});
 
 
 router.get('/write',ensureAuthenticated, function(req, res, next){

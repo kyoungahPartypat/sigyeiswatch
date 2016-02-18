@@ -4,8 +4,15 @@ var socket = io.connect('',{
   'reconnection delay': 500,
   'reconnection attempts': 10
 });
+
+var getGame = null;
+
 //var socket = io.connect('http://52.69.146.224:3000');
 /*var socket = io.connect("http://sigyeiswatch.com:3000");*/
+
+function Client(){
+  
+}
 
 function divEscapedContentElement(message){
   var chatText = $("<span class = 'chat-text'></span>");
@@ -95,7 +102,6 @@ $(document).ready(function(){
   });
 
   socket.on('gameStart', function(data){
-    console.log(data);
     var client = $("a.name").text();
     var game = data.game;
     var jobNum = game.people.indexOf(client);
@@ -104,7 +110,13 @@ $(document).ready(function(){
     $("span.job").text(myJob);
     $("#message").empty();
     $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + "입니다.</span>");
-
-    moveNight(game, myJob);
+   
+    socket.emit('firstTurn', {game:game, myJob:myJob});
   });
+
+  socket.on('moveNight', function(data){
+    console.log('moveNight');
+    moveNight(data);
+  });
+
 });

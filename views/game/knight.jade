@@ -1,0 +1,90 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/game/peg.css")
+
+block content
+  include ../includes/header.jade
+  div#level
+    ul
+      li.selected: button.map 레벨 1
+      li: button.mapTwo 레벨 2
+      li: button.mapThree 레벨 3
+      li: button.mapFour 레벨 4
+
+  div#mobileLevel
+    ul
+      li.selected: button.map 레벨 1
+      li: button.mapTwo 레벨 2
+      li: button.mapThree 레벨 3
+      li: button.mapFour 레벨 4
+
+  div#peg
+    div#map
+
+  div#way
+    script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
+    ins(class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4634617406465785"
+     data-ad-slot="6151936559"
+     data-ad-format="auto")
+    script.
+      (adsbygoogle = window.adsbygoogle || []).push({})
+
+    div.way_box
+      span · 고전 퍼즐 게임을 풀어보자.
+      span · 다음 조건에 맞는 구슬이라면 어떤 구슬을 움직여도 무방하다.	
+      span · 바로 옆 또는 위아래에 다른 구슬이 존재하고, 그 다음 칸이 비어 있을 경우에 뛰어넘어서 움직일 수 있다.</span>
+      span · 구슬이 다른 구슬을 뛰어넘으면 놓여있던 구슬은 사라진다
+
+      span · 마지막에 하나의 구슬을 남겨야 한다.
+      span 출처 : 레이튼교수와 악마의상자
+  script.
+    function goEvent(){
+      var pane = document.getElementsByTagName('td');
+ 
+      for(var i = 0; i < pane.length; i++){
+        pane[i].addEventListener("click", function(){game.ballEvent(this)});	
+      }
+    };
+ 	
+    var div = document.getElementById("map");
+    var game = new PegSolitare();	
+    game.mapSet(map, div);  
+    goEvent();
+
+  script.
+    $("button").click(function(){
+   
+      $("button").parent().removeClass("selected");
+      $(this).parent().addClass("selected");
+ 
+      game.mapInit();
+      level = $(this).attr("class");
+ 		
+      switch(level){
+        case "map":		
+          game.mapSet(map, div);
+          break;
+        case "mapTwo":
+          game.mapSet(mapTwo, div);
+          break;
+        case "mapThree":
+          game.mapSet(mapThree, div);
+          break;
+        case "mapFour":
+          game.mapSet(mapFour, div);
+          break;
+        case "mapFive":
+          game.mapSet(mapFive, div);
+          break;
+        case "mapSix":
+          game.mapSet(mapSix, div);
+          break;
+        default:
+          break;
+      } 
+
+      goEvent();
+    });

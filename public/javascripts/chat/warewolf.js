@@ -82,9 +82,15 @@ function surplusCard(card, myJob){
   jobDiv.appendChild(ul);
 }
 
+function jobDivRemove(){
+  while(jobDiv.hasChildNodes()){
+    jobDiv.removeChild(jobDiv.firstChild);
+  }
+}
+
 function closePopup(popup){
   setTimeout(function(){
-    jobDiv.remove();
+    jobDivRemove();
     popup.close();
   }, 5000);
 }
@@ -133,17 +139,17 @@ function seer(game, myJob){
 };
 
 function robber(game, myJob){
-  wake++;
-
   if(myJob == "도둑"){
     var popup = new Popup(popDiv, {width:300, height:100});
     selectUsers(game.people, myJob);
     popup.open();
    
-    setTimeout(function(popup){
-      var showUser = document.getElementByTagName('select');
+    setTimeout(function(){
+      var showUser = document.getElementsByTagName('select');
       socket.emit('showRobber', {showUser:showUser[0].value});
-      socket.emit('nextTurn', {wake:wake});
+      socket.emit('nextTurn', {game:game, wake:wake, myJob:myJob});
+      jobDivRemove();
+      popup.close();
     }, 5000);
   }else{
     setTimeout(function(){
@@ -153,35 +159,66 @@ function robber(game, myJob){
 };
 
 function troubleMaker(game, myJob){
-  wake++;
-
   if(myJob == "문제아"){
     var popup = new Popup(popDiv, {width:300, height:150});
     selectUsers(game.people, myJob);
     selectUsers(game.people, myJob);
     popup.open();
 
-    setTImeout(function(){
+    setTimeout(function(){
       
-      var showUser = document.getElementByTagName('select');
+      var showUser = document.getElementsByTagName('select');
       socket.emit('showTrouble', {showUser:showUser[0].value, showUserTwo:showUser[1].value});
-      socket.emit('nextTurn', {wake:wake});
+      socket.emit('nextTurn', {game:game, myJob:myJob});
+      jobDivRemove();
+      popup.close();
     }, 5000);
   }else{
     setTimeout(function(){
-      socket.emit('nextTurn', {wake:wake});
+      socket.emit('nextTurn', {game:game, myJob:myJob});
     },5000);
   }
 };
 
 function drunk(game, myJob){
-  wake++;
-
   if(myJob == "취객"){
     var popup = new Popup(popDiv, {width:300, height:150});
-    surplusCard(myJob, game,card); 
-    popup.open();
 
+    var ul = document.createElement('ul');
+    ul.id = "cards";
+ 
+    for(var i = 0; i < card.length; i++){
+
+      var li = document.createElement('li');
+      li.className = "surplus-card";
+      li.onclick = function(){
+        cardClick++;
+ 
+        if(cardClick <=1){
+          var surplusCard = document.getElementsByClassName('surplus-card');
+
+          for( var i = 0; i < surplusCard.length; i++){
+            if(surplusCard[i] == this){
+              socket.emit("showDrunk", {card:card[i]});
+            }
+          }
+        }
+      }
+
+      ul.appendChild(li);
+    }
+
+    jobDiv.appendChild(ul);
+    
+    setTimeout(function(){
+      socket.emit('nextTurn', {wake:wake});
+      jobDivRemove();
+      popup.close();
+    }, 5000);
+  }else{
+    setTimeout(function(){
+      socket.emit('nextTurn', {wake:wake});
+    }, 5000);
   }
 };
 
@@ -189,63 +226,62 @@ function insomeniac(myJob){
   if(myJob == "불면증환자"){
     socket.emit('showInsome', {});
   }
+
+  socket.emit('nextTurn', {wake:wake});
 };
 
-function moveNight(game, myJob){
-  var moveWake = game.wake;
-  wake = 0;
-  cardClick = 0;
+function moveNight(data){
+  var moveWake = data.game.wake;
+  var game = data.game;
+  var myJob = data.myJob;
 
-  socket.on('moveNight', function(data){
-    wake = data.wake;
 
-    if(wake < moveWake);
-      switch(wake){
-        case 0:
-          var isDoppel = game.job.indexOf("도플갱어");
-          var surDoppel = game.card.indexOf('도플갱어');
+  wake = wake;
 
-          if(isDoppel != -1 && surDoppel == -1){
-            doppelganger(game,  myJob);
-          }
+  if(wake < moveWake){
+    switch(wake){
+      case 0:
+        var isDoppel = game.job.indexOf("도플갱어");
+        var surDoppel = game.card.indexOf('도플갱어');
 
-          setTimeout(function(){
-            socket.emit('nextTurn', {wake:wake});
-          }, 10000);
-          break;
-
-        case 1:
-          warewolf(game, myJob);
-          minion(game, myJob);
-          mason(game, myJob);
-          seer(game, myJob);
-          wake++;
-          socket.emit('nextTurn', {wake:wake});
-          break;
-
-        case 2:
-          robber(game, myJob);
-          break;
-
-        case 3:
-          troubleMaker(game, myJob);
-          break;
-
-        case 4:
-          drunk(game, myJob);
-          break;
-
-        case 5:
-          insomeniac(game, myJob);
-          wake++;
-          socket.emit('nextTurn', {wake:wake});
-          break;
-
-        default:
-          break;
+      if(isDoppel != -1 && surDoppel == -1){
+        doppelganger(game,  myJob);
+      }else{
+        console.log('흐힣');
+        socket.emit('nextTurn', {wake:wake});
       }
-    }else{
-      //밤 끝나다고 메세지 뿌리기 
+      break;
+
+      case 1:
+        warewolf(game, myJob);
+        minion(game, myJob);
+        mason(game, myJob);
+        seer(game, myJob);
+        socket.emit('nextTurn', {wake:wake});
+        break;
+
+      case 2:
+        robber(game, myJob);
+        break;
+
+      case 3:
+        troubleMaker(game, myJob);
+        break;
+
+      case 4:
+        drunk(game, myJob);
+        break;
+
+      case 5:
+        insomeniac(game, myJob);
+        socket.emit('nextTurn', {wake:wake});
+        break;
+
+      default:
+        break;
     }
-  });
+  }else{
+    return;
+    //밤 끝나다고 메세지 뿌리기
+  } 
 };

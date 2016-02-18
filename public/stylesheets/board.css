@@ -27,13 +27,18 @@
   #freeboard > div.content > div > #like{padding:3px 7px}
   #freeboard > div.content > div > #like > span{font-size:11px}
   #freeboard > div.content > div > #like > i{color:#F5817F}
+
  /*댓글창*/
   #freeboard > div.bottom > #comment > div.commentBox > ul{margin-bottom:10px}
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li.comment{border-top:1px solid #ddd; padding:15px 0}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li.comment{position:relative; border-top:1px solid #ddd; padding:15px 0}
   #freeboard > div.bottom > #comment > div.commentBox > ul > li:last-child{border-bottom:1px solid #ddd}
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li > span.comment-name{font-size:12px}
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li > span.comment-date{margin-left:5px; font-size:11px; color:#999}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li.comment > i{position:absolute; top:10px; left:10px}
+
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > span.comment-name{font-size:12px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > span.comment-date{margin-left:5px; font-size:11px; color:#999}
   #freeboard > div.bottom > #comment > div.commentBox > ul > li > div{margin-top:8px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div.re-cmt{margin-left:35px}
+ 
   #freeboard > div.bottom > #comment > div.commentBox > form:after{clear:both}
   #freeboard > div.bottom > #comment > div.commentBox > form > span.user{font-weight:600;}
   #freeboard > div.bottom > #comment > div.commentBox > form >textarea{height:80px; margin:10px 0}

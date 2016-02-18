@@ -23,7 +23,7 @@ block content
                     if(rows[i].comments.length > 0)       
                       span  [#{rows[i].comments.length}]             
                 td #{rows[i].name}
-                td #{rows[i].date}
+                td(class = "hidden-xs") #{rows[i].date}
                 td #{rows[i].hits}
         else
           tr

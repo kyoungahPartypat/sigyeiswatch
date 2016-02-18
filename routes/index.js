@@ -11,9 +11,7 @@ router.get('/', function(req, res, next) {
 
   var date = new Date();
   var now = date.getDate();
-
-  console.log("뚜루뚜 빠라빠라! " + yesterday + "," + now);
-  
+ 
   if(yesterday != now){
     var count = Math.floor((Math.random() * 7) + 1);
     console.log(count);

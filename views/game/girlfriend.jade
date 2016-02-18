@@ -1,0 +1,98 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/game/girlfriend.css")
+ 
+block content
+  include ../includes/header.jade
+  div#game
+    div(class = "game start")
+      button.start 게임시작
+      button#continue 이어하기(만들기 기찮...) 
+    div(class = "game play")
+      div(class = "girlfriend")
+        strong.girl
+        br
+        span.percent
+        p.description
+      div.menu
+        button#up 강화
+        button#bye 헤어지기
+        button#game 상점
+        br
+        button#save 저장(만들까 말까)
+    div(class = "game bye")
+      span 차였습니다 ㅠㅠ
+        button.start 다시하기
+    div.store
+  script.
+    var girlfriend = {};
+
+    $("button.start").click(function(){
+      
+      $("div.start").css("display", "none");
+      $("div.play").css("display", "block");
+      $("div.bye").css("display", "none");
+      $.ajax({
+        type: 'GET',
+        contentType: 'application/json',
+        url:'/game/girlfriend/newGame',
+        success: function(data){
+          if(data.result){
+            $('p.description').html("오류 발생;(<br/> 한번 더 클릭해주세요 ");
+          }else{
+            var percent = data.percent/100;
+         
+            if(Math.random() < percent){
+              $('strong.girl').text(data.name);
+              $('span.percent').text(data.percent);
+              $('p.description').html(data.description);
+
+              girlfriend = data;           
+            }else{
+              $('strong.girl').text(' ');
+              $('span.percent').text(' ');
+              $('p.description').text(' ');
+
+              $("div.play").css("display", "none");
+              $("div.bye").css("display", "block");
+            }
+          }
+        },
+        error: function(e){}  
+      });
+    });
+    
+    $("#up").click(function(){
+      var num = {};
+      num.idx = girlfriend.idx + 1;
+      
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(num),
+        contentType: 'application/json',
+        url:'/game/girlfriend/up',
+        success: function(data){
+          if(data.result){
+            $('p.description').html("오류 발생;(<br/> 한번 더 클릭해주세요 ");
+          }else{
+            var percent = data.percent/100;
+         
+            if(Math.random() < percent){
+              $('strong.girl').text(data.name);
+              $('span.percent').text(data.percent);
+              $('p.description').html(data.description);
+
+              girlfriend = data;           
+            }else{
+              $('strong.girl').text(' ');
+              $('span.percent').text(' ');
+              $('p.description').text(' ');
+
+              $("div.play").css("display", "none");
+              $("div.bye").css("display", "block");
+            }
+          }
+        }
+      });
+    });

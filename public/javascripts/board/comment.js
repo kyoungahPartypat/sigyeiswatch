@@ -12,7 +12,7 @@ var returnId = function(param){
   if(param){
     return vars[param] ? vars[param] : null;
   }
-  console.log(param);
+  
   return vars;
 };
 
@@ -23,13 +23,91 @@ var Comment = React.createClass({
   },
 
   render: function(){
-    return (
-      <li className = "comment">
-        <span className = "comment-name">{this.props.name}</span>
-        <span className = "comment-date">{this.props.date}</span>
-        <div dangerouslySetInnerHTML = {this.rawMarkup()} />
-      </li>
-    );
+    if(this.props.seq === 0){
+      return (
+        <li className = "comment">
+          <div className = "cmt">
+            <div className = "cmtBtn">
+              <button className = "comment-cRecommend" onClick = {this.onCRecommend}>추천</button>
+              <button className = "comment-report" onClick = {this.onCReport}>신고</button>
+            </div>
+            <span className = "comment-name">{this.props.name}</span>
+            <span className = "comment-date">{this.props.date}</span>
+            <div dangerouslySetInnerHTML = {this.rawMarkup()} />
+            <button className = "comment-submit" onClick = {this.onSubmitComment}>
+              <i className = "glyphicon glyphicon-share-alt"></i>답글
+            </button>
+          </div>
+        </li>
+      );
+    }else{
+       return (
+        <li className = "comment">
+          <i className = "glyphicon glyphicon-share-alt"></i>
+          <div className = "re-cmt">
+            <div className = "cmtBtn">
+              <button className = "comment-cRecommend" onClick = {this.onCRecommend}>추천</button>
+              <button className = "comment-report" onClick = {this.onCReport}>신고</button>
+            </div>
+            <span className = "comment-name">{this.props.name}</span>
+            <span className = "comment-date">{this.props.date}</span>
+            <div dangerouslySetInnerHTML = {this.rawMarkup()} />
+          </div>
+        </li>
+      );   
+    };
+  },
+  onCRecommend: function(e){
+    console.log('hi');
+  },
+  onCReport: function(e){
+    console.log('bye');
+  },
+  onSubmitComment: function(e){
+    var findCmt = document.getElementsByClassName('re-comment');
+    var dom = ReactDOM.findDOMNode(this);
+    var clickEvent = this.props.loadComments;
+    var grp = this.props.grp;
+    var cPage = this.props.cPage;
+    var newCmt = document.createElement('form');
+    var newTxt = document.createElement('textarea');
+    var newBtn = document.createElement('button');
+   
+    for(var i = 0; i < findCmt.length; i++){
+      findCmt[i].remove();     
+    }
+
+    
+    newCmt.className = 're-comment';
+    newTxt.className = 'form-control re-form';
+    newBtn.className = 'btn btn-primary';
+    newBtn.type = 'button';
+    newBtn.onclick = function(){
+      var postCmt = {};
+      postCmt.comment = document.getElementsByClassName('re-form')[0].value;
+      postCmt.grp = grp;
+      var xhr = new XMLHttpRequest();
+      
+      xhr.open('POST', encodeURI('/free/reComment/' + returnId('id')), true);
+      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+      xhr.onload = function(){
+        if(xhr.status === 200){
+          clickEvent(cPage);
+          newCmt.remove();
+        }else{
+           console.log(xhr.responseText);
+          alert('죄송합니다. 댓글 작성 중 오류가 발생했습니다.');
+        }
+      };
+      xhr.send(JSON.stringify(postCmt));
+    };
+
+    
+    newBtn.appendChild(document.createTextNode('등록'));
+    newCmt.appendChild(newTxt);
+    newCmt.appendChild(newBtn);
+
+    dom.appendChild(newCmt);
   }
 });
 
@@ -37,12 +115,23 @@ var Comment = React.createClass({
 //직접 만든(또는 다른사람들이 만든) 컴포넌트의 트리들도 리턴 가능
 var CommentList = React.createClass({
   render: function(){
-    var commentNodes = this.props.data.map(function (comment){
-      return (
-        <Comment name = {comment.name} date = {comment.date} key = {comment._id}>
-          {comment.comment}
-        </Comment>
-      );
+    var rows = [];
+    var comment = this.props.data;
+    var cPage = this.props.page.number + 1;
+    var clickEvent = this.props.loadComments;
+
+    for(var i = this.props.page.from; i <= this.props.page.to; i++){
+      rows.push(i);
+    }
+
+    var commentNodes = rows.map(function(num){
+      if(comment[num]){
+        return (
+          <Comment name = {comment[num].name} date = {comment[num].date} grp = {comment[num].grp} seq = {comment[num].seq} key = {comment[num]._id} cPage = {cPage} loadComments = {clickEvent}>
+            {comment[num].comment}
+          </Comment>
+        );
+      }
     });
     return (
       <ul className = "commentList">
@@ -84,49 +173,68 @@ var CommentForm = React.createClass({
 
 //JSX컴파일러가 자동으로 HTML 태그들을 React.createElement(tagName) 표현식으로 재작성 하고 나머지는 그대로 둠 -> 전역 네임스페이스가 오염되는것을 막아줌
 var CommentBox = React.createClass({
-  loadCommentsFromServer: function(){
+  loadCommentsFromServer: function(lastPage){
     $.ajax({
-      url: this.props.url + "/" + returnId("id"),
+      url: this.props.url + "/?id=" + returnId("id") + "&cPage=" + lastPage,
       dataType: 'json',
       cache: false,
       success: function(data){
-        this.setState({data: data.comment});
+        this.setState({data: data.comment, page:data.page});
       }.bind(this),
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
+
   handleCommentSubmit: function(comment){
     var comments = this.state.data;
-    //var newComments = comments.concat([comment]);
-    //this.setState({data: newComments});
-    console.log(comment);
     $.ajax({
       url: this.props.url + "/" + returnId("id"),
       dataType: 'json',
       type: 'POST',
       data: comment,
       success: function(data){
-        this.setState({data: data});
+        this.loadCommentsFromServer(data.lastPage);
       }.bind(this),
       error:function(xhr, status, err){
-        this.setState({data: comments});
         console.error(this.props.url, status, err.toString());
       }.bind(this)
     });
   },
   getInitialState: function(){
-    return {data: []}; 
+    return {data: [], page:{}}; 
   },
   componentDidMount: function(){
-    this.loadCommentsFromServer();
+    this.loadCommentsFromServer(1);
+  },
+  pageMove: function(num){
+    var cPage = num + 1;
+
+    this.serverRequest = $.get('/free/comment/?id=' + returnId('id') + '&cPage=' + cPage, function(result){
+      var data = result;
+     
+      this.setState({
+        data:data.comment,
+        page:data.page
+      });
+    }.bind(this));
   },
   render: function(){
- 
+
+    var arrs = []; 
+   for(var i = 0; i < this.state.page.count; i++){
+      arrs.push(
+        <li key = {i + 1}><a className = "page" href = "javascript:;"  onClick = {this.pageMove.bind(this, i)}>{i + 1}</a></li>
+      );
+    }
+
     return(
       <div className = "commentBox">
-        <CommentList data = {this.state.data} />
+        <CommentList data = {this.state.data} page = {this.state.page} loadComments = {this.loadCommentsFromServer}/>
+        <ul className = "commentPage pagination">
+          {arrs}
+        </ul>
         <CommentForm onCommentSubmit = {this.handleCommentSubmit}/>
       </div>
     );
