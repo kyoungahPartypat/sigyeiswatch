@@ -4,95 +4,340 @@ block head
   link(rel="stylesheet" href="/stylesheets/game/girlfriend.css")
  
 block content
-  include ../includes/header.jade
   div#game
     div(class = "game start")
-      button.start 게임시작
-      button#continue 이어하기(만들기 기찮...) 
+      span.title
+        | 여자친구 
+        br
+        | 강화게임
+      div.button
+        button(class = "btn btn-default start") 게임시작
+        br
+        button(class = "btn btn-default continue") 이어하기 
     div(class = "game play")
-      div(class = "girlfriend")
+      div(class = "top-layout girlfriend")
+        img(src = " " class = "image")
         strong.girl
         br
-        span.percent
-        p.description
-      div.menu
-        button#up 강화
-        button#bye 헤어지기
-        button#game 상점
+        span.pLabel 확률: 
+          span.percent
+          span %
         br
-        button#save 저장(만들까 말까)
-    div(class = "game bye")
+        span.notice
+        div.box
+          div(class = "material info") 
+            span 필요한 아이템
+            ul
+              li 
+                | 선물: 
+                span.present
+                | 개
+              li
+                | 커플링: 
+                span.coupling
+                | 개
+              li
+                | 차: 
+                span.car
+                | 개 
+              li
+                | 집: 
+                span.house
+                | 개
+              li 
+                | 땅문서: 
+                span.land
+                | 개
+          div(class = "myInfo info")
+            span 인벤토리
+            ul
+              li 
+                | 이별방지권: 
+                span.noFarewell
+                | 개
+              li 
+                | 선물: 
+                span.present
+                | 개
+              li
+                | 커플링: 
+                span.coupling
+                | 개
+              li
+                | 차: 
+                span.car
+                | 개
+              li
+                | 집: 
+                span.house
+                | 개
+              li 
+                | 땅문서: 
+                span.land
+                | 개             
+      div(class = "top-layout menu")
+        span 소지금:
+          span.money
+          | 원
+        button(id = "up" class = "btn btn-primary") 강화
+        button(id = "farewell" class = "btn btn-default") 헤어지기
+        button(type = "button" class = "btn btn-default" data-toggle = "modal" data-target = "#store") 상점
+        button(id = "save" class = "btn btn-default") 저장 
+      div(class = "girlfriend-text")
+        p.description
+    div(class = "game car")
       span 차였습니다 ㅠㅠ
-        button.start 다시하기
-    div.store
+      span 위로금 : 
+        span.compensation 
+      span
+        span.money
+        | ( +
+        span.plusMoney
+        | )원
+      br
+      span 
+        | 필요한 이별방지권 : 
+        span.need 
+        | 개
+      span.nLabel
+      button.restart 이별후 재회
+      button.start 다시하기
+    div(class = "game bye")
+      span 헤어졌습니다
+      span 위로금 : 
+      span.compensation 
+      span
+        span.money
+        | ( +
+        span.plusMoney
+        | )원
+      button.start 다시하기
+    div(id = "store" class = "modal fade" role = "dialog")
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            h4 Welcome to 상점
+          div.modal-body 
+            ul.store-list
+              li.noFarewell
+                button(type = "button" class = "product btn btn-default" value = "50000") 이별 방지권 50,000원
+              li.fiveNoFarewell
+                button(type = "button" class = "product btn btn-default" value = "240000") 이별 방지권(X 5) 240,000원
+              li.present
+                button(type = "button" class = "product btn btn-default" value = "10000") 선물 10,000원
+              li.coupling
+                button(type = "button" class = "product btn btn-default" value = "35000") 커플링 35,000원
+              li.car
+                button(type = "button" class = "product btn btn-default" value = "30000000") 차  30,000,000원
+              li.house
+                button(type = "button" class = "product btn btn-default" value = "150000000") 집 150,000,000원
+              li.land
+                button(type = "button" class = "product btn btn-default" value = "355000000") 땅문서 355,000,000원
+          div.modal-footer
+            span.sLabel
+            span 소지금: 
+              span.money
+              | 원
+            button(type = "button" class = "btn btn-default" data-dismiss="modal")나가기
   script.
-    var girlfriend = {};
 
+    function Girlfriend(girl){
+      var girlArr = girl ? [girl.idx, girl.name, girl.percent, girl.noFarewell, girl.present, girl.coupling, girl.car, girl.house, girl.land, girl.description] : [#{result.idx}, "#{result.name}", #{result.percent}, #{result.noFarewell}, #{result.present}, #{result.coupling}, #{result.car}, #{result.house}, #{result.land}, "#{result.description}"];
+
+      this.getArr = function(num){
+        return girlArr[num];
+      }
+    };
+    
+    var Info = function(){
+      var infoArr  = [0,0,0,0,0,0,0];
+
+        /*
+          0: money,
+          1: noFarewell,
+          2: present,
+          3: coupling,
+          4: car,
+          5: house,
+          6: land
+        */
+      var Func = function() {};
+      Func.prototype = {
+        getItem: function(item){
+          return infoArr[item];
+        },
+        setPItem: function(item, num){
+          infoArr[item] +=num;
+        },
+        setMItem: function(item, num){
+          infoArr[item] -=num;
+        }
+      };
+
+      return Func;
+    }();
+
+ 
+    var myInfo = new Info();
+    var girlfriend = new Girlfriend();
+    
     $("button.start").click(function(){
       
+      $('strong.girl').text(girlfriend.getArr(1));
+      $('span.percent').text(girlfriend.getArr(2));
+
+      $("div.material span.present").text(girlfriend.getArr(4));
+      $("div.material span.coupling").text(girlfriend.getArr(5));
+      $("div.material span.car").text(girlfriend.getArr(6));
+      $("div.material span.house").text(girlfriend.getArr(7));
+      $("div.material span.land").text(girlfriend.getArr(8));
+
+      $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+      $("span.money").text(myInfo.getItem(0));
+      $("div.myInfo span.present").text(myInfo.getItem(2));
+      $("div.myInfo span.coupling").text(myInfo.getItem(3));
+      $("div.myInfo sapn.car").text(myInfo.getItem(4));
+      $("div.myInfo span.house").text(myInfo.getItem(5));
+      $("div.myInfo span.land").text(myInfo.getItem(6));
+
+      $('p.description').html(girlfriend.getArr(9));
+
       $("div.start").css("display", "none");
-      $("div.play").css("display", "block");
+      $("div.car").css("display", "none");
       $("div.bye").css("display", "none");
-      $.ajax({
-        type: 'GET',
-        contentType: 'application/json',
-        url:'/game/girlfriend/newGame',
-        success: function(data){
-          if(data.result){
-            $('p.description').html("오류 발생;(<br/> 한번 더 클릭해주세요 ");
-          }else{
-            var percent = data.percent/100;
-         
-            if(Math.random() < percent){
-              $('strong.girl').text(data.name);
-              $('span.percent').text(data.percent);
-              $('p.description').html(data.description);
+      $("div.play").css("display", "block");
 
-              girlfriend = data;           
-            }else{
-              $('strong.girl').text(' ');
-              $('span.percent').text(' ');
-              $('p.description').text(' ');
-
-              $("div.play").css("display", "none");
-              $("div.bye").css("display", "block");
-            }
-          }
-        },
-        error: function(e){}  
-      });
     });
     
     $("#up").click(function(){
-      var num = {};
-      num.idx = girlfriend.idx + 1;
-      
-      $.ajax({
-        type: 'POST',
-        data: JSON.stringify(num),
-        contentType: 'application/json',
-        url:'/game/girlfriend/up',
-        success: function(data){
-          if(data.result){
-            $('p.description').html("오류 발생;(<br/> 한번 더 클릭해주세요 ");
-          }else{
-            var percent = data.percent/100;
-         
-            if(Math.random() < percent){
-              $('strong.girl').text(data.name);
-              $('span.percent').text(data.percent);
-              $('p.description').html(data.description);
+      if(myInfo.getItem(2) >= girlfriend.getArr(4) && myInfo.getItem(3) >= girlfriend.getArr(5) && myInfo.getItem(4) >= girlfriend.getArr(6)  && myInfo.getItem(5) >=girlfriend.getArr(7)  && myInfo.getItem(6) >= girlfriend.getArr(8)){
+        var percent = girlfriend.getArr(2)/100;
+        
+        if(Math.random() < percent){   
 
-              girlfriend = data;           
-            }else{
-              $('strong.girl').text(' ');
-              $('span.percent').text(' ');
-              $('p.description').text(' ');
+          myInfo.setMItem(2, girlfriend.getArr(4));
+          myInfo.setMItem(3, girlfriend.getArr(5));
+          myInfo.setMItem(4, girlfriend.getArr(6));
+          myInfo.setMItem(5, girlfriend.getArr(7));
+          myInfo.setMItem(6, girlfriend.getArr(8));
 
-              $("div.play").css("display", "none");
-              $("div.bye").css("display", "block");
+          $("div.myInfo span.present").text(myInfo.getItem(2));
+          $("div.myInfo span.coupling").text(myInfo.getItem(3));
+          $("div.myInfo span.car").text(myInfo.getItem(4));
+          $("div.myInfo span.house").text(myInfo.getItem(5));
+          $("div.myInfo span.land").text(myInfo.getItem(6));
+
+              
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify({idx:girlfriend.getArr(0) + 1}),
+            contentType: 'application/json',
+            url:'/game/girlfriend/up',
+            success: function(data){
+              if(data.result){
+                $('p.description').html("오류 발생;<br/> 한번 더 클릭해주세요 ");
+              }else{
+ 
+                $('strong.girl').text(data.name);
+                $('span.percent').text(data.percent);
+                $("div.material span.present").text(data.present);
+                $("div.material span.coupling").text(data.coupling);
+                $("div.material span.house").text(data.house);
+                $("div.material span.land").text(data.land);
+
+                $('p.description').html(data.description);
+
+                girlfriend = new Girlfriend(data);     
+              }
             }
-          }
+          });
+        }else{
+          $("div.play").css("display", "none");
+          $("div.car span.need").text(girlfriend.noFarewell);
+          $("div.car").css("display", "block");
+       
+          plusMoney();
         }
-      });
+      }else{
+         console.log(girlfriend);
+         console.log(myInfo);
+         $("span.notice").text("강화재료가 부족합니다");
+
+         setTimeout(function(){
+           $("span.notice").text("");
+         }, 3000);
+      }
+    });
+
+    $("#farewell").click(function(){
+      $("div.play").css("display", "none");
+      $("div.bye").css("display", "block");
+  
+      plusMoney();
+    });
+
+    $("button.restart").click(function(){
+      console.log(girlfriend.noFarewell);
+      if(myInfo.getItem(1) < girlfriend.getArr(3)){
+        $("span.nLabel").text("이별 방지권이 모자랍니다.");
+      }else{
+        $("div.car").css("display", "none");
+        $("div.play").css("display", "block");
+      }   
+    });
+
+    $("button.product").click(function(){
+      
+      if(myInfo.money - $(this).val() > 0){
+        var item = $(this).parent().attr('class');
+        var btn = this;
+        console.log(this);
+        switch(item){
+          case 'noFarewell':
+            myInfo.money -= $(this).val();
+            myInfo.noFarewell += 1;
+            $("div.myInfo span.noFarewell").text(myInfo.noFarewell);
+            break;
+          case 'fiveNoFarewell':
+            myInfo.money -= $(this).val();
+            myInfo.noFarewell += 5;
+            $("div.myInfo span.noFarewell").text(myInfo.noFarewell);
+            break;
+          case 'present':
+            myInfo.money -= $(this).val();
+            myInfo.present += 1;
+            $("div.myInfo span.present").text(myInfo.present);
+            break;
+          case 'coupling':
+            myInfo.money -= $(this).val();
+            myInfo.coupling += 1;
+            $("div.myInfo span.coupling").text(myInfo.coupling);
+            break;
+          case 'car':
+            myInfo.money -= $(this).val();
+            myInfo.car += 1;
+            break;
+            $("div.myInfo span.car").text(myInfo.car);
+          case 'house':
+            myInfo.money -= $(this).val();
+            myInfo.house += 1;
+            $("div.myInfo span.house").text(myInfo.house);
+            break;
+          case 'land':
+            myInfo.money -= $(this).val();
+            myInfo.land += 1;
+            $("div.myInfo span.land").text(myInfo.land);
+            break;
+          default:
+            break;
+        }
+        $("span.money").text(myInfo.money);
+        $("span.sLabel").text("구매했습니다");
+      }else{
+        $("span.sLabel").text("돈이 모자랍니다 T_T");  
+      }
+
+      setTimeout(function(){
+       $("span.sLabel").text(" ");
+      }, 3000);
     });

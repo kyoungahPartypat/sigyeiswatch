@@ -64,6 +64,7 @@ var Comment = React.createClass({
     console.log('bye');
   },
   onSubmitComment: function(e){
+    var user = document.getElementById('user');
     var findCmt = document.getElementsByClassName('re-comment');
     var dom = ReactDOM.findDOMNode(this);
     var clickEvent = this.props.loadComments;
@@ -73,41 +74,43 @@ var Comment = React.createClass({
     var newTxt = document.createElement('textarea');
     var newBtn = document.createElement('button');
    
-    for(var i = 0; i < findCmt.length; i++){
-      findCmt[i].remove();     
-    }
+    if(!user){
+      alert('로그인이 필요합니다!');
+    }else{
+      for(var i = 0; i < findCmt.length; i++){
+        findCmt[i].remove();     
+      }
 
-    
-    newCmt.className = 're-comment';
-    newTxt.className = 'form-control re-form';
-    newBtn.className = 'btn btn-primary';
-    newBtn.type = 'button';
-    newBtn.onclick = function(){
-      var postCmt = {};
-      postCmt.comment = document.getElementsByClassName('re-form')[0].value;
-      postCmt.grp = grp;
-      var xhr = new XMLHttpRequest();
+      newCmt.className = 're-comment';
+      newTxt.className = 'form-control re-form';
+      newBtn.className = 'btn btn-primary';
+      newBtn.type = 'button';
+      newBtn.onclick = function(){
+        var postCmt = {};
+        postCmt.comment = document.getElementsByClassName('re-form')[0].value;
+        postCmt.grp = grp;
+        var xhr = new XMLHttpRequest();
       
-      xhr.open('POST', encodeURI('/free/reComment/' + returnId('id')), true);
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-      xhr.onload = function(){
-        if(xhr.status === 200){
-          clickEvent(cPage);
-          newCmt.remove();
-        }else{
-           console.log(xhr.responseText);
-          alert('죄송합니다. 댓글 작성 중 오류가 발생했습니다.');
-        }
+        xhr.open('POST', encodeURI('/free/reComment/' + returnId('id')), true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.onload = function(){
+          if(xhr.status === 200){
+            clickEvent(cPage);
+            newCmt.remove();
+          }else{
+            console.log(xhr.responseText);
+            alert('죄송합니다. 댓글 작성 중 오류가 발생했습니다.');
+          }
+        };
+        xhr.send(JSON.stringify(postCmt));
       };
-      xhr.send(JSON.stringify(postCmt));
-    };
-
     
-    newBtn.appendChild(document.createTextNode('등록'));
-    newCmt.appendChild(newTxt);
-    newCmt.appendChild(newBtn);
+      newBtn.appendChild(document.createTextNode('등록'));
+      newCmt.appendChild(newTxt);
+      newCmt.appendChild(newBtn);
 
-    dom.appendChild(newCmt);
+      dom.appendChild(newCmt);
+    }
   }
 });
 

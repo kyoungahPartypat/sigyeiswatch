@@ -1,10 +1,9 @@
 extends ../layout
 
 block head
-  link(rel="stylesheet" href="/stylesheets/game/peg.css")
+  link(rel="stylesheet" href="/stylesheets/game/knight.css")
 
 block content
-  include ../includes/header.jade
   div#level
     ul
       li.selected: button.map 레벨 1
@@ -19,7 +18,7 @@ block content
       li: button.mapThree 레벨 3
       li: button.mapFour 레벨 4
 
-  div#peg
+  div#knight
     div#map
 
   div#way
@@ -33,24 +32,23 @@ block content
       (adsbygoogle = window.adsbygoogle || []).push({})
 
     div.way_box
-      span · 고전 퍼즐 게임을 풀어보자.
-      span · 다음 조건에 맞는 구슬이라면 어떤 구슬을 움직여도 무방하다.	
-      span · 바로 옆 또는 위아래에 다른 구슬이 존재하고, 그 다음 칸이 비어 있을 경우에 뛰어넘어서 움직일 수 있다.</span>
-      span · 구슬이 다른 구슬을 뛰어넘으면 놓여있던 구슬은 사라진다
+      span · 체스의 나이트로 여행을 떠나 보자.
+      span · 나이트는 장기에 등장하는 마처럼 2칸 앞으로 이동한 다음, 왼쪽 또는 오른쪽으로 1칸 이동한다. 상하좌우 어느 방향으로도 갈 수 있다.
 
-      span · 마지막에 하나의 구슬을 남겨야 한다.
+      span · 자, 모튼 칸을 1번씩만 여행해 보자.
       span 출처 : 레이튼교수와 악마의상자
+  script(src = "/javascripts/game/knight.js")
   script.
     function goEvent(){
       var pane = document.getElementsByTagName('td');
  
       for(var i = 0; i < pane.length; i++){
-        pane[i].addEventListener("click", function(){game.ballEvent(this)});	
+        pane[i].addEventListener("click", function(){game.clickEvent(this)});	
       }
     };
  	
     var div = document.getElementById("map");
-    var game = new PegSolitare();	
+    var game = new Knight();	
     game.mapSet(map, div);  
     goEvent();
 
@@ -64,23 +62,25 @@ block content
       level = $(this).attr("class");
  		
       switch(level){
-        case "map":		
+        case "map":	
+          $("#map").css("width", "120px");
+          $("#map").css("height", "160px");
           game.mapSet(map, div);
           break;
         case "mapTwo":
+          $("#map").css("width", "200px");
+          $("#map").css("height", "240px");
           game.mapSet(mapTwo, div);
           break;
         case "mapThree":
+          $("#map").css("width", "280px");
+          $("#map").css("height", "240px");
           game.mapSet(mapThree, div);
           break;
         case "mapFour":
+          $("#map").css("width", "320px");
+          $("#map").css("height", "280px");
           game.mapSet(mapFour, div);
-          break;
-        case "mapFive":
-          game.mapSet(mapFive, div);
-          break;
-        case "mapSix":
-          game.mapSet(mapSix, div);
           break;
         default:
           break;

@@ -1,0 +1,16 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/users.css")
+
+block content
+    div#join 
+      if chk == "NO"
+        h2 이메일 인증이 완료 되었습니다! 
+      else if chk == "YES"
+        h2 이메일 인증이 완료된 계정입니다.
+      else 
+        h2 잘못된 접근입니다!
+      p.button
+        button(type = "button" onClick = "location.href='/'" class = "btn btn-default") 홈으로
+        button(type = "button" onClick = "location.href='/users/login'" class = "btn btn-primary") 로그인

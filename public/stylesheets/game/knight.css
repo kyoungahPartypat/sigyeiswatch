@@ -1,0 +1,62 @@
+@media all and (min-width:320px){
+	#level{display:none}
+	#mobileLevel{display:block}
+
+	#way{width:100%; padding:10px; box-sizing:border-box}
+	#way > div.way_box{width:100%; margin-top:10px; padding:10px; box-sizing:border-box; background-color:#ffd672; line-height:22px; font-size:12px}
+}
+@media all and (min-width:360px){
+
+}
+@media all and (min-width:384px){
+
+}
+@media all and (min-width:400px){
+}
+@media all and (min-width:533px){
+
+}
+@media all and (min-width:600px){
+
+}
+@media all and (min-width:768px){
+	#level{display:block}
+	#mobileLevel{display:none}
+	#way{width:600px; margin:20px auto}
+
+}
+@media all and (min-width:1024px){
+
+}
+
+@media all and (min-width:1280px){
+
+}
+
+#level{width:400px; margin:20px auto}
+#level > ul{width:100%}
+#level > ul > li{float:left; width:100px; padding:10px; box-sizing:border-box}
+#level > ul > li > button{width:100%; cursor:pointer; background-color:#FFF; border:1px solid #323232; border-radius:5px}
+#level > ul > li > button:hover{background-color:#d4d4d4}
+#level > ul > li.selected > button{background-color:#d4d4d4}
+#level:after{content:""; display:block; clear:both}
+
+#mobileLevel{width:100%;}
+#mobileLevel > ul{width:100%}
+#mobileLevel > ul > li{float:left; width:25%; margin-bottom:10px; box-sizing:border-box; border:1px solid #323232}
+#mobileLevel > ul > li > button{width:100%; cursor:pointer; border:1px solid #323232; padding:0 5px; border-radius:5px}
+#mobileLevel > ul > li.selected{background-color:#d4d4d4}
+#mobileLevel:after{content:""; display:block; clear:both}
+
+
+#knight > #map{position:relative; width:120px; height:160px; margin:0 auto}
+#knight > #map > table{position:absolute; width:100%; height:100%; border-collapse:collapse; top:0; left:0; border:1px solid #000; box-sizing:border-box}
+#knight > #map > table > tbody > tr > td{width:40px; height:40px; background:url(/images/knight.png) no-repeat; background-size:120px auto}
+#knight > #map > table > tbody > tr > td.knight{background-position:0px 0; cursor:pointer}
+#knight > #map > table > tbody > tr > td.black_pane{background-image:none; background-color:#000}
+#knight > #map > table > tbody > tr > td.white_pane{background-image:none; background-color:#FFF}
+#knight > #map > table > tbody > tr > td.put_knight{background-position:-40px 0}
+#knight > #map > table > tbody > tr > td.empty_pane{background-position:-80px 0}
+
+#knight > #map > #clear{-webkit-text-stroke:1px black;  color:#FFF; font-size:30px; font-weight:bold; text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; position:absolute; left:50%; top:50%; margin:-15px 0 0 -42px}
+

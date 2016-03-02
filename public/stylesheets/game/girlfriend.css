@@ -1,49 +1,78 @@
-@media all and (min-width:320px){
-  #game > div.game{width:300px; margin:10px auto}
-  #game > div.play > span.girl{font-size:13px; font-weight:600}
-  #game > div.play{display:none}
-  #game > div.bye{display:none}
-}
-@media all and (min-width:360px){
+/*==========  Mobile First Method  ==========*/
+#game > div.game{width:100%; height:370px; margin:10px auto; border: 1px solid #ddd}
+
+#game > div.start{position:relative; text-align:center}
+#game > div.start > span{display:inline-block; margin-top:35px; font-size:45px; color:#FFF; line-height:50px; text-shadow: 3px 0 0 #000, -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000, 2px 2px #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000}
+#game > div.start > div.button{position:absolute; bottom:25px;  width:100%; text-align:center}
+#game > div.start > div.button > button{width:150px; height:50px; margin: 5px 0}
+
+#game > div.play{display:none; padding:10px;}
+#game > div.play > div.top-layout{position:relative; width:100%; float:none}
+#game > div.play > div.girlfriend{position:relative; height:215px}
+#game > div.play > div.girlfriend > img{position:absolute; top:0; left:0; right:0; margin-left:auto; margin-right:auto; width:200px; z-index:0}
+#game > div.play > div.girlfriend > strong{font-size:17px; position:relative; z-index:2}
+#game > div.play > div.girlfriend span, #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:16px; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF }
+#game > div.play > div.girlfriend > span.pLabel{position:relative; z-index:2}
+#game > div.play > div.girlfriend > div.box > div.info > span{font-size:14px}
+#game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:13px}
+
+#game > div.play > div.girlfriend > div.box{position:absolute; bottom: 5px; width:100%;}
+#game > div.play > div.girlfriend > div.box > div.info{width:50%; float:left}
+
+#game > div.play > div.girlfriend-text{width:100%; height:80px; border:2px solid #ddd}
+ 
+#game > div.play > div.menu{margin:10px 0 7px}
+ 
+#game > div.play > span.girl{font-size:13px; font-weight:600}
+
+#game > #store > div.modal-dialog{width:300px} 
+#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li{text-align:center} 
+#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li > button{width:200px}
+
+#game > div.car{display:none}
+#game > div.bye{display:none}
+
+
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+  #game > div.play > div.menu > button{margin:0 5px}
+  #game > div.play > div.menu > button:first-of-type{margin-left:0}
+  #game > div.play > div.menu > button:last-of-type{margin-right:0}
 
 }
-@media all and (min-width:384px){
 
-}
-@media all and (min-width:400px){
-}
-@media all and (min-width:533px){
-
-}
-@media all and (min-width:600px){
-
-}
-@media all and (min-width:768px){
-	#level{display:block}
-	#mobileLevel{display:none}
-	#way{width:600px; margin:20px auto}
-
-}
-@media all and (min-width:1024px){
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
 
 }
 
-@media all and (min-width:1280px){
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  #game > div.game{width:550px; height:375px}
+
+  #game > div.start > div.button{bottom:50px; text-align:right}
+  #game > div.start > div.button > button{margin-right:35px; font-size:15px}
+
+  #game > div.play > div.top-layout{width:50%; height:255px; float:left}
+  #game > div.play > div.girlfriend > strong{font-size:20px}
+  #game > div.play > div.girlfriend span{font-size:18px}
+  #game > div.play > div.girlfriend > div.box > div.info > span{font-size:16px}
+  #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:15px}
+
+
+  #game > div.play > div.menu > button{width:100%; height:45px; font-size:20px; margin:5px 0}
+  #game > div.play > div.girlfriend-text{clear:both}
 
 }
 
-#level{width:600px; margin:20px auto}
-#level > ul{width:100%}
-#level > ul > li{float:left; width:100px; padding:10px; box-sizing:border-box}
-#level > ul > li > button{width:100%; cursor:pointer; border:1px solid #323232; border-radius:5px}
-#level > ul > li > button:hover{background-color:#d4d4d4}
-#level > ul > li.selected > button{background-color:#d4d4d4}
-#level:after{content:""; display:block; clear:both}
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+ 
+}
 
-#mobileLevel{width:100%;}
-#mobileLevel > ul{width:100%}
-#mobileLevel > ul > li{float:left; width:16.66%; margin-bottom:10px; box-sizing:border-box; border:1px solid #323232}
-#mobileLevel > ul > li > button{width:100%; cursor:pointer}
-#mobileLevel > ul > li.selected{background-color:#d4d4d4}
-#mobileLevel:after{content:""; display:block; clear:both}
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
 

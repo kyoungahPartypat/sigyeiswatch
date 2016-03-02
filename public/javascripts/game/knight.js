@@ -31,7 +31,7 @@ mapFour = [['n','b','w','b','w','b','w','b'],
        ['b','w','b','w','b','w','b','w'],
        ['w','b','w','b','w','b','w','b']];
 
-function knight(){	
+function Knight(){	
 
 	this.mapSet = function(level, position){ 
 		count = 0;

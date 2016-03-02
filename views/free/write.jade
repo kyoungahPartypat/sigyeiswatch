@@ -4,7 +4,6 @@ block head
   link(rel="stylesheet" href="/stylesheets/board.css")
 
 block content
-  include ../includes/header.jade
   div#freeboard
     form(method = "post" id = "writeForm")
       input(type = "text" name = "title" id = "title" placeholder = "제목" class = "form-control")

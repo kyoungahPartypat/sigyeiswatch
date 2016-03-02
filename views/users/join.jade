@@ -1,7 +1,6 @@
 extends ../layout
 
 block content
-  include ../includes/header.jade
   h2 회원가입
   div(class = "col-md-6 com-md-offset-3")
     form(role = "form" id = "joinForm" method = "post")
@@ -19,7 +18,7 @@ block content
         span.chk
       div(class = "form-group err4")
         label(for="username") 이름
-        input(type = "text" name = "name" class = "form-control" id = "username" placeholder = "닉네임")
+        input(type = "text" name = "name" class = "form-control" id = "username" placeholder = "닉네임" maxLength = "10")
         span.chk
       div(class = "form-group text-center")
         button(type = "submit" class = "btn btn-info" id = "join") 회원가입
@@ -102,15 +101,15 @@ block content
       var postName = {};
       postName.name = name;
       
-      var regExp = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/;
+      var regExp = /[0-9]|[a-z]|[A-Z]|[가-힣]/;
   
       if(name.length < 2 || name.length > 10){
         $("div.err4 > span.chk").text("닉네임은 2자 이상 10자 이하여야 합니다.");
         $("div.err4 > span.chk").css("display", "block");
         namechk = false;
       }else if(!name.match(regExp)){
-        $("div.err1 > span.chk").text("사용하실 수 없는 닉네임 입니다.");
-        $("div.err1 > span.chk").css("display", "block");
+        $("div.err4 > span.chk").text("사용하실 수 없는 닉네임 입니다.");
+        $("div.err4 > span.chk").css("display", "block");
         namechk = false;
       }else{
         $.ajax({

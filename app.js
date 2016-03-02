@@ -8,8 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var cluster = require('cluster');
-var sticky = require('sticky-session');
+var flash = require('connect-flash');
 var MongoStore = require('connect-mongo')(session);
 
 var routes = require('./routes/index');
@@ -40,6 +39,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('sigye'));
+app.use(flash());
 
 mongoose.createConnection('mongodb://localhost/sigye');
 
@@ -47,7 +47,7 @@ mongoose.createConnection('mongodb://localhost/sigye');
 var store = new MongoStore({mongooseConnection:mongoose.connection, ttl:2*24*60*60});
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: secret, key: 'express.sid', resave: true, saveUninitialized:true,  store:store, cookie:{maxAge: 3600000}}));
+app.use(session({secret: secret, key: 'express.sid', resave: false, saveUninitialized:true,  store:store}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
