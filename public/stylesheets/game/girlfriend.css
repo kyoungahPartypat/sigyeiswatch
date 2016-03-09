@@ -6,44 +6,72 @@
 
 #game > div.start{position:relative; text-align:center}
 #game > div.start > span{display:inline-block; margin-top:35px; font-size:45px; color:#FFF; line-height:50px; text-shadow: 3px 0 0 #000, -3px 0 0 #000, 0 3px 0 #000, 0 -3px 0 #000, 2px 2px #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000}
-#game > div.start > div.button{position:absolute; bottom:25px;  width:100%; text-align:center}
+#game > div.start > div.button{position:absolute; bottom:30px;  width:100%; text-align:center}
 #game > div.start > div.button > button{width:150px; height:50px; margin: 5px 0}
 
 #game > div.play{display:none; padding:10px;}
 #game > div.play > div.top-layout{position:relative; width:100%; float:none}
 #game > div.play > div.girlfriend{position:relative; height:215px}
-#game > div.play > div.girlfriend > img{position:absolute; top:0; left:0; right:0; margin-left:auto; margin-right:auto; width:200px; z-index:0}
+#game > div.play > div.girlfriend > img{position:absolute; top:15px; left:0; right:0; opacity:0.8; margin-left:auto; margin-right:auto; width:200px; z-index:0}
 #game > div.play > div.girlfriend > strong{font-size:17px; position:relative; z-index:2}
-#game > div.play > div.girlfriend span, #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:16px; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF }
-#game > div.play > div.girlfriend > span.pLabel{position:relative; z-index:2}
+
+#game > div.play > div.girlfriend span{position:relative}
+#game > div.play > div.girlfriend span, #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:16px; z-index:2; text-shadow: 2px 0 0 #FFF, -2px 0 0 #FFF, 0 2px 0 #FFF, 0 -2px 0 #FFF, 1px 1px #FFF, -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF }
+
 #game > div.play > div.girlfriend > div.box > div.info > span{font-size:14px}
 #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:13px}
 
 #game > div.play > div.girlfriend > div.box{position:absolute; bottom: 5px; width:100%;}
 #game > div.play > div.girlfriend > div.box > div.info{width:50%; float:left}
 
-#game > div.play > div.girlfriend-text{width:100%; height:80px; border:2px solid #ddd}
+#game > div.play > div.girlfriend-text{width:100%; height:80px; border:2px solid #ddd; padding:5px 10px}
+#game > div.play > div.girlfriend-text > p{line-height:24px; font-size:13px}
  
 #game > div.play > div.menu{margin:10px 0 7px}
  
 #game > div.play > span.girl{font-size:13px; font-weight:600}
 
 #game > #store > div.modal-dialog{width:300px} 
-#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li{text-align:center} 
-#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li > button{width:200px}
+#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul:after{content:" "; display:block; clear:both}
+#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li{width:50%; float:left; text-align:center; margin:2px 0} 
+#game > #store > div.modal-dialog > div.modal-content > div.modal-body > ul.store-list > li > button{width:130px; padding:3px}
 
-#game > div.car{display:none}
+#game > #lots > div.modal-dialog{width:300px} 
+#game > #lots > div.modal-dialog > div.modal-content > div.modal-body > ul{padding:5px}
+#game > #lots > div.modal-dialog > div.modal-content > div.modal-body > ul:after{content:" "; display:block; clear:both}
+#game > #lots > div.modal-dialog > div.modal-content > div.modal-body > ul.lots-list > li{width:25%; float:left; text-align:center; margin:2px 0; padding:3px} 
+#game > #lots > div.modal-dialog > div.modal-content > div.modal-body > ul.lots-list > li > button{width:100%; padding:3px}
+
+
+
+#game > div.car{display:none; position:relative; text-align:center; padding:10px}
+#game > div.car > div.car-text{margin-top:20px; text-align:center}
+#game > div.car > div.button{position:absolute; bottom:30px;  width:100%; text-align:center}
+#game > div.car > div.button > button{width:150px; height:50px; margin: 5px 0}
+
+
+
 #game > div.bye{display:none}
 
-#game > #rank{width:100%; margin:5px auto}
-#game > #rank > div.rank-box > div{width:100%}
-#game > div.way{width:100%}
+#game > #rank{width:100%; margin:8px auto}
+#game > #rank > div.rank-box{text-align:center}
+#game > #rank > div.rank-box > div{width:100%; margin-bottom:10px; padding:10px}
+#game > #rank > div.rank-box > div > div{padding:5px}
+#game > #rank > div.rank-box > div > div > strong{font-size:14px}
+
+#game > #rank > div.rank-box > div > div > ul{margin-top:5px; text-align:left}
+#game > #rank > div.rank-box > div > div > ul > li{margin-top:5px}
+#game > #rank > div.rank-box > div > div > ul > li:first-child > strong.ranker-num{color:#F3B607}
+#game > #rank > div.rank-box > div > div > ul > li:nth-child(2) > strong.ranker-num{color:#9d9d9d}
+#game > #rank > div.rank-box > div > div > ul > li:nth-child(3) > strong.ranker-num{color:#DC5B29}
+
+#game > #rank > div.rank-box > div > div > ul > li > span.ranker-name{margin-left:5px}
 
 #adsense{width:100%; margin:1px auto}
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 320px) {
   #game > div.game{width:100%}
-  #game > div.play > div.menu > button{margin:0 2px}
+  #game > div.play > div.menu > button{margin:2px}
   #game > div.play > div.menu > button:first-of-type{margin-left:0}
   #game > div.play > div.menu > button:last-of-type{margin-right:0}
 
@@ -61,23 +89,26 @@
   #game > div.start > div.button{bottom:50px; text-align:right}
   #game > div.start > div.button > button{margin-right:35px; font-size:15px}
 
-  #game > div.play > div.top-layout{width:50%; height:255px; float:left}
+  #game > div.play > div.top-layout{width:50%; height:260px; float:left}
   #game > div.play > div.girlfriend > strong{font-size:20px}
   #game > div.play > div.girlfriend span{font-size:18px}
+  #game > div.play > div.girlfriend > div.box > div.myInfo:after{display:block; content:" "; clear:both}
   #game > div.play > div.girlfriend > div.box > div.info > span{font-size:16px}
   #game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:15px}
 
   #game > div.play > div.menu{margin:0}
-  #game > div.play > div.menu:after{content: " "; display:block; clear:both}
+  #game > div.play > div.menu:after{content: "."; display:block; clear:both; height:0; line-height:0; visibility:hidden}
   #game > div.play > div.menu > span{display:"inline-block"; float:right}
   #game > div.play > div.menu > span:after{content: " "; display:block; clear:both; margin-bottom:3px}
   #game > div.play > div.menu > span > span.money{margin-left:5px}
-  #game > div.play > div.menu > button{width:100%; height:40px; font-size:20px; margin:3px 0}
-  #game > div.play > div.girlfriend-text{clear:both}
+  #game > div.play > div.menu > button{width:100%; height:40px; font-size:20px; margin:5px 0}
+
+  #game > div.play > div.girlfriend-text{float:left; margin-top:14px}
+  #game > div.play > div.girlfriend-text > p{font-size:15px}
 
   #game > #rank{width:550px}
   #game > #rank:after{display:block; content:" "; clear:both}
-  #game > #rank > div.rank-box > div{float:left; width:50%}
+  #game > #rank > div.rank-box > div> div{float:left; width:50%}
 
   #adsense{width:550px}  
 }

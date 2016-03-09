@@ -2,7 +2,7 @@ var Rank = React.createClass({
   render: function(){
     return (
       <li className = "ranker">
-        <span className = "ranker-num">{this.props.num + "등"}</span>
+        <strong className = "ranker-num">{this.props.num + "등"}</strong>
         <span className = "ranker-name">{this.props.ranker}</span>
       </li>
     );   
@@ -22,7 +22,7 @@ var RankList = React.createClass({
 
     return (
       <div>
-        <span>{this.props.name}</span>
+        <strong>{this.props.name}</strong>
         <ul className = "rank-list">
           {arrs}
         </ul>
@@ -70,8 +70,11 @@ var RankBox = React.createClass({
   render: function(){
     return(
       <div className = "rank-box">
-        <RankList name = "부자 랭킹" data = {this.state.rich}/>
-        <RankList name = "랭킹 이름 멀로해" data = {this.state.level}/>
+        <strong>명예의 전당</strong>
+        <div>
+          <RankList name = "부자 랭킹" data = {this.state.rich}/>
+          <RankList name = "강화 랭킹" data = {this.state.level}/>
+        </div>
       </div>
     );
   }

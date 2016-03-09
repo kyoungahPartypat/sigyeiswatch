@@ -91,30 +91,34 @@ block content
         br
         button(id = "up" class = "btn btn-primary") 강화
         button(id = "farewell" class = "btn btn-default") 헤어지기
-        button(type = "button" class = "btn btn-default" data-toggle = "modal" data-target = "#store") 상점
-        button(type = "button" class = "btn btn-default" data-toggle = "nodal" data-target = "#lotto") 로또 
+        button(type = "button" class = "btn btn-default" data-toggle = "modal" data-target = "#store") 상점 
         button(id = "save" class = "btn btn-default") 저장 
       div(class = "girlfriend-text")
         p.description
     div(class = "game car")
-      span 차였습니다 ㅠㅠ
-      span 위로금 : 
-        span.compensation 
-      span
-        span.money
-        | ( +
-        span.plus-money
-        | )원
-      br
-      span 
-        | 필요한 이별방지권 : 
-        span.need 
-        | 개
-      span.nLabel
-      button.restart 재회
-      button.start 다시하기
+      div.car-text
+        strong 차였습니다 ㅠㅠ
+        br
+        span 위로금 : 
+          span.compensation 
+        span
+          span.money
+          | ( +
+          span.plus-money
+          | )원
+        br
+        span 
+          | 필요한 이별방지권 : 
+          span.need 
+          | 개
+        span.nLabel
+      div.button
+        button(class = "btn btn-default restart") 재회
+        br
+        button(class = "btn btn-default start") 다시하기
     div(class = "game bye")
       span 헤어졌습니다
+      br
       span 위로금 : 
       span.compensation 
       span
@@ -131,32 +135,87 @@ block content
           div.modal-body 
             ul.store-list
               li.noFarewell
-                button(type = "button" class = "product btn btn-default" value = "50000") 이별 방지권 50,000원
+                button(type = "button" class = "product btn btn-default" value = "50000")
+                  | 이별 방지권
+                  br
+                  | 50,000원
               li.fiveNoFarewell
-                button(type = "button" class = "product btn btn-default" value = "240000") 이별 방지권(X 5) 240,000원
+                button(type = "button" class = "product btn btn-default" value = "240000") 
+                  | 이별 방지권(X 5)
+                  br 
+                  | 240,000원
               li.present
-                button(type = "button" class = "product btn btn-default" value = "10000") 선물 10,000원
+                button(type = "button" class = "product btn btn-default" value = "10000") 
+                  | 선물
+                  br
+                  | 10,000원
               li.coupling
-                button(type = "button" class = "product btn btn-default" value = "35000") 커플링 35,000원
+                button(type = "button" class = "product btn btn-default" value = "35000") 
+                  | 커플링
+                  br
+                  | 35,000원
               li.car
-                button(type = "button" class = "product btn btn-default" value = "30000000") 차  30,000,000원
+                button(type = "button" class = "product btn btn-default" value = "1250000") 
+                  | 차
+                  br
+                  | 1,250,000원
               li.house
-                button(type = "button" class = "product btn btn-default" value = "150000000") 집 150,000,000원
+                button(type = "button" class = "product btn btn-default" value = "25000000") 
+                  | 집
+                  br
+                  | 25,000,000원
               li.land
-                button(type = "button" class = "product btn btn-default" value = "355000000") 땅문서 355,000,000원
+                button(type = "button" class = "product btn btn-default" value = "50000000")
+                  | 땅문서
+                  br
+                  | 50,000,000원
+              li.lots
+                button(type = "button" id = "drawingLots" class = "product btn btn-default" value = "5000")
+                  | 제비뽑기
+                  br
+                  | 5,000원
+              li.tt
+                button(type = "button" class = "product btn btn-default" value = "3000000") 
+                  | +22 워프권
+                  br
+                  | 3,000,000원
+              li.tf
+                button(type = "button" class = "product btn btn-default" value = "6000000") 
+                  | +35 워프권
+                  br
+                  | 6,000,000원
           div.modal-footer
             span.sLabel
             span 소지금: 
               span.money
               | 원
-            button(type = "button" class = "btn btn-default" data-dismiss="modal") 나가기
+            button(type = "button" id = "storeExit" class = "btn btn-default" data-dismiss="modal") 나가기
+
+    div(id = "lots" class = "modal fade" role = "dialog")
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            h4 당신의 운을 확인해 보세요!
+          div.modal-body 
+            - var num = 1;
+            - for(i = 0; i< 5; i++)
+              ul.lots-list
+                - for(j = 0; j<4; j++)
+                  li.lots-paper
+                    button(type = "button" class = "btn btn-default" value = "#{j}") #{num}
+                    - num++;
+          div.modal-footer
+            span.sLabel
+            span 소지금: 
+              span.money
+              | 원
+            button(type = "button" id = "lotsExit" class = "btn btn-default" data-dismiss="modal") 나가기
+
     div#adsense
       script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
       ins(class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4634617406465785" data-ad-slot="6151936559" data-ad-format="auto")
       script.
         (adsbygoogle = window.adsbygoogle || []).push({});
-    div.way
-      p 설명 머라고 적어
     div#rank
   script(type = "text/babel" src = "/javascripts/game/rank.js")
   script.
@@ -164,8 +223,13 @@ block content
     var myInfo = null;
     var girlfriend = null;
 
+    //전광판 문구 배열
     var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑'];
 
+    //제비뽑기 배열
+    var lotsArr = [100, "꽝", "꽝", "꽝", "꽝", 5000, "꽝", "꽝", "꽝", 10000, "꽝", "꽝", "선물", "꽝", "꽝", "꽝", "이별방지권", "꽝", "꽝", "커플링", "차", "꽝", "꽝", "집", "꽝", "땅문서", "꽝", 100000000, "꽝", "꽝"];
+
+    //여자친구 생성자 함수
     function Girlfriend(girl){
       var girlArr = girl ? [girl.idx, girl.name, girl.percent, girl.noFarewell, girl.money, girl.present, girl.coupling, girl.car, girl.house, girl.land, girl.compensation, girl.description] : [#{result.idx}, "#{result.name}", #{result.percent}, #{result.noFarewell}, #{result.money}, #{result.present}, #{result.coupling}, #{result.car}, #{result.house}, #{result.land}, #{result.compensation}, "#{result.description}"];
 
@@ -174,6 +238,7 @@ block content
       }
     };
     
+    //정보 생성자 함수
     var Info = function(){
       var infoArr  = [50000,0,0,0,0,0,0];
 
@@ -193,9 +258,12 @@ block content
       return Func;
     }();
    
-    var upBool = false;
-    var saveBool = false;
 
+    //스위치
+    var upBool = false;  //강화 스위치
+    var saveBool = false;  //저장 스위치
+  
+    //위로금 넣어주는 함수
     function plusMoney(money){
       myInfo.setPItem(0, money);
 
@@ -203,16 +271,18 @@ block content
       $("span.plus-money").text(money);
     }
 
+    //전광판 함수
     function showTip(tipArr){
       var result = Math.floor(Math.random() * tipArr.length);
       $("#tip > span").text(tipArr[result]);
     };
     
-    // 선언
-
+    //5초마다 전광판 내용 새로 출력
     setInterval(function(){
       showTip(tipArr);
-    }, 5000);
+    }, 5000);  
+
+    //여기까지 변수 및 함수 선언 끝!
 
     myInfo = new Info();
     
@@ -222,6 +292,8 @@ block content
       $('strong.girl').text(girlfriend.getArr(1));
       $('span.percent').text(girlfriend.getArr(2));
       $('span.d-money').text(girlfriend.getArr(4));      
+
+      $("div.girlfriend > img").attr("src", "/images/girlfriend/" + girlfriend.getArr(0) + ".png");
 
       $("div.material span.present").text(girlfriend.getArr(5));
       $("div.material span.coupling").text(girlfriend.getArr(6));
@@ -266,6 +338,36 @@ block content
               myInfo.setPItem(4, row.car);
               myInfo.setPItem(5, row.house);
               myInfo.setPItem(6, row.land);
+
+              $.ajax({
+                type: 'POST',
+                data: JSON.stringify({idx:row.level}),
+                contentType: 'application/json',
+                url:'/game/girlfriend/up',
+                success: function(data){
+                  console.log(data.idx);
+                  if(data.result){
+                    $('p.description').html("오류 발생;<br/> 한번 더 클릭해주세요 ");
+                  }else{
+                    $('strong.girl').text(data.name);
+                    $('span.percent').text(data.percent);
+                    $('span.d-money').text(data.money);
+
+                    $("div.girlfriend > img").attr("src", "/images/girlfriend/" + data.idx + ".png");
+
+                    $("div.material span.present").text(data.present);
+                    $("div.material span.coupling").text(data.coupling);
+                    $("div.material span.car").text(data.car);
+                    $("div.material span.house").text(data.house);
+                    $("div.material span.land").text(data.land);
+
+                    $('p.description').html(data.description);
+
+                    girlfriend = new Girlfriend(data);     
+                  }
+                }
+              });
+
             }else{
 
             }
@@ -310,12 +412,15 @@ block content
               url:'/game/girlfriend/up',
               success: function(data){
                 if(data.result){
-                  $('p.description').html("오류 발생;<br/> 한번 더 클릭해주세요 ");
+                  $('p.description').html("혹시 게임이 끝나지 않았나요? <br/> 새로 하거나 다른걸 하는게 어때요?");
                 }else{
  
                   $('strong.girl').text(data.name);
                   $('span.percent').text(data.percent);
                   $('span.d-money').text(data.money);
+
+                  $("div.girlfriend > img").attr("src", "/images/girlfriend/" + data.idx + ".png");
+
                   $("div.material span.present").text(data.present);
                   $("div.material span.coupling").text(data.coupling);
                   $("div.material span.car").text(data.car);
@@ -374,7 +479,7 @@ block content
 
         setTimeout(function(){
           $("span.nLabel").text(" ");
-        });
+        }, 3500);
       }else{
         myInfo.setMItem(1, girlfriend.getArr(3));
 
@@ -384,6 +489,36 @@ block content
     });
 
     $("button.product").click(function(){
+      function readGirl(num){
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify({idx:num}),
+          contentType: 'application/json',
+          url:'/game/girlfriend/up',
+          success: function(data){
+            if(data.result){
+              $('p.description').html("오류 발생;<br/> 한번 더 클릭해주세요 ");
+            }else{
+              $('strong.girl').text(data.name);
+              $('span.percent').text(data.percent);
+              $('span.d-money').text(data.money);
+              $("div.material span.present").text(data.present);
+              $("div.material span.coupling").text(data.coupling);
+              $("div.material span.car").text(data.car);
+              $("div.material span.house").text(data.house);
+              $("div.material span.land").text(data.land);
+
+              $('p.description').html(data.description);
+
+              girlfriend = new Girlfriend(data);     
+
+              setTimeout(function(){
+                upBool = false;
+              }, 330);
+            }
+          }
+        });
+      };
       
       if(myInfo.getItem(0) - $(this).val() >= 0){
         var item = $(this).parent().attr('class');
@@ -425,6 +560,18 @@ block content
             myInfo.setPItem(6, 1);
             $("div.myInfo span.land").text(myInfo.getItem(6));
             break;
+          case 'lots':
+            $("#store").modal('hide');
+            $("#lots").modal('show');
+            break;
+          case 'tt':
+            readGirl(22);
+            $("#store").modal('hide');
+            break;
+          case 'tf':
+            readGirl(35);
+            $("#store").modal('hide');
+            break;
           default:
             break;
         }
@@ -439,6 +586,66 @@ block content
       }, 3000);
     });
 
+    //제비뽑기
+    $("ul.lots-list > li.lots-paper > button").click(function(){
+      var rand = lotsArr[Math.floor(Math.random() * lotsArr.length)];
+ 
+      myInfo.setMItem(0, 5000); 
+      console.log(myInfo.getItem(0));
+
+      $("#lots").modal('hide');
+      $("#lots").css('padding-right', 0);    
+
+      switch(rand){
+        case "꽝" : 
+          $("span.notice").text(rand);
+          break;
+        case "이별방지권":
+          myInfo.setPItem(1, 1);
+          $("div.myInfo span.no-farewell").text(myInfo.getItem(1));
+          $("span.notice").text("이별방지권을 뽑았습니다!");
+          break;
+        case "선물":
+          myInfo.setPItem(2, 1);
+          $("div.myInfo span.present").text(myInfo.getItem(2));
+          $("span.notice").text("선물을 뽑았습니다!");
+          break;
+        case "커플링":
+          myInfo.setPItem(3, 1);
+          $("div.myInfo span.coupling").text(myInfo.getItem(3));
+          $("span.notice").text("커플링을 뽑았습니다!");
+          break;         
+        case "차":
+          myInfo.setPItem(4, 1);
+          $("div.myInfo span.car").text(myInfo.getItem(4));
+          $("span.notice").text("차를 뽑았습니다!");
+          break;
+       case "집":
+          myInfo.setPItem(5, 1);
+          $("div.myInfo span.house").text(myInfo.getItem(5));
+          $("span.notice").text("집을 뽑았습니다!");
+          break;
+       case "땅문서":
+          myInfo.setPItem(6, 1);
+          $("div.myInfo span.land").text(myInfo.getItem(6));
+          $("span.notice").text("땅문서를 뽑았습니다!");
+          break;
+       default:
+          myInfo.setPItem(0, rand);
+          $("span.notice").text(rand + "원을 뽑았습니다!");
+          break;
+      }
+      $("span.money").text(myInfo.getItem(0));
+
+      $("#lots").modal('hide');
+      
+      setTimeout(function(){
+        $("body").css('padding-right', '15px');    
+      },500);
+    });
+
+
+    //저장
     $("#save").click(function(){
       var name = $("#myName").text();
 
@@ -455,7 +662,7 @@ block content
               if(data.result == "saved"){
                 $("span.notice").text("저장 되었습니다.");
               }else{
-                $("span.notice").tet("서버 요류발생!");
+                $("span.notice").tet("서버 오류발생!");
               }
             },
             error:function(request, status, error){
@@ -477,3 +684,13 @@ block content
         $("span.notice").text(" ");
       }, 3000);
     });
+
+    $('#lots').on('show.bs.modal', function () {
+        console.log($(this));
+      $('body').addClass("modal-open"); 
+    });
+
+    $('#lots').on('hide.bs.modal', function () {
+        $('body').removeClass("modal-open");
+        $("#lots").css("padding-right", "0");
+    })
