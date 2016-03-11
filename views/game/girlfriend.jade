@@ -21,7 +21,6 @@ block content
         button(id = "continue" class = "btn btn-default") 이어하기 
     div(class = "game play")
       div(class = "top-layout girlfriend")
-        img(src = " " class = "image")
         strong.girl
         br
         span.pLabel 확률: 
@@ -61,10 +60,6 @@ block content
             span 인벤토리
             ul
               li 
-                | 이별방지권: 
-                span.no-farewell
-                | 개
-              li 
                 | 선물: 
                 span.present
                 | 개
@@ -83,7 +78,11 @@ block content
               li 
                 | 땅문서: 
                 span.land
-                | 개             
+                | 개
+              li
+                | 이별방지권: 
+                span.no-farewell
+                | 개               
       div(class = "top-layout menu")
         span 소지금:
           span.money
@@ -108,7 +107,7 @@ block content
           | )원
         br
         span 
-          | 필요한 이별방지권 : 
+          | 필요한 이별방지권: 
           span.need 
           | 개
         span.nLabel
@@ -152,7 +151,7 @@ block content
               li.coupling
                 button(type = "button" class = "product btn btn-default" value = "35000") 
                   | 커플링
-                  br
+                  br  
                   | 35,000원
               li.car
                 button(type = "button" class = "product btn btn-default" value = "1250000") 
@@ -202,7 +201,7 @@ block content
               ul.lots-list
                 - for(j = 0; j<4; j++)
                   li.lots-paper
-                    button(type = "button" class = "btn btn-default" value = "#{j}") #{num}
+                    button(type = "button" class = "btn btn-default" value = "#{num-1}") #{num}
                     - num++;
           div.modal-footer
             span.sLabel
@@ -227,7 +226,7 @@ block content
     var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑'];
 
     //제비뽑기 배열
-    var lotsArr = [100, "꽝", "꽝", "꽝", "꽝", 5000, "꽝", "꽝", "꽝", 10000, "꽝", "꽝", "선물", "꽝", "꽝", "꽝", "이별방지권", "꽝", "꽝", "커플링", "차", "꽝", "꽝", "집", "꽝", "땅문서", "꽝", 100000000, "꽝", "꽝"];
+    var lotsArr = ["꽝", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "꽝", "꽝", "땅문서", "꽝", "꽝",  100000000];
 
     //여자친구 생성자 함수
     function Girlfriend(girl){
@@ -282,6 +281,11 @@ block content
       showTip(tipArr);
     }, 5000);  
 
+    function shuffle(arr){
+      for(var j, x, i = arr.length; i; j = Math.floor(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+        return arr;
+    }
+
     //여기까지 변수 및 함수 선언 끝!
 
     myInfo = new Info();
@@ -292,8 +296,6 @@ block content
       $('strong.girl').text(girlfriend.getArr(1));
       $('span.percent').text(girlfriend.getArr(2));
       $('span.d-money').text(girlfriend.getArr(4));      
-
-      $("div.girlfriend > img").attr("src", "/images/girlfriend/" + girlfriend.getArr(0) + ".png");
 
       $("div.material span.present").text(girlfriend.getArr(5));
       $("div.material span.coupling").text(girlfriend.getArr(6));
@@ -324,7 +326,7 @@ block content
 
       if(user){
         $.ajax({
-          type: 'POST',
+          type: 'GET',
           contentType: 'application/json',
           url:'/game/girlfriend/continue',
           success: function(data){
@@ -340,9 +342,9 @@ block content
               myInfo.setPItem(6, row.land);
 
               $.ajax({
-                type: 'POST',
-                data: JSON.stringify({idx:row.level}),
+                type: 'GET',
                 contentType: 'application/json',
+                data: {idx:row.level},
                 url:'/game/girlfriend/up',
                 success: function(data){
                   console.log(data.idx);
@@ -352,8 +354,6 @@ block content
                     $('strong.girl').text(data.name);
                     $('span.percent').text(data.percent);
                     $('span.d-money').text(data.money);
-
-                    $("div.girlfriend > img").attr("src", "/images/girlfriend/" + data.idx + ".png");
 
                     $("div.material span.present").text(data.present);
                     $("div.material span.coupling").text(data.coupling);
@@ -406,8 +406,8 @@ block content
 
               
             $.ajax({
-              type: 'POST',
-              data: JSON.stringify({idx:girlfriend.getArr(0) + 1}),
+              type: 'GET',
+              data: {idx:girlfriend.getArr(0) + 1},
               contentType: 'application/json',
               url:'/game/girlfriend/up',
               success: function(data){
@@ -418,8 +418,6 @@ block content
                   $('strong.girl').text(data.name);
                   $('span.percent').text(data.percent);
                   $('span.d-money').text(data.money);
-
-                  $("div.girlfriend > img").attr("src", "/images/girlfriend/" + data.idx + ".png");
 
                   $("div.material span.present").text(data.present);
                   $("div.material span.coupling").text(data.coupling);
@@ -561,8 +559,12 @@ block content
             $("div.myInfo span.land").text(myInfo.getItem(6));
             break;
           case 'lots':
+            lotsArr = shuffle(lotsArr);
             $("#store").modal('hide');
-            $("#lots").modal('show');
+
+            setTimeout(function(){
+              $("#lots").modal('show');
+            }, 500);
             break;
           case 'tt':
             readGirl(22);
@@ -588,14 +590,11 @@ block content
 
     //제비뽑기
     $("ul.lots-list > li.lots-paper > button").click(function(){
-      var rand = lotsArr[Math.floor(Math.random() * lotsArr.length)];
+      var num = $(this).val(); 
+      var rand = lotsArr[num];  
+  
+      myInfo.setMItem(0, 5000);
  
-      myInfo.setMItem(0, 5000); 
-      console.log(myInfo.getItem(0));
-
-      $("#lots").modal('hide');
-      $("#lots").css('padding-right', 0);    
-
       switch(rand){
         case "꽝" : 
           $("span.notice").text(rand);
@@ -634,14 +633,12 @@ block content
           myInfo.setPItem(0, rand);
           $("span.notice").text(rand + "원을 뽑았습니다!");
           break;
-      }
-      $("span.money").text(myInfo.getItem(0));
+      };
 
-      $("#lots").modal('hide');
-      
-      setTimeout(function(){
-        $("body").css('padding-right', '15px');    
-      },500);
+      $("span.money").text(myInfo.getItem(0));
+      $('#lots').modal('hide');
+    
+
     });
 
 
@@ -685,12 +682,3 @@ block content
       }, 3000);
     });
 
-    $('#lots').on('show.bs.modal', function () {
-        console.log($(this));
-      $('body').addClass("modal-open"); 
-    });
-
-    $('#lots').on('hide.bs.modal', function () {
-        $('body').removeClass("modal-open");
-        $("#lots").css("padding-right", "0");
-    })

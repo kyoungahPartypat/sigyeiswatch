@@ -41,8 +41,8 @@ router.get('/girlfriend', function(req, res, next){
   });
 });
 
-router.post('/girlfriend/up', function(req, res, next){
-   db.query("SELECT * FROM girlfriend WHERE idx = ?", req.body.idx, function(err, result){
+router.get('/girlfriend/up', function(req, res, next){
+   db.query("SELECT * FROM girlfriend WHERE idx = ?", req.query.idx, function(err, result){
     if(result[0] !== undefined){   
       res.send(result[0]);
     }else{
@@ -75,7 +75,7 @@ router.post('/girlfriend/save', function(req, res, next){
    });
 });
 
-router.post('/girlfriend/continue', function(req, res, next){
+router.get('/girlfriend/continue', function(req, res, next){
   Girlfriend.findOne({name:req.user.name}, function(err, row){
     if(err) throw err;
 
