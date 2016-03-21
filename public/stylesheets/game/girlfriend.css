@@ -11,17 +11,15 @@
 
 #game > div.play{display:none; padding:10px;}
 #game > div.play > div.top-layout{position:relative; width:100%; float:none}
-#game > div.play > div.girlfriend{position:relative; height:215px}
+#game > div.play > div.girlfriend{position:relative; height:205px}
 #game > div.play > div.girlfriend > img{position:absolute; top:15px; left:0; right:0; opacity:0.8; margin-left:auto; margin-right:auto; width:200px; z-index:0}
 #game > div.play > div.girlfriend > strong{font-size:17px; display:inline-block; margin-bottom:3px}
 #game > div.play > div.girlfriend > span.pLabel, #game > div.play > div.girlfriend > span.date{font-size:15px; display:inline-block; margin-bottom:2px}
 #game > div.play > div.girlfriend > span.notice{font-size:14px}
 
-
-
-
-#game > div.play > div.girlfriend > div.box > div.info > span{font-size:14px}
-#game > div.play > div.girlfriend > div.box > div.info > ul > li{font-size:13px}
+#game > div.play > div.girlfriend > div.box > div.info > span{font-size:13px}
+#game > div.play > div.girlfriend > div.box  >div.info > ul{margin-top:5px}
+#game > div.play > div.girlfriend > div.box > div.info > ul > li{margin-bottom:5px; font-size:14px}
 
 #game > div.play > div.girlfriend > div.box{position:absolute; bottom: 5px; width:100%;}
 #game > div.play > div.girlfriend > div.box > div.info{width:50%; float:left}
@@ -30,7 +28,7 @@
 #game > div.play > div.girlfriend-text > p{line-height:24px; font-size:13px}
  
 #game > div.play > div.menu{margin:10px 0 7px}
- 
+#game > div.play > div.menu > span{display:inline-block; margin-bottom:5px}
 #game > div.play > span.girl{font-size:13px; font-weight:600}
 
 #game > #store > div.modal-dialog{width:300px} 

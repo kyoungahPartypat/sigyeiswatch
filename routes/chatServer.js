@@ -24,11 +24,20 @@ router.get('/', ensureAuthenticated, function(req, res, next){
 });
 
 router.post('/', ensureAuthenticated, function(req, res, next){
-  res.redirect('/chat/room');
+  if(req.body.type == "warewolf"){
+    res.redirect('/chat/warewolf');
+  }else{
+    res.redirect('/chat/omok');
+  }
 });
 
-router.get('/room', ensureAuthenticated, function(req, res, next){
-  res.render('chat/chat');
+router.get('/warewolf', ensureAuthenticated, function(req, res, next){
+res.render('chat/warewolf');
 });
+
+router.get('/omok', ensureAuthenticated, function(req, res, next){
+  res.render('chat/omok');
+});
+
 
 module.exports = router;

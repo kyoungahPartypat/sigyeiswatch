@@ -17,9 +17,25 @@
   #chat > div.content > div.m-users > ul:after{content: " "; display:block; clear:both}
   #chat > div.content > div.m-users > ul.user-list > li{float:left; margin-left:5px; padding:5px}
   #chat > div.content > div.m-users > ul.user-list > li:last-child{margin-left:0}
-  
+  /*오목판*/
 
-  #chat > div.content > #message{float:none; width:100%; height:300px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
+  #chat > div.content > #pane{width:315px; height:315px; margin: 0 auto} 
+  #chat > div.content > #pane > table{width:100%} 
+  #chat > div.content > #pane > table > tbody > tr > td{width:21px; height:21px; background:url('/images/omok.png'); background-size:auto 21px; cursor:pointer}
+  #chat > div.content > #pane > table > tbody > tr > td.lt{background-position:0 0}
+  #chat > div.content > #pane > table > tbody > tr > td.t{background-position:-21px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.rt{background-position:-42px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.l{background-position:-63px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.r{background-position:-84px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.lb{background-position:-105px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.b{background-position:-126px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.rb{background-position:-147px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.o{background-position:-168px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.black{background-position:-189px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.white{background-position:-210px 0}
+
+  #chat > div.content > div.message{float:none; width:100%; height:300px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
+  #chat > div.content > div.o-message{float:none; width:100%; height:80px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
   #chat > div.content > #message > span.chat-text{display:block; line-height:23px;}
   #chat > div.content > #message > span.text > span.user{width:80px}
 
@@ -48,6 +64,24 @@
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
   #chat > div.content > div.users{display:none}
+
+  #chat > div.content > #pane{width:450px; height:450px; margin: 0 auto} 
+  #chat > div.content > #pane > table{width:100%} 
+
+  #chat > div.content > #pane > table > tbody > tr > td{width:30px; height:30px; background:url('/images/omok.png')}
+  #chat > div.content > #pane > table > tbody > tr > td.lt{background-position:0 0}
+  #chat > div.content > #pane > table > tbody > tr > td.t{background-position:-30px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.rt{background-position:-60px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.l{background-position:-90px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.r{background-position:-120px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.lb{background-position:-150px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.b{background-position:-180px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.rb{background-position:-210px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.o{background-position:-240px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.black{background-position:-270px 0}
+  #chat > div.content > #pane > table > tbody > tr > td.white{background-position:-300px 0}
+
+
 }
 
 /* Medium Devices, Desktops */
@@ -59,7 +93,7 @@
   
   #chat > div.content > div.m-users{display:none}
   #chat > div.content > div.p-users{display:block}
-  #chat > div.content > #message{float:right; width:760px}
+  #chat > div.content > div.message{float:right; width:760px}
 }
 
 /* Large Devices, Wide Screens */

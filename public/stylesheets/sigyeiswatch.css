@@ -1,11 +1,11 @@
 /*==========  Mobile First Method  ==========*/
-
-/* Custom, iPhone Retina */ 
-@media only screen and (min-width : 320px) {
 div.center > div.random{text-align:right} 
 div.center > div.random > div.text span{color:#FFF; font-weight:bold; display:inline-block}
 div.center > div.random > div.text > span.today{font-size:15px; margin-bottom:7px}        
 div.center > div.random > div.text > span.watch{font-size:20px}
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
 }
 
 /* Extra Small Devices, Phones */ 

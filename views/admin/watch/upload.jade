@@ -1,0 +1,33 @@
+extends ../../layout
+
+block head
+  link(rel = "stylesheet" href = "/stylesheets/admin.css")
+
+block content
+  h2 시계 업로드
+  form(method = "post" id = "watchForm" enctype = "multipart/form-data")
+    ul#writeForm
+      li
+        input(type = "text" name = "name" id = "name" class = "form-control" placeholder = "시계 이름")
+      li
+        div.fileinput
+          span(class = "btn btn-default btn-file")
+            span 파일선택
+            input(type = "file" name = "watch" id = "watch")
+          span.fileinput-filename 선택된 파일이 없어요 :Q
+    button(type = "submit" class = "btn btn-primary") 업로드          
+  script.
+    $('#watchForm').submit(function(){
+      var title = $('#name').val();
+      var watch = $('#watch').val();
+
+      if(title.length <= 0){
+        $('#name').focus();
+        return false;
+      }
+
+      if(watch.length <= 0){
+        $('#watch').focus();
+        return false;
+      }
+    });

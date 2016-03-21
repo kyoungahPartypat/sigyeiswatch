@@ -1,7 +1,11 @@
 extends ../layout
 
+block head
+  link(rel = "stylesheet" href = "/stylesheets/users.css")
+
 block content
-  div.row
+  div(id = "login" class = "row")
+    h2 로그인
     div(class = "col-sm-6 col-md-4 col-md-offset-4")
       div.account-wall
         form(method = "post" class = "form-signin")

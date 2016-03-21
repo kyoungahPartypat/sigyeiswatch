@@ -1,0 +1,28 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/chat/chat.css")
+  
+block content
+  div#chat
+    div.top
+      strong#roomTitle
+    div.content 
+      div.p-users
+        div
+          span.job
+        ul.user-list
+      div.m-users
+        ul.user-list
+      div#pane
+      div(id = "message" class = "o-message")
+    div.bottom
+      span#name
+      input(id = "send-message" class = "form-control") 
+      span.button
+
+  
+  script(src = "/socket.io/socket.io.js")
+  script(type = "text/javascript" src = "/javascripts/chat/omok.js")
+  script(type = "text/javascript" src = "/javascripts/chat/chat.js")
+  script(type = "text/javascript" src = "/javascripts/chat/room.js")

@@ -1,0 +1,21 @@
+extends ../../layout
+
+
+block head
+
+block content
+  div#watchList
+    table(class = "table table-hover")
+      thead
+        th(width = "100%")
+      tbody
+        if(watchs.length > 0)
+          - for(var i = page.from; i < page.to; i++)
+            if(watchs[i])
+              tr
+                td
+                  a(href = "/watch/detail/?id=#{watchs[i]._id}&page=#{page.number + 1}") #{watchs[i].name}
+        else
+          tr
+            td 등록된 시계가 없습니다
+    button(type = "button" class = "btn btn-primary" onclick = "location.href='watch/upload'") 등록하기 

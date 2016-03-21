@@ -1,0 +1,15 @@
+extends ../layout
+
+block head
+  link(rel = "stylesheet" href = "/stylesheets/admin.css")
+
+block content
+  div#adminList
+    div
+      ul
+        li 
+          a(href = "/admin/watch") 시계관리
+        li
+          a(href = "#") 유저관리
+        li
+          a(href = "#") 게시글관리

@@ -4,12 +4,13 @@ var redis = require('redis');
 var Girlfriend = require('../models/Girlfriend');
 
 var db = mysql.createConnection({
-  host: 'sigyeiswatch.c3fm9fprnnz4.ap-northeast-1.rds.amazonaws.com',
+  host: 'sigyeiswatch.cca8wgdf70vy.ap-northeast-2.rds.amazonaws.com',
   user: 'kyoungah',
   password: 'dbrud3489',
-  database: 'sigyeiswatch'
+  database: 'SigyeisWatch'
 });
-var client = redis.createClient(6379, "54.238.238.65");
+
+var client = redis.createClient(6379, "127.0.0.1");
 client.on('connect', function(){
   console.log('connected');
 });
@@ -32,7 +33,7 @@ router.get('/knight', function(req,res,next){
 
 /*여자친구 겜*/
 router.get('/girlfriend', function(req, res, next){
-   db.query("SELECT * FROM girlfriend WHERE idx = ?", 0, function(err, result){
+   db.query("SELECT * FROM girlfriends WHERE idx = ?", 0, function(err, result){
     if(result[0] !== undefined){   
       res.render('game/girlfriend', {title: "여자친구 강화 게임 - 시계 is 와치", result:result[0]});
     }else{
@@ -42,7 +43,7 @@ router.get('/girlfriend', function(req, res, next){
 });
 
 router.get('/girlfriend/up', function(req, res, next){
-   db.query("SELECT * FROM girlfriend WHERE idx = ?", req.query.idx, function(err, result){
+   db.query("SELECT * FROM girlfriends WHERE idx = ?", req.query.idx, function(err, result){
     if(result[0] !== undefined){   
       res.send(result[0]);
     }else{

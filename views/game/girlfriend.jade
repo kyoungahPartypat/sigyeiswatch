@@ -143,6 +143,16 @@ block content
                   | 이별 방지권(X 5)
                   br 
                   | 240,000원
+              li.tenNoFarewell
+                button(type = "button" class = "product btn btn-default" value = "400000")
+                  | 이별 방지권(X 10)
+                  br
+                  | 400,000원
+              li.milionNoFarewell
+                button(type = "button" class = "product btn btn-default" value = "4750000") 
+                  | 이별 방지권(X 100)
+                  br 
+                  | 4,750,000원
               li.present
                 button(type = "button" class = "product btn btn-default" value = "10000") 
                   | 선물
@@ -162,12 +172,12 @@ block content
                 button(type = "button" class = "product btn btn-default" value = "25000000") 
                   | 집
                   br
-                  | 25,000,000원
+                  | 15,000,000원
               li.land
                 button(type = "button" class = "product btn btn-default" value = "50000000")
                   | 땅문서
                   br
-                  | 50,000,000원
+                  | 30,000,000원
               li.lots
                 button(type = "button" id = "drawingLots" class = "product btn btn-default" value = "5000")
                   | 제비뽑기
@@ -223,7 +233,7 @@ block content
     var girlfriend = null;
 
     //전광판 문구 배열
-    var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑'];
+    var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑', '사실상 제비뽑기겜...'];
 
     //제비뽑기 배열
     var lotsArr = ["꽝", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "꽝", "꽝", "땅문서", "꽝", "꽝",  100000000];
@@ -385,10 +395,11 @@ block content
         if(myInfo.getItem(0) >= girlfriend.getArr(4) && myInfo.getItem(2) >= girlfriend.getArr(5) && myInfo.getItem(3) >= girlfriend.getArr(6) && myInfo.getItem(4) >= girlfriend.getArr(7)  && myInfo.getItem(5) >=girlfriend.getArr(8)  && myInfo.getItem(6) >= girlfriend.getArr(9)){
 
           var percent = girlfriend.getArr(2)/100;
+          var randNum = Math.random();
           upBool = true;
-        
-          if(Math.random() < percent){   
-
+          
+          if(randNum < percent){   
+            console.log("확률: " + percent + ", 나온숫자: " + randNum);
             myInfo.setMItem(0, girlfriend.getArr(4));
             myInfo.setMItem(2, girlfriend.getArr(5));
             myInfo.setMItem(3, girlfriend.getArr(6));
@@ -437,6 +448,7 @@ block content
             });
           }else{
             upBool = false;
+            console.log("터졌당! 확률: " + percent + ", 나온숫자: " + randNum);
 
             $("div.play").css("display", "none");
             $("div.car span.need").text(girlfriend.getArr(3));
@@ -489,8 +501,8 @@ block content
     $("button.product").click(function(){
       function readGirl(num){
         $.ajax({
-          type: 'POST',
-          data: JSON.stringify({idx:num}),
+          type: 'GET',
+          data: {idx:num},
           contentType: 'application/json',
           url:'/game/girlfriend/up',
           success: function(data){
@@ -531,6 +543,16 @@ block content
           case 'fiveNoFarewell':
             myInfo.setMItem(0, btn.value);
             myInfo.setPItem(1, 5);
+            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            break;
+          case 'tenNoFarewell' :
+            myInfo.setMItem(0, btn.value);
+            myInfo.setPItem(1, 10);
+            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            break;
+          case 'milionNoFarewell' :
+            myInfo.setMItem(0, btn.value);
+            myInfo.setPItem(1, 100);
             $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
             break;
           case 'present':

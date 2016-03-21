@@ -9,10 +9,10 @@ var router = express.Router();
 //require('../lib/passport').setup();
 
 var connection = mysql.createConnection({
-  host: 'sigyeiswatch.c3fm9fprnnz4.ap-northeast-1.rds.amazonaws.com',
+  host: 'sigyeiswatch.cca8wgdf70vy.ap-northeast-2.rds.amazonaws.com',
   user: 'kyoungah',
   password: 'dbrud3489',
-  database: 'sigyeiswatch'
+  database: 'SigyeisWatch'
 });
 
 var smtpTransport = nodemailer.createTransport(smtpTransport({

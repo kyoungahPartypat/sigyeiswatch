@@ -1,12 +1,28 @@
 /*==========  Mobile First Method  ==========*/
+#join{width:100%; margin:0 auto}
+#join > h2, #login > h2{font-size:15px; text-align:center; margin:20px 0 15px}
 
+/*회원가입 폼*/
+#join > form > div.form-group > label{margin-bottom:6px}
+
+#join > form > div.form-group > div.col-sm-10 > input{margin-bottom:3px}
+#join > form > div.form-group > div.col-sm-10 > span.chk{color:#a94442}
+
+#join > form > div.form-group > button{margin:0 5px}
+
+/*이메일 관련*/
+#join > p{width:100%; margin:5px 0; line-height:20px}
+#join > p.button{text-align:center; padding:10px 0}
+#join > p.button > button{margin:0 5px}
+
+/*로그인 폼*/
+#login > div.col-sm-6 > div.account-wall > form > input{margin-bottom:5px}
+#login > div.col-sm-6 > div.account-wall{margin-bottom:5px}
+
+#login > div.col-sm-6 > a{float:right}
+#login > div.col-sm-6 > a:after{content: " "; display:block; clear:both}
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 320px) {
-  #join{width:100%; margin:0 auto}
-  #join > h2{font-size:14px; text-align:center; margin:20px 0 10px}
-  #join > p{width:100%; margin:5px 0; line-height:20px}
-  #join > p.button{text-align:center; padding:10px 0}
-  #join > p.button > button{margin:0 5px}
 }
 
 /* Extra Small Devices, Phones */ 
@@ -22,8 +38,10 @@
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
-  #join{width:800px}
-  #join > h2{font-size:20px} 
+  #join{width:800px; margin: 0 auto}
+  #join > h2, #login > h2{font-size:20px} 
+
+  #join > form > div.form-group > label{margin-bottom:0}
 }
 
 /* Large Devices, Wide Screens */
@@ -31,6 +49,3 @@
 
 }
 
-div.center{width:75%; margin:15px auto 10px}
-div.center > div.random{position:relative; width:100%; height:150px; background-color:#ddd}
-div.center > div.random > div.text{position:absolute; bottom:15px; right:15px}

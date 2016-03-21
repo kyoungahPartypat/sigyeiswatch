@@ -1,12 +1,12 @@
-var socket = io.connect('',{ 
+var socket = io.connect('http://sigyeiswatch.com',{ 
   'connect timeout': 10000,
   'reconnect': true,
   'reconnection delay': 500,
   'reconnection attempts': 10
 });
 
-function createRoom(title, count){
-  socket.emit('createRoom', {title:title, count:count});
+function createRoom(title, type, count){
+  socket.emit('createRoom', {title:title, type:type, count:count});
 }
 
 function divEscapedContentElement(message){
@@ -37,13 +37,20 @@ $(document).ready(function(){
 
   $("#send-form").submit(function(){
     var title = $('#roomTitle').val();
-    var count = $('#userCount').val();
+    var type = $('#type').val();
+    var count = null;
+
+    if(type === "warewolf"){
+      count = $('#userCount').val();
+    }else{
+      count = 2;
+    } 
 
     if(title.length <= 0){
       $('#roomTitle').focus();
       return false;
     }else{
-      createRoom(title, count);
+      createRoom(title, type, count);
     }
   });
 
@@ -90,11 +97,14 @@ $(document).ready(function(){
   });
 
   socket.on('gotoRoom', function(data){
+    var type = data.type;
     var check = data.join;
 
-    console.log(check);
-    if(check == "yes"){
-      location.href= "/chat/room";
+   
+    if(type === "warewolf" && check === "yes"){
+      location.href= "/chat/warewolf";
+    }else if(type === "omok" && check === "yes"){
+      location.href="/chat/omok";
     }else{
       return false;
     }

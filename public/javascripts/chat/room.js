@@ -1,17 +1,21 @@
-var socket = io.connect('',{ 
+var socket = io.connect('http://sigyeiswatch.com',{ 
   'connect timeout': 10000,
   'reconnect': true,
   'reconnection delay': 500,
   'reconnection attempts': 10
 });
 
-var getGame = null;
+//오목 함수
+var color = null;
+var turn = null;
+var map = null;
 
-//var socket = io.connect('http://52.69.146.224:3000');
-/*var socket = io.connect("http://sigyeiswatch.com:3000");*/
+function roomSet(room){
+  var title = room.title;
+  var owner = room.owner;
 
-function Client(){
-  
+  $("#roomTitle").text(title);
+  ownerButton(owner);
 }
 
 function divEscapedContentElement(message){
@@ -20,6 +24,13 @@ function divEscapedContentElement(message){
   var chat = $("<span class = 'text'></span>").text(message.msg);
   chatText.append(user);
   chatText.append(chat);
+ 
+  return chatText;
+}
+
+function systemMessage(message){
+  var chatText = $("<span class = 'chat-text'></span>");
+  chatText.append(message);
  
   return chatText;
 }
@@ -56,15 +67,6 @@ $(document).ready(function(){
 
   socket.emit('joinRoom', {});
   
-  socket.on('setRoom', function(data){
-    var title = data.room.title;
-    var owner = data.room.owner;
-
-    $("#roomTitle").text(title);
-    ownerButton(owner);
-  });
-
-
   socket.on('userList', function(data){
     $("ul.user-list").empty();
     var length = data.users.length;
@@ -73,7 +75,6 @@ $(document).ready(function(){
       var li = $("<li>" + data.users[i] + "</li>");
       $("ul.user-list").append(li);
     }
-
   });
 
   $("#send-message").keyup(function(event){
@@ -101,22 +102,70 @@ $(document).ready(function(){
     }
   });
 
-  socket.on('gameStart', function(data){
-    var client = $("a.name").text();
+  // ------------- 웨어울프 ------------- //
+  socket.on('setWarewolf', function(data){
+    var room = data.room;
+    roomSet(room);
+  }); 
+  // ------------------------------------ //
+
+  // ------------- 오목 ------------- //
+  socket.on('setOmok', function(data){
+    var room = data.room;
+    var pane = document.getElementsByTagName('td');
+    map = data.map;
+
+    roomSet(room);
+    mapSet(document.getElementById('pane'), map);
+    mapReset(data.map);
+
+    for(var i = 0; i< pane.length; i++){
+      pane[i].addEventListener('click', function(){clickEvent(this, color, turn, map)});
+    }
+  })
+
+  socket.on('omokStart', function(data){
     var game = data.game;
-    var jobNum = game.people.indexOf(client);
-    var myJob = game.job[jobNum];
+    var me = document.getElementById('myName').text;
+    var job = document.getElementsByClassName('job');
+    turn = data.turn;
 
-    $("span.job").text(myJob);
-    $("#message").empty();
-    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + "입니다.</span>");
-   
-    socket.emit('firstTurn', {game:game, myJob:myJob});
+    mapReset(game.map);
+
+    if(me === game.black){
+      color = 'black';
+      job[0].text = "검은돌";
+    }else{
+      color = 'white';
+      job[0].text = "흰돌";
+    }
+    
+    chatApp.sendMessage('검은돌 차례 입니다');
   });
 
-  socket.on('moveNight', function(data){
-    console.log('moveNight');
-    moveNight(data);
+  socket.on('turn', function(data){
+  
+    turn = data.turn;
+    map[data.x][data.y] = data.changeValue;
+
+    document.getElementsByTagName('table')[0].rows[data.x].cells[data.y].className = data.changeValue;
   });
 
+  socket.on('result', function(data){
+    switch(data.result){
+      case "draw":
+        alert("무승부");
+        break;
+      case "black":
+        alert("검은돌 승리!");
+        break;
+      case "white":
+        alert("흰돌 승리!");
+        break;
+      default:
+        break;
+    }; 
+    turn = null; 
+  });
+  // ------------------------------------ //
 });

@@ -29,9 +29,6 @@ var list = function(req, res, next, find, fn){
       fn(null, rows);
     }); 
   });
-
-  console.log('start');
-
 };
 
 function ensureAuthenticated(req, res, next) {

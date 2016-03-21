@@ -13,20 +13,24 @@ router.get('/', function(req, res, next) {
   var now = date.getDate();
  
   if(yesterday != now){
-    var count = Math.floor((Math.random() * 7) + 1);
-    console.log(count);
-  
+
     client.open(function(err){
       if(err) throw err;
-      console.log("open");
-      client.collection('watch', function(err, collection){
+      
+      client.collection('watches', function(err, collection){
         if(err) throw err;
-       
-        collection.find({idx:count}).toArray(function(err, result){
-          if(err) throw err;
-          yesterday = now;       
-          watch = result[0];
-          res.render('index', { title: '시계 is 와치', watch:watch }); 
+        collection.count(function(err, num){ 
+          
+          var count = Math.floor(Math.random() * num + 1);
+          console.log(count);
+          collection.find({idx:count}).toArray(function(err, result){
+            if(err) throw err;
+
+            yesterday = now;       
+            watch = result[0];
+            console.log(watch);
+            res.render('index', { title: '시계 is 와치', watch:watch}); 
+          });
         });
       });
     });    
