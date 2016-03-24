@@ -111,7 +111,7 @@ $(document).ready(function(){
   });
   
   socket.on('errorOutput', function(data){
-    alert(data.text);
+    location.href = '/users/logout';
   });
 
 });

@@ -9,11 +9,19 @@ block content
       strong#roomTitle
     div.content 
       div.p-users
-        div
-          span.job
-        ul.user-list
+        div.omok-info
+          span.color
+          div
+            span 차례
+            div.turn
+        ul(class = "user-list omok-user-list")
       div.m-users
-        ul.user-list
+        ul(class = "user-list omok-user-list")
+        div.omok-info
+          div
+            div.m-color
+          div
+            div.m-color
       div#pane
       div(id = "message" class = "o-message")
     div.bottom

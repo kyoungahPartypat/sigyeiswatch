@@ -22,7 +22,7 @@ var chatServer = require('./lib/chatServer');
 var secret = "sigye";
 
 var app = express();
-app.io = require('socket.io')('', {
+app.io = require('socket.io')(' ', {
   "transports": ['websocket','flashsocket','htmlfile','xhr-polling','jsonp-polling'], // socket.io 에서 시도하는 연결 순서
   "heartbeat timeout": "pingTimeout",
   "heartbeat interval": "pingInterval" 

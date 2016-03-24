@@ -63,9 +63,15 @@ var clickEvent = function(element, color, turn, map){
   var x = element.parentNode.rowIndex;
   var y = element.cellIndex;
 
+  console.log(x);
+  console.log(y);  
+  
   if(color === turn && map[x][y] !== 'black' && map[x][y] !== 'white'){
     socket.emit('checkPoint', {turn:turn, x:x, y:y});
+    cTurn = true;
   }else{
     console.log('님 차례가 아닙니다');
   }
-}
+};
+
+

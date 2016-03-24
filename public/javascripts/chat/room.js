@@ -5,7 +5,6 @@ var socket = io.connect('http://sigyeiswatch.com',{
   'reconnection attempts': 10
 });
 
-//오목 함수
 var color = null;
 var turn = null;
 var map = null;
@@ -29,7 +28,7 @@ function divEscapedContentElement(message){
 }
 
 function systemMessage(message){
-  var chatText = $("<span class = 'chat-text'></span>");
+  var chatText = $("<span class = 'chat-text system-text'></span>");
   chatText.append(message);
  
   return chatText;
@@ -73,7 +72,9 @@ $(document).ready(function(){
     
     for(var i = 0; i < length; i++){
       var li = $("<li>" + data.users[i] + "</li>");
+      var div = $("<div class = 'm-color'></div>");
       $("ul.user-list").append(li);
+      $("div.m-users > div > ul.omok-user-list > li").append(div);
     }
   });
 
@@ -113,10 +114,9 @@ $(document).ready(function(){
   socket.on('setOmok', function(data){
     var room = data.room;
     var pane = document.getElementsByTagName('td');
-    map = data.map;
-
+    
     roomSet(room);
-    mapSet(document.getElementById('pane'), map);
+    mapSet(document.getElementById('pane'), data.map);
     mapReset(data.map);
 
     for(var i = 0; i< pane.length; i++){
@@ -127,28 +127,48 @@ $(document).ready(function(){
   socket.on('omokStart', function(data){
     var game = data.game;
     var me = document.getElementById('myName').text;
-    var job = document.getElementsByClassName('job');
+    var job = document.getElementsByClassName('color');
+    var showTurn = document.getElementsByClassName('turn');
+    var mshowTurn = document.getElementsByClassName('m-users')[0].getElementsByTagName('li');
     turn = data.turn;
+    map = game.map;
 
     mapReset(game.map);
 
     if(me === game.black){
       color = 'black';
-      job[0].text = "검은돌";
+      job[0].innerHTML = "검은돌";
     }else{
       color = 'white';
-      job[0].text = "흰돌";
+      job[0].innerHTML = "흰돌";
     }
-    
-    chatApp.sendMessage('검은돌 차례 입니다');
+
+    showTurn[0].style.background = "url('/images/omok.png')";
+    showTurn[0].style.backgroundPosition = "-270px 0"; 
+    mshowTurn[0].style.backgroundColor = "#ddd";
   });
 
   socket.on('turn', function(data){
-  
+    var showTurn = document.getElementsByClassName('turn');
+    var mshowTurn = document.getElementsByClassName('m-users')[0].getElementsByTagName('li');
     turn = data.turn;
     map[data.x][data.y] = data.changeValue;
 
     document.getElementsByTagName('table')[0].rows[data.x].cells[data.y].className = data.changeValue;
+
+    if(data.changeValue === "black"){
+      showTurn[0].style.backgroundPosition = "-300px 0";
+      mshowTurn[0].style.background = "none";
+      mshowTurn[1].style.backgroundColor = "#ddd";
+    }else{
+      showTurn[0].style.backgroundPosition = "-270px 0";    
+      mshowTurn[0].style.backgroundColor = "#ddd";
+      mshowTurn[1].style.background = "none";
+    }
+  });
+
+  socket.on('cTurn', function(data){
+    turn = data.turn;
   });
 
   socket.on('result', function(data){
@@ -167,5 +187,10 @@ $(document).ready(function(){
     }; 
     turn = null; 
   });
+
   // ------------------------------------ //
+  
+  socket.on('errorOutput',function(){
+    location.href = "/users/logout";
+  });
 });
