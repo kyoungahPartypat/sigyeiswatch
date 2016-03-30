@@ -236,7 +236,7 @@ block content
     var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑', '사실상 제비뽑기겜...'];
 
     //제비뽑기 배열
-    var lotsArr = ["꽝", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "꽝", "꽝", "땅문서", "꽝", "꽝",  100000000];
+    var lotsArr = ["꽝", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "집", "꽝", "땅문서", "꽝", "꽝",  100000000];
 
     //여자친구 생성자 함수
     function Girlfriend(girl){
@@ -271,6 +271,7 @@ block content
     //스위치
     var upBool = false;  //강화 스위치
     var saveBool = false;  //저장 스위치
+    var continueBool = false; //이어하기 스위치 
   
     //위로금 넣어주는 함수
     function plusMoney(money){
@@ -334,7 +335,7 @@ block content
     $("#continue").click(function(){
       var user = $("#myName").text();
 
-      if(user){
+      if(user !== undefined && continueBool === false){
         $.ajax({
           type: 'GET',
           contentType: 'application/json',
@@ -373,7 +374,12 @@ block content
 
                     $('p.description').html(data.description);
 
-                    girlfriend = new Girlfriend(data);     
+                    girlfriend = new Girlfriend(data);
+                    continueBool = true; 
+
+                    setTimeout(function(){
+                      continueBool = false;
+                    }, 5000);
                   }
                 }
               });
@@ -448,7 +454,6 @@ block content
             });
           }else{
             upBool = false;
-            console.log("터졌당! 확률: " + percent + ", 나온숫자: " + randNum);
 
             $("div.play").css("display", "none");
             $("div.car span.need").text(girlfriend.getArr(3));
@@ -495,6 +500,7 @@ block content
 
         $("div.car").css("display", "none");
         $("div.play").css("display", "block");
+        $("div.play div.myInfo span.no-farewell").text(myInfo.getItem(1));
       }   
     });
 
@@ -538,22 +544,22 @@ block content
           case 'noFarewell':
             myInfo.setMItem(0, btn.value);
             myInfo.setPItem(1, 1);
-            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            $("div.myInfo span.no-farewell").text(myInfo.getItem(1));
             break;
           case 'fiveNoFarewell':
             myInfo.setMItem(0, btn.value);
             myInfo.setPItem(1, 5);
-            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            $("div.myInfo span.no-farewell").text(myInfo.getItem(1));
             break;
           case 'tenNoFarewell' :
             myInfo.setMItem(0, btn.value);
             myInfo.setPItem(1, 10);
-            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            $("div.myInfo span.no-farewell").text(myInfo.getItem(1));
             break;
           case 'milionNoFarewell' :
             myInfo.setMItem(0, btn.value);
             myInfo.setPItem(1, 100);
-            $("div.myInfo span.noFarewell").text(myInfo.getItem(1));
+            $("div.myInfo span.no-farewell").text(myInfo.getItem(1));
             break;
           case 'present':
             myInfo.setMItem(0, btn.value);

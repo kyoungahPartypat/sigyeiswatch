@@ -8,6 +8,9 @@ var socket = io.connect('http://sigyeiswatch.com',{
 var color = null;
 var turn = null;
 var map = null;
+var cTurn = null;
+var cTime1 = null;
+var cTime2 = null;
 
 function roomSet(room){
   var title = room.title;
@@ -108,6 +111,18 @@ $(document).ready(function(){
     var room = data.room;
     roomSet(room);
   }); 
+
+  socket.on('warewolfStart', function(data){
+    var game = data.game;
+    var people = data.people;
+    var client = $("#myName").text();
+    var jobNum = game.job.indexOf(client);
+    var myJob = game.job[jobNum];
+
+    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + " 입니다.</span>");
+
+    moveWake(game, people, myJob);
+  });
   // ------------------------------------ //
 
   // ------------- 오목 ------------- //
@@ -120,16 +135,20 @@ $(document).ready(function(){
     mapReset(data.map);
 
     for(var i = 0; i< pane.length; i++){
-      pane[i].addEventListener('click', function(){clickEvent(this, color, turn, map)});
+      pane[i].addEventListener('click', function(){clickEvent(this, color, turn, map, cTurn)});
     }
   })
 
   socket.on('omokStart', function(data){
+    var m = 18;
     var game = data.game;
     var me = document.getElementById('myName').text;
     var job = document.getElementsByClassName('color');
     var showTurn = document.getElementsByClassName('turn');
     var mshowTurn = document.getElementsByClassName('m-users')[0].getElementsByTagName('li');
+    var time = document.getElementsByClassName('time');   
+    var winner = document.getElementsByClassName('winner');
+ 
     turn = data.turn;
     map = game.map;
 
@@ -146,46 +165,109 @@ $(document).ready(function(){
     showTurn[0].style.background = "url('/images/omok.png')";
     showTurn[0].style.backgroundPosition = "-270px 0"; 
     mshowTurn[0].style.backgroundColor = "#ddd";
+    winner[0].style.display = "none";
+
+    cTime1 = setInterval(function(){
+      if(m === 1){
+        clearInterval(cTime1);
+      }else{
+        m -=1;
+        time[0].innerHTML = m;
+      }
+
+    }, 1000);
+
+    cTime2 = setTimeout(function(){
+      if(!cTurn){
+        socket.emit('compulsionTurn', {turn:turn});
+      }
+    }, 18000);
   });
 
   socket.on('turn', function(data){
+    var m = 18;
     var showTurn = document.getElementsByClassName('turn');
     var mshowTurn = document.getElementsByClassName('m-users')[0].getElementsByTagName('li');
+    var time = document.getElementsByClassName('time');
     turn = data.turn;
     map[data.x][data.y] = data.changeValue;
 
     document.getElementsByTagName('table')[0].rows[data.x].cells[data.y].className = data.changeValue;
 
-    if(data.changeValue === "black"){
-      showTurn[0].style.backgroundPosition = "-300px 0";
-      mshowTurn[0].style.background = "none";
-      mshowTurn[1].style.backgroundColor = "#ddd";
-    }else{
-      showTurn[0].style.backgroundPosition = "-270px 0";    
-      mshowTurn[0].style.backgroundColor = "#ddd";
-      mshowTurn[1].style.background = "none";
-    }
+    changeTurn(data.changeValue);
+    cTurn = false;
+    
+    clearInterval(cTime1);
+    clearTimeout(cTime2);
+
+    cTime1 = setInterval(function(){
+      if(m === 1){
+        clearInterval(cTime1);
+      }else{
+        m -=1;
+        time[0].innerHTML = m;
+      }
+    }, 1000);
+
+    cTime2 = setTimeout(function(){
+      if(!cTurn){
+        socket.emit('compulsionTurn', {turn:turn});
+      }
+    }, 18000);
   });
 
   socket.on('cTurn', function(data){
+    var m = 18;
+    var time = document.getElementsByClassName('time');
     turn = data.turn;
+
+    clearInterval(cTime1);
+    clearTimeout(cTime2);
+    changeTurn(data.cTurn);
+
+    cTime1 = setInterval(function(){
+      if(m === 1){
+        clearInterval(cTime1);
+      }else{
+        m -=1;
+        time[0].innerHTML = m;
+      }
+    }, 1000);
+
+    cTime2 = setTimeout(function(){
+      if(!cTurn){
+        socket.emit('compulsionTurn', {turn:turn});
+      }
+    }, 18000);
+
   });
 
-  socket.on('result', function(data){
+  socket.on('omokResult', function(data){
+    var winner = document.getElementsByClassName('winner');
+ 
+    turn = null;
+    clearInterval(cTime1);
+    clearTimeout(cTime2);
+    cTime1 = null;
+    cTime2 = null;
+
+    document.getElementsByTagName('table')[0].rows[data.x].cells[data.y].className = data.result;
+
     switch(data.result){
       case "draw":
-        alert("무승부");
+        winner[0].innerHTML = "무승부";
         break;
       case "black":
-        alert("검은돌 승리!");
+        winner[0].innerHTML = data.black + "<br /> 승리!";
         break;
       case "white":
-        alert("흰돌 승리!");
+        winner[0].innerHTML = data.white + "<br /> 승리!";
         break;
       default:
         break;
     }; 
-    turn = null; 
+
+    winner[0].style.display = "block";
   });
 
   // ------------------------------------ //
@@ -193,4 +275,5 @@ $(document).ready(function(){
   socket.on('errorOutput',function(){
     location.href = "/users/logout";
   });
+
 });

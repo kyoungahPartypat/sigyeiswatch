@@ -134,7 +134,8 @@ function seer(game, myJob){
     surplusCard(game.card, myJob);
     popup.open();
     closePopup(popup);
-
+   
+    if(document.getElementById())
   }
 };
 

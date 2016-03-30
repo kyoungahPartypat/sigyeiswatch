@@ -59,13 +59,10 @@ var mapReset = function(map){
 }
 
 
-var clickEvent = function(element, color, turn, map){
+var clickEvent = function(element, color, turn, map, cTurn){
   var x = element.parentNode.rowIndex;
   var y = element.cellIndex;
 
-  console.log(x);
-  console.log(y);  
-  
   if(color === turn && map[x][y] !== 'black' && map[x][y] !== 'white'){
     socket.emit('checkPoint', {turn:turn, x:x, y:y});
     cTurn = true;
@@ -74,4 +71,17 @@ var clickEvent = function(element, color, turn, map){
   }
 };
 
+var changeTurn = function(color){
+  var showTurn = document.getElementsByClassName('turn');
+  var mshowTurn = document.getElementsByClassName('m-users')[0].getElementsByTagName('li');
 
+  if(color === "black"){
+    showTurn[0].style.backgroundPosition = "-300px 0";
+    mshowTurn[0].style.background = "none";
+    mshowTurn[1].style.backgroundColor = "#ddd";
+  }else{
+    showTurn[0].style.backgroundPosition = "-270px 0";
+    mshowTurn[0].style.backgroundColor = "#ddd";
+    mshowTurn[1].style.background = "none";
+  }
+};

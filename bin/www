@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+var cluster = require('cluster'), coreCnt = require('os').cpus().length;
 
 var app = require('../app');
 var debug = require('debug')('sigyeiswatch:server');
@@ -13,23 +14,41 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var server = http.createServer(app);
+app.io.attach(server);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+if(cluster.isMaster){
+  for(var i = 0; i < coreCnt; i++){
+    cluster.fork();
+  }
 
-app.io.attach(server);
+  cluster.on("exit", function(worker, code, signal){
+    console.log("worker " + worker.process.pid + "exit");
+  });
+
+  cluster.on("online", function(worker){
+    console.log("worker %s (%S) online", worker.id, worker.process.pid);
+  });
+
+  cluster.on("listening", function(worker, address){
+    console.log("worker %s listening %s:%s", worker.id, address.address, address.port);  
+  });
+}else{
+  console.log(" worker:=' %s'", process.pid);
+  app.set('port', port);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.
