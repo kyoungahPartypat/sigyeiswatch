@@ -12,7 +12,8 @@
   #lobby > #lobbyChat > #userList > li{width:100%; padding:5px 0; border-bottom:1px solid #d3d3d3}
   #lobby > #lobbyChat > #userList > li:last-child{border-bottom:none}
   #lobby > #lobbyChat > #message{float:none; width:100%; height:100%; margin-top:10px; margin-bottom:5px; background-color:#d3d3d3; padding:10px; overflow:auto}
-  #lobby > #lobbyChat > #message > span.chat_text{display:block; line-height:23px;}
+  #lobby > #lobbyChat > #message > span.chat-text{display:block; line-height:23px;}
+  #lobby > #lobbyChat > #message > span.system-text{font-weight:600} 
   #lobby > #lobbyChat > #message > span.text > span.user{width:80px}
 }
 

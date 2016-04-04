@@ -1,8 +1,8 @@
 var socket = io.connect('http://sigyeiswatch.com',{ 
-  'connect timeout': 10000,
+  'connect timeout': 2000,
   'reconnect': true,
-  'reconnection delay': 500,
-  'reconnection attempts': 10
+  'reconnection delay': 1000,
+  'max reconnection attempts': 5
 });
 
 function createRoom(title, type, count){
@@ -10,7 +10,7 @@ function createRoom(title, type, count){
 }
 
 function divEscapedContentElement(message){
-  var chatText = $("<span class = 'chat_text'></span>");
+  var chatText = $("<span class = 'chat-text'></span>");
   var user = $("<span class = 'user'></span>").text(message.user);
   var chat = $("<span class = 'text'></span>").text(message.msg);
   chatText.append(user);
@@ -29,9 +29,15 @@ $(document).ready(function(){
  
   $("#send-message").keyup(function(event){
     if(event.which == 13){
-      socket.emit('lobbyChat', {msg:$(this).val()});
-      $(this).val("");
-      $(this).focus();
+      var text = $(this).val();
+   
+      if(text.length <= 0){ 
+        $(this).focus();
+      }else{     
+        socket.emit('lobbyChat', {msg:$(this).val()});
+        $(this).val("");
+        $(this).focus();
+      }
     }  
   });
 
@@ -52,6 +58,12 @@ $(document).ready(function(){
     }else{
       createRoom(title, type, count);
     }
+  });
+
+
+  socket.on('systemMessage', function(data){
+    $("#message").append("<span class = 'chat-text system-text'>" + data.msg + "</span>");
+    $("#message").scrollTop($("#message").prop('scrollHeight'));
   });
 
   socket.on('lobbyMsg', function(data){
@@ -78,13 +90,19 @@ $(document).ready(function(){
     $("#room-list > tbody").empty(); 
     var tr = $('<tr class = "rooms"></tr>');
     var rooms = data.rooms;
+    var type = null;
 
     if(data.rooms.length <= 0){
        tr.append("<td colspan = '5'>개설된 방이 없습니다.</td>");
        $("#room-list > tbody").append(tr);
     }else{ 
       for(var i = 0; i<data.rooms.length; i++){
-        tr.append("<td class = 'no hidden-xs'>" + rooms[i].num + "</td>");
+        if(rooms[i].type === "omok"){
+          type = "오목";
+        }else{
+          type = "웨어울프";
+        }
+        tr.append("<td class = 'type'>" + type + "</td>");
         tr.append("<td class = 'title' onclick = 'joinRoom(" + rooms[i].num + ")'>" + rooms[i].title + "</td>");
         tr.append("<td class = 'owner hidden-xs'>" + rooms[i].owner + "</td>");
         tr.append("<td class = 'people'>" + rooms[i].people.length + "/" +  rooms[i].count + "</td>");

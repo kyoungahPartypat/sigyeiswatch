@@ -8,30 +8,40 @@ block content
     table(id = "room-list" class = "table table-hover")
       thead
         tr
-         th(width = "70" class = "hidden-xs") 방번호
-         th(width = "60%") 방제목 
-         th(width = "150" class = "hidden-xs") 방장
-         th(width = "100") 인원
-         th(width = "100") 상태
+         th(width = "90") 타입
+         th(width = "50%") 방제목 
+         th(width = "130" class = "hidden-xs") 방장
+         th(width = "90") 인원
+         th(width = "90") 상태
       tbody
     button(type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm") 방만들기 
     div(id = "create-dialog" class = "modal fade bs-example-modal-sm" tabindex = "-1" role = "dialog" aria-labelledby = "mySmallModalLabel") 
       div(class = "modal-dialog modal-sm")
         div.modal-content
-          form(method = "post" id = "send-form")
+          form(method = "post" id = "send-form" class = "form-horizontal")
             div.modal-header
               button(type = "button" class = "close" data-dismiss = "modal" aria-label="Close")
                 span(aria-hidden = "true")
               h4 방만들기
             div.modal-body
-              input(type = "text" id = "roomTitle")
-              select(id = "type" name = "type" onchange = "javascript:changeType();")타입
-                option(value = "warewolf") 웨어울프
-                option(value = "omok") 오목
-              select(id = "userCount") 인원수
-                option(value = "3") 3
-                option(value = "5") 5
-                option(value = "7") 7
+              div
+                div.form-group
+                  label(for  = "roomTitle" class = "col-sm-3 control-label") 방제
+                  div.col-sm-9
+                    input(type = "text" id = "roomTitle" class = "form-control")
+                div.form-group
+                  label(for = "roomTitle" class = "col-sm-3 control-label") 타입
+                  div.col-sm-9 
+                    select(id = "type" name = "type" class = "form-control" onchange = "javascript:changeType();") 타입
+                      option(value = "warewolf") 웨어울프
+                      option(value = "omok") 오목
+                div.form-group
+                  label(for = "userCount" class = "col-sm-3 control-label")  인원수
+                  div.col-sm-9
+                    select(id = "userCount" class = "form-control")
+                      option(value = "3") 3
+                      option(value = "5") 5
+                      option(value = "7") 7
             div.modal-footer
               button(type = "submit" class = "btn btn-primary") 만들기
     div#lobbyChat
@@ -47,9 +57,9 @@ block content
       var sIndex = select.selectedIndex;
      
       if(select.children[sIndex].value === "omok"){
-        document.getElementById("userCount").style.display = "none"
+        document.getElementsByClassName("form-group")[2].style.display = "none"
       }else{
-        document.getElementById("userCount").style.display = "block" 
+        document.getElementsByClassName("form-group")[2].style.display = "block" 
       }
     };
 

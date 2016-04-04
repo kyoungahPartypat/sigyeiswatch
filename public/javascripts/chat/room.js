@@ -1,8 +1,8 @@
 var socket = io.connect('http://sigyeiswatch.com',{ 
-  'connect timeout': 10000,
+  'connect timeout': 2000,
   'reconnect': true,
-  'reconnection delay': 500,
-  'reconnection attempts': 10
+  'reconnection delay': 1000,
+  'max reconnection attempts': 5
 });
 
 var color = null;
@@ -40,7 +40,7 @@ function systemMessage(message){
 function processUserInput(chatApp, socket){
   var text = $("#send-message").val();
   if(text.length <= 0){
-    $("#send-message")
+    $("#send-message").focus();
   }else if(text.charAt(0) == '/'){
     chatApp.processCommand(text);
   }else{
@@ -51,17 +51,50 @@ function processUserInput(chatApp, socket){
 }
 
 function gameSet(){
-  socket.emit("gameSet", {});
+  var userLength = $("div.p-users > ul.user-list > li.show-user").length;
+  
+  socket.emit("gameSet", {userList:userLength});
+}
+
+function gameStart(){
+  $("#message").empty();
+  $("#message").append("<span class = 'chat-text system-text'>게임을 시작합니다</span>");
 }
 
 function ownerButton(owner){
   var client = $("a.name").text();
-  console.log(owner); 
+
   if(client == owner){
     $("span.button").append("<button id = 'start' onclick = 'javascript:gameSet();' class = 'btn btn-success'>게임시작</button>");
   }else{
     $("span.button").empty();
   }
+}
+
+function omokResult(result){
+  var winner = document.getElementsByClassName('winner');
+ 
+  turn = null;
+  clearInterval(cTime1);
+  clearTimeout(cTime2);
+  cTime1 = null;
+  cTime2 = null;
+
+  switch(result.result){
+    case "draw":
+      winner[0].innerHTML = "무승부";
+      break;
+    case "black":
+      winner[0].innerHTML = result.black + "<br /> 승리!";
+      break;
+    case "white":
+      winner[0].innerHTML = result.white + "<br /> 승리!";
+      break;
+    default:
+      break;
+  }; 
+
+  winner[0].style.display = "block";
 }
 
 $(document).ready(function(){
@@ -74,7 +107,7 @@ $(document).ready(function(){
     var length = data.users.length;
     
     for(var i = 0; i < length; i++){
-      var li = $("<li>" + data.users[i] + "</li>");
+      var li = $("<li class = 'show-user'>" + data.users[i] + "</li>");
       var div = $("<div class = 'm-color'></div>");
       $("ul.user-list").append(li);
       $("div.m-users > div > ul.omok-user-list > li").append(div);
@@ -86,6 +119,11 @@ $(document).ready(function(){
       processUserInput(chatApp, socket);
       $(this).val('');
     }
+  });
+
+  socket.on('systemMessage', function(data){
+    $("#message").append("<span class = 'chat-text system-text'>" + data.msg + "</span>");
+    $("#message").scrollTop($("#message").prop('scrollHeight'));
   });
 
   socket.on('message', function(data){
@@ -116,12 +154,17 @@ $(document).ready(function(){
     var game = data.game;
     var people = data.people;
     var client = $("#myName").text();
-    var jobNum = game.job.indexOf(client);
+    var jobNum = people.indexOf(client);
     var myJob = game.job[jobNum];
-
+   
+    gameStart();
     $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + " 입니다.</span>");
 
-    moveWake(game, people, myJob);
+    socket.emit('firstTurn', {game:game, myJob:myJob});
+  });
+
+  socket.on('moveNight', function(data){
+    moveNight(data);
   });
   // ------------------------------------ //
 
@@ -151,8 +194,9 @@ $(document).ready(function(){
  
     turn = data.turn;
     map = game.map;
-
+    
     mapReset(game.map);
+    gameStart();
 
     if(me === game.black){
       color = 'black';
@@ -173,6 +217,7 @@ $(document).ready(function(){
       }else{
         m -=1;
         time[0].innerHTML = m;
+        time[1].innerHTML = m;
       }
 
     }, 1000);
@@ -231,6 +276,7 @@ $(document).ready(function(){
       }else{
         m -=1;
         time[0].innerHTML = m;
+        time[1].innerHTML = m;
       }
     }, 1000);
 
@@ -243,31 +289,15 @@ $(document).ready(function(){
   });
 
   socket.on('omokResult', function(data){
-    var winner = document.getElementsByClassName('winner');
- 
-    turn = null;
-    clearInterval(cTime1);
-    clearTimeout(cTime2);
-    cTime1 = null;
-    cTime2 = null;
-
+    var result = data;
     document.getElementsByTagName('table')[0].rows[data.x].cells[data.y].className = data.result;
+    omokResult(result);
 
-    switch(data.result){
-      case "draw":
-        winner[0].innerHTML = "무승부";
-        break;
-      case "black":
-        winner[0].innerHTML = data.black + "<br /> 승리!";
-        break;
-      case "white":
-        winner[0].innerHTML = data.white + "<br /> 승리!";
-        break;
-      default:
-        break;
-    }; 
+  });
 
-    winner[0].style.display = "block";
+  socket.on('omokCResult', function(data){
+    var result = data;
+    omokResult(result);
   });
 
   // ------------------------------------ //

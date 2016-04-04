@@ -25,7 +25,7 @@ block content
       div(class = "form-group err4")
         label(for="username" class = "col-sm-2 control-label") 이름
         div.col-sm-10
-          input(type = "text" name = "name" class = "form-control" id = "username" placeholder = "닉네임" maxLength = "10")
+          input(type = "text" name = "name" class = "form-control" id = "username" placeholder = "닉네임" maxLength = "8")
           span.chk
       div(class = "form-group text-center")
         button(type = "submit" class = "btn btn-info" id = "ok") 회원가입
@@ -110,8 +110,8 @@ block content
       
       var regExp = /[0-9]|[a-z]|[A-Z]|[가-힣]/;
   
-      if(name.length < 2 || name.length > 10){
-        $("div.err4 > div > span.chk").text("닉네임은 2자 이상 10자 이하여야 합니다.");
+      if(name.length < 2 || name.length > 8){
+        $("div.err4 > div > span.chk").text("닉네임은 2자 이상 8자 이하여야 합니다.");
         $("div.err4 > div > span.chk").css("display", "block");
         namechk = false;
       }else if(!name.match(regExp)){

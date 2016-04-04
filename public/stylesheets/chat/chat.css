@@ -1,9 +1,8 @@
 ﻿/*==========  Mobile First Method  ==========*/
 
-/* Custom, iPhone Retina */ 
-@media only screen and (min-width : 320px) {
   #chat{width:100%; margin:15px auto}
 
+  #chat > div.top{margin-bottom:10px}
   #chat > div.top > strong{font-size:13px}
   #chat > div.top > span{font-size:11px; color:#999; margin-top:5px}
  
@@ -15,33 +14,39 @@
   
   #chat > div.content > div.p-users > ul > li{padding:5px 0; border-bottom:1px solid #d3d3d3}
 
-  #chat > div.content > div.m-users{display:block}
+  #chat > div.content > div.m-users{display:block; height:50px; margin:5px 0}
   #chat > div.content > div.m-users > ul.user-list{margin:5px 0}
   #chat > div.content > div.m-users > ul:after{content: " "; display:block; clear:both}
   #chat > div.content > div.m-users > ul.user-list > li{float:left; margin-left:5px; padding:5px}
   #chat > div.content > div.m-users > ul.user-list > li:last-child{margin-left:0}
 
   /*오목*/
-  #chat > div.content > div.p-users > div.omok-info{position:absolute; width:100%; height:120px; top:0; background:none; border:1px solid #d3d3d3; text-align:center}
+  #chat > div.content > div.p-users > div.omok-info{position:absolute; width:100%; height:130px; top:0; background:none; border:1px solid #d3d3d3; text-align:center}
   #chat > div.content > div.p-users > div > span.color{display:inline-block; width:100%; height:30px; background-color:#999; line-height:30px; color:#FFF}
   #chat > div.content > div.p-users > div.omok-info > div > span{line-height:25px}
   #chat > div.content > div.p-users > div.omok-info > div > div.turn{width:30px; height:30px; margin:10px auto; border-radius:100px}
+  #chat > div.content > div.p-users > div.omok-info > div > div.time{font-size:15px}
 
-  #chat > div.content > div.p-users > ul.omok-user-list{position:absolute; width:100%; height:170px; bottom:0; padding:3px; border:1px solid #d3d3d3}
+  #chat > div.content > div.p-users > ul.omok-user-list{position:absolute; width:100%; height:160px; bottom:0; padding:3px; border:1px solid #d3d3d3}
 
-  #chat > div.content > div.m-users > ul.omok-user-list > li{width:50%; height:20px; text-align:center; margin:0; float:left}
-  #chat > div.content > div.m-users > ul.omok-user-list:after{display:block; content: " "; clear:both}
+  #chat > div.content > div.m-users:after{content:" "; display:block; clear:both}
+  #chat > div.content > div.m-users > div.box > ul.omok-user-list > li{width:50%; height:20px; text-align:center; margin:0; float:left}
+  #chat > div.content > div.m-users > div.box > ul.omok-user-list:after{display:block; content: " "; clear:both}
 
-  #chat > div.content > div.m-users > div.omok-info{width:100%; margin:3px 0;}
-  #chat > div.content > div.m-users > div.omok-info:after{display:block; content:" "; clear:both}
-  #chat > div.content > div.m-users > div.omok-info > div{width:50%; float:left}
-  #chat > div.content > div.m-users > div.omok-info > div > div.m-color{width:21px; height:21px; margin: 0 auto; border-radius:100px; background:url('/images/omok.png') no-repeat; background-size:auto 21px} 
-  #chat > div.content > div.m-users > div.omok-info > div:first-of-type > div.m-color{background-position:-189px 0;}
-  #chat > div.content > div.m-users > div.omok-info > div:last-of-type > div.m-color{background-position:-210px 0}
+  #chat > div.content > div.m-users > div.box{float:left; height:100%}
+  #chat > div.content > div.m-users > div.box-one{width:80%}
+  #chat > div.content > div.m-users > div.box-two{width:20%; text-align:center}
+  #chat > div.content > div.m-users > div.box > div.omok-info{width:100%; margin:3px 0;}
+  #chat > div.content > div.m-users > div.box > div.omok-info:after{display:block; content:" "; clear:both}
+  #chat > div.content > div.m-users > div.box > div.omok-info > div{width:50%; float:left}
+  #chat > div.content > div.m-users > div.box > div.time{width:100%; height:100%; line-height:50px; border:1px solid #ddd}
+  #chat > div.content > div.m-users > div.box > div.omok-info > div > div.m-color{width:21px; height:21px; margin: 0 auto; border-radius:100px; background:url('/images/omok.png') no-repeat; background-size:auto 21px} 
+  #chat > div.content > div.m-users > div.box > div.omok-info > div:first-of-type > div.m-color{background-position:-189px 0;}
+  #chat > div.content > div.m-users > div.box > div.omok-info > div:last-of-type > div.m-color{background-position:-210px 0}
 
   #chat > div.content > #pane{width:315px; height:315px; margin: 0 auto; position:relative;} 
-  #chat > div.content > #pane > div.winner{position:absolute; top:50%; left:50%; margin:-15px 0 0 -50px; width:100px; height:30px; font-size:14px; color:#FFF; font-weight:bold; text-align:center; text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; line-height:24px}
-  #chat > div.content > #pane > table{width:100%} 
+  #chat > div.content > #pane > div.winner{position:absolute; top:50%; left:50%; margin:-50px 0 0 -75px; width:150px; height:100px; font-size:15px; color:#FFF; font-weight:bold; text-align:center; text-shadow:3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; line-height:24px; z-index:2;}
+  #chat > div.content > #pane > table{position:absolute; width:100%; top:0; left:-12px; z-index:1}
   #chat > div.content > #pane > table > tbody > tr > td{width:21px; height:21px; background:url('/images/omok.png'); background-size:auto 21px; cursor:pointer}
   #chat > div.content > #pane > table > tbody > tr > td.lt{background-position:0 0}
   #chat > div.content > #pane > table > tbody > tr > td.t{background-position:-21px 0}
@@ -58,6 +63,7 @@
   #chat > div.content > div.message{float:none; width:100%; height:300px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
   #chat > div.content > div.o-message{float:none; width:100%; height:80px; margin-top:15px; margin-bottom:5px;  border: 1px solid #d3d3d3; padding:10px; overflow:auto}
   #chat > div.content > #message > span.chat-text{display:block; line-height:23px;}
+  #chat > div.content > #message > span.system-text{font-weight:600}
   #chat > div.content > #message > span.text > span.user{width:80px}
 
   #chat > div.bottom > span.button > button{margin-top:5px}
@@ -75,6 +81,9 @@
   #popup > div.popup-content > #jobActive > ul > li{float:left; width:89px; height:100%; margin-right:5px; background-color:#999}
   #popup > div.popup-content > #jobActive > ul > li:last-child{margin-right:0}
 
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 360px) {
+  #chat > div.content > #pane > table{left:0}
 }
 
 /* Extra Small Devices, Phones */ 
@@ -84,9 +93,12 @@
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
-  #chat > div.content > div.users{display:none}
-
-
+  #chat > div.top > strong{font-size:16px}
+  #chat > div.top span{font-size:13px}
+  
+  #chat > div.content > div.m-users{display:none}
+  #chat > div.content > div.p-users{display:block}
+  #chat > div.content > div.message{float:right; width:760px}
 
   #chat > div.content > #pane{width:450px; height:450px; margin: 0 auto} 
   #chat > div.content > #pane > table{width:100%} 
@@ -111,12 +123,6 @@
 @media only screen and (min-width : 992px) {
   #chat{width:874px}
 
-  #chat > div.top > strong{font-size:16px}
-  #chat > div.top span{font-size:13px}
-  
-  #chat > div.content > div.m-users{display:none}
-  #chat > div.content > div.p-users{display:block}
-  #chat > div.content > div.message{float:right; width:760px}
 }
 
 /* Large Devices, Wide Screens */

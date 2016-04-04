@@ -135,7 +135,6 @@ function seer(game, myJob){
     popup.open();
     closePopup(popup);
    
-    if(document.getElementById())
   }
 };
 
@@ -232,12 +231,12 @@ function insomeniac(myJob){
 };
 
 function moveNight(data){
-  var moveWake = data.game.wake;
+  console.log(data);
   var game = data.game;
+  var moveWake = game.wake;
   var myJob = data.myJob;
 
-
-  wake = wake;
+  wake = data.wake;
 
   if(wake < moveWake){
     switch(wake){
@@ -248,7 +247,6 @@ function moveNight(data){
       if(isDoppel != -1 && surDoppel == -1){
         doppelganger(game,  myJob);
       }else{
-        console.log('흐힣');
         socket.emit('nextTurn', {wake:wake});
       }
       break;

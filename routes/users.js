@@ -73,7 +73,7 @@ router.post('/join', function(req, res, next){
         from: '시계 is 와치 <sigye@sigyeiswatch.com>',
         to: req.body.email,
         subject: '시계 is 와치 회원가입 인증메일 입니다 :)',
-        html: '<span>' + req.body.name + '님, 시계 is 와치에 가입한게 맞으시다면 아래의 링크를 클릭해주세요.</span><br/><a href = "http://sigyeiswatch.com/users/join/emailConfirm/'+ req.body.name +'">이메일 인증 완료하기</a>'
+        html: '<span>' + req.body.name + '님, 시계 is 와치에 가입한게 맞으시다면 아래의 링크를 클릭해주세요.</span><br/><a href = "http://sigyeiswatch.com/users/join/emailConfirm/'+ encodeURIComponent(req.body.name) +'">이메일 인증 완료하기</a>'
       }
      
       var user = {
