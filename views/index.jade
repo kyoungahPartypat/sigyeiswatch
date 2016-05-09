@@ -7,10 +7,12 @@ block content
   div.center
     div(class = "random" style="background:url('/images/watch/#{watch.path}') no-repeat center center;")
       div.text
-        span.watch 오늘의 시계는?
+        span.today 오늘의 시계는?
         br
         span.watch= watch.name
 
-    div.ad
-  div.board
-  
+  div.main-board
+    div(class = "board hot")
+      span.txt 인기 글
+    div(class = "board new")
+      span.txt 새 글 

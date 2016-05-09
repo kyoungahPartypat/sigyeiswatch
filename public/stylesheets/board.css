@@ -1,7 +1,5 @@
 /*==========  Mobile First Method  ==========*/
 
-/* Custom, iPhone Retina */ 
-@media only screen and (min-width : 320px) {
   #freeboard{width:100%; margin:15px auto}   
   #freeboard > table tr > th, #freeboard > table tr > td{text-align:center}
 
@@ -23,6 +21,7 @@
 
   #freeboard > div.content{padding:10px 0}
   #freeboard > div.content > p{line-height:24px}
+  #freeboard > div.content > p img{max-width:100%; height:auto}
   #freeboard > div.content > div{width:100%; text-align:center; margin-top:20px}
   #freeboard > div.content > div > #like{padding:3px 7px}
   #freeboard > div.content > div > #like > span{font-size:11px}
@@ -34,17 +33,26 @@
   #freeboard > div.bottom > #comment > div.commentBox > ul > li:last-child{border-bottom:1px solid #ddd}
   #freeboard > div.bottom > #comment > div.commentBox > ul > li.comment > i{position:absolute; top:10px; left:10px}
 
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > span.comment-name{font-size:12px}
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > span.comment-date{margin-left:5px; font-size:11px; color:#999}
-  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div{margin-top:8px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-info > span.comment-name{font-size:12px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-info > span.comment-date{margin-left:5px; font-size:11px; color:#999}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div > p{margin:10px 0 15px}
   #freeboard > div.bottom > #comment > div.commentBox > ul > li > div.re-cmt{margin-left:35px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-btn > button{margin:0 2px}
+  #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-btn > button:first-of-type{margin-left:0}
+   #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-btn > button > i{margin-right:3px}
  
-  #freeboard > div.bottom > #comment > div.commentBox > form:after{clear:both}
+   #freeboard > div.bottom > #comment > div.commentBox > ul > li > div > div.cmt-btn > button > span{font-size:12px}
+ 
+  #freeboard > div.bottom > #comment > div.commentBox > form:after{content:" "; display:block; clear:both}
   #freeboard > div.bottom > #comment > div.commentBox > form > span.user{font-weight:600;}
   #freeboard > div.bottom > #comment > div.commentBox > form >textarea{height:80px; margin:10px 0}
   #freeboard > div.bottom > #comment > div.commentBox > form > button.btn{float:right}
  
   #freeboard > div.bottom > #comment > div.commentBox > div.please-login{text-align:center; box-shadow:none; height:50px; line-height:50px; padding:0}
+
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
 }
 
 /* Extra Small Devices, Phones */ 

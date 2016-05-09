@@ -65,9 +65,10 @@ function ownerButton(owner){
   var client = $("a.name").text();
 
   if(client == owner){
-    $("span.button").append("<button id = 'start' onclick = 'javascript:gameSet();' class = 'btn btn-success'>게임시작</button>");
+    console.log(client);
+    $("div.button > span.owner").append("<button id = 'start' onclick = 'javascript:gameSet();' class = 'btn btn-success'>게임시작</button>");
   }else{
-    $("span.button").empty();
+    $("div.button > span.onwer").empty();
   }
 }
 
@@ -145,6 +146,10 @@ $(document).ready(function(){
   });
 
   // ------------- 웨어울프 ------------- //
+  $("#skip").click(function(){
+    socket.emit('skipVote', {});
+  });
+
   socket.on('setWarewolf', function(data){
     var room = data.room;
     roomSet(room);
@@ -156,15 +161,54 @@ $(document).ready(function(){
     var client = $("#myName").text();
     var jobNum = people.indexOf(client);
     var myJob = game.job[jobNum];
-   
+    console.log(game);   
     gameStart();
-    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + " 입니다.</span>");
 
+    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob.name + " 입니다.</span>");
+    $("span.job").text(myJob.name);   
+ 
     socket.emit('firstTurn', {game:game, myJob:myJob});
   });
 
   socket.on('moveNight', function(data){
-    moveNight(data);
+    var game = data.game;
+    var people = data.people;
+    var myJob = data.myJob;
+    var wake = data.wake;
+    moveNight(game, people, myJob, wake);
+  });
+
+  socket.on('showVote', function(data){
+    var time;
+    var people = data.people;
+    var popDiv = document.getElementById('popup');
+    var jobDiv = document.getElementById('jobActive');
+    var me = document.getElementById('myName').text;
+    var select = document.createElement('select');
+    var popup = new Popup(popDiv, {width:300, height:150});
+
+    select.className = "select-user form-control";
+
+    for(var i = 0; i < people.length; i++){
+      if(people[i] != me){
+        var option = document.createElement('option');
+        option.text = people[i];
+        option.value = people[i];
+        select.appendChild(option);
+      }
+    }
+
+    jobDiv.appendChild(select);
+    popup.open();
+
+    time = setTimeout(function(){
+      socket.emit('voteUser', {vUser: document.getElementsByClassName("select-user")[0].value});
+      while(jobDiv.hasChildNodes()){
+        jobDiv.removeChild(jobDiv.firstChild);
+      }
+      popup.close();
+      clearTimeout(time);
+    }, 8000);
   });
   // ------------------------------------ //
 

@@ -66,7 +66,11 @@
   #chat > div.content > #message > span.system-text{font-weight:600}
   #chat > div.content > #message > span.text > span.user{width:80px}
 
-  #chat > div.bottom > span.button > button{margin-top:5px}
+  #chat > div.bottom > div.button{margin-top:5px}
+  #chat > div.bottom > div.button > span.owner{margin-right:3px}
+  #chat > div.bottom > div.button > span.owner{float:left}
+  #chat > div.bottom > div.button:after{display:block; content:" "; clear:both}
+
 
   /*팝업*/
   div.phide{display:none}
@@ -98,7 +102,8 @@
   
   #chat > div.content > div.m-users{display:none}
   #chat > div.content > div.p-users{display:block}
-  #chat > div.content > div.message{float:right; width:760px}
+
+  #chat > div.content > div.message{float:right; width:610px}
 
   #chat > div.content > #pane{width:450px; height:450px; margin: 0 auto} 
   #chat > div.content > #pane > table{width:100%} 
@@ -122,6 +127,9 @@
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
   #chat{width:874px}
+  #chat > div.content > div.message{float:right; width:760px}
+
+
 
 }
 

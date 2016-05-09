@@ -27,16 +27,17 @@ var Comment = React.createClass({
       return (
         <li className = "comment">
           <div className = "cmt">
-            <div className = "cmtBtn">
-              <button className = "comment-cRecommend" onClick = {this.onCRecommend}>추천</button>
-              <button className = "comment-report" onClick = {this.onCReport}>신고</button>
+
+            <div className = "cmt-info">
+              <span className = "comment-name">{this.props.name}</span>
+              <span className = "comment-date">{this.props.date}</span>
             </div>
-            <span className = "comment-name">{this.props.name}</span>
-            <span className = "comment-date">{this.props.date}</span>
             <div dangerouslySetInnerHTML = {this.rawMarkup()} />
-            <button className = "comment-submit" onClick = {this.onSubmitComment}>
-              <i className = "glyphicon glyphicon-share-alt"></i>답글
-            </button>
+            <div className = "cmt-btn">
+              <button className = "btn btn-primary btn-xs comment-submit" onClick = {this.onSubmitComment}><i className = "glyphicon glyphicon-share-alt" />답글</button>
+              <button className = "btn btn-default btn-xs comment-cRecommend" onClick = {this.onCRecommend}><i className = "glyphicon glyphicon-thumbs-up" />추천</button>
+              <button className = "btn btn-default btn-xs comment-report" onClick = {this.onCReport}><i className = "glyphicon glyphicon-flag" />신고</button>
+            </div>
           </div>
         </li>
       );
@@ -45,13 +46,15 @@ var Comment = React.createClass({
         <li className = "comment">
           <i className = "glyphicon glyphicon-share-alt"></i>
           <div className = "re-cmt">
-            <div className = "cmtBtn">
-              <button className = "comment-cRecommend" onClick = {this.onCRecommend}>추천</button>
-              <button className = "comment-report" onClick = {this.onCReport}>신고</button>
+            <div className = "cmt-info">
+              <span className = "comment-name">{this.props.name}</span>
+              <span className = "comment-date">{this.props.date}</span>
             </div>
-            <span className = "comment-name">{this.props.name}</span>
-            <span className = "comment-date">{this.props.date}</span>
             <div dangerouslySetInnerHTML = {this.rawMarkup()} />
+            <div className = "cmt-btn">
+              <button className = "btn btn-default btn-xs comment-cRecommend" onClick = {this.onCRecommend}><i className = "glyphicon glyphicon-thumbs-up" />추천</button>
+              <button className = "btn btn-default btn-xs comment-report" onClick = {this.onCReport}><i className = "glyphicon glyphicon-flag" />신고</button>
+            </div>
           </div>
         </li>
       );   
@@ -212,7 +215,7 @@ var CommentBox = React.createClass({
     this.loadCommentsFromServer(1);
   },
   pageMove: function(num){
-    var cPage = num + 1;
+    var cPage = num;
 
     this.serverRequest = $.get('/free/comment/?id=' + returnId('id') + '&cPage=' + cPage, function(result){
       var data = result;
@@ -225,10 +228,22 @@ var CommentBox = React.createClass({
   },
   render: function(){
 
-    var arrs = []; 
-   for(var i = 0; i < this.state.page.count; i++){
+    var arrs = [];  
+    console.log(this.state.page);
+    if(this.state.page.block > 1){
       arrs.push(
-        <li key = {i + 1}><a className = "page" href = "javascript:;"  onClick = {this.pageMove.bind(this, i)}>{i + 1}</a></li>
+        <li key = "Previous"><a href = "javascript:;" onClick = {this.pageMove.bind(this, this.state.page.start -1)} aria-label = "Previous"><span>&laquo;</span></a></li>
+      );
+    }
+    for(var i = this.state.page.start; i <= this.state.page.end; i++){
+      arrs.push(
+        <li key = {i}><a className = "page" href = "javascript:;"  onClick = {this.pageMove.bind(this, i)}>{i}</a></li>
+      );
+    }
+
+    if(this.state.page.end != this.state.page.count){
+      arrs.push(
+        <li key = "Next"><a href = "javascript:;" onClick = {this.pageMove.bind(this, this.state.page.end+1)} aria-label = "Next"><span>&raquo;</span></a></li>
       );
     }
 

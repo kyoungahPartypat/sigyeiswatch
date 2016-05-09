@@ -8,20 +8,44 @@ block content
     form(method = "post" id = "writeForm")
       input(type = "text" name = "title" id = "title" placeholder = "제목" class = "form-control")
       textarea(name = "content" id = "content")
+       
       div.button
         button(type = "submit" class = "btn btn-primary") 확인
         button(type = "button" class = "btn btn-default" onclick = "location.href = '/free'") 취소
+
+    div(id = "image" class = "modal fade" role = "dialog")
+      div(class = "modal-dialog modal-sm")
+        div.modal-content
+          form(id = "imageForm" method = "post")
+            div.modal-header
+               h4(id = "imgTitle" class = "modal-title") 이미지 첨부
+            div.modal-body
+              input(type = "file" name = "writeImg" id = "writeImg")
+            div.modal-footer
+              button(type = "button" id = "imgUpload" class = "btn btn-primary") 첨부
+              button(type = "button" class = "btn btn-default" data-dismiss = "modal") 닫기
+ 
 
   script(type = "text/javascript" src = "/tinymce/js/tinymce/tinymce.js")
   script.
     tinyMCE.init({
       //General options
-      selector: "#content",
-      theme: "modern",
-      toolbar: [
-        'undo redo | styleselect | bold italic | link image',
-        'alignleft aligncenter alignright'
-      ]
+      selector: "textarea",
+      language: "ko",
+      menubar:false,
+      relative_urls : false,
+      plugins: "autolink autosave code link media image table textcolor autoresize",
+      toolbar: "undo redo | styleselect | forecolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link media custom_image code ",
+      autoresize_max_width:800,
+      setup: function(editor){
+        editor.addButton('custom_image', {
+          title:"이미지 삽입",
+          icon:"image",
+          onclick:function(){
+            window.open("/free/write_upload","tinymcePop","width=400,height=350");
+          }
+        });
+      }
     });
 
     $('#writeForm').submit(function(){

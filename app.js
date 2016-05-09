@@ -22,7 +22,8 @@ var chatServer = require('./lib/chatServer');
 var secret = "sigye";
 
 var app = express();
-app.io = require('socket.io')(' ', {
+var http = require('http').Server(app);
+app.io = require('socket.io')(http, {
   "transports": ['websocket','flashsocket','htmlfile','xhr-polling','jsonp-polling'], // socket.io 에서 시도하는 연결 순서
   "heartbeat timeout": "pingTimeout",
   "heartbeat interval": "pingInterval" 
@@ -48,7 +49,7 @@ mongoose.createConnection('mongodb://localhost/sigye');
 var store = new MongoStore({mongooseConnection:mongoose.connection, ttl:2*24*60*60});
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: secret, key: 'express.sid', resave: false, saveUninitialized:true,  store:store}));
+app.use(session({secret: secret, key: 'express.sid', resave: false, saveUninitialized:true, cookie:{maxAge:24000 * 60 * 60}, store:store}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {

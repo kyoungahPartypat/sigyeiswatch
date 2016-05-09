@@ -71,9 +71,17 @@ var RankBox = React.createClass({
     return(
       <div className = "rank-box">
         <strong>명예의 전당</strong>
-        <div>
+        <div className = "ranking-box">
           <RankList name = "부자 랭킹" data = {this.state.rich}/>
           <RankList name = "강화 랭킹" data = {this.state.level}/>
+        </div> 
+        <div className = "rank-button">
+          <div>
+            <button type = "button" className = "btn btn-default" onClick = {this.loadRichFromServer}>부자랭킹 갱신</button>
+          </div>
+          <div>
+            <button type = "button" className = "btn btn-default" onClick = {this.loadLevelFromServer}>강화랭킹 갱신</button> 
+          </div>
         </div>
       </div>
     );

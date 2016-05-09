@@ -26,8 +26,9 @@ block content
     div.bottom
       span#name
       input(id = "send-message" class = "form-control") 
-      span.button
-
+      div.button
+        button(id = "skip" class = "btn btn-default") 스킵
+        span.owner
   
   script(src = "/socket.io/socket.io.js")
   script(src = "/javascripts/plugin/simple-popup.js")

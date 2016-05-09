@@ -31,15 +31,17 @@ block content
         
     div#page
       ul.pagination
-        li
-          a(href = "#" aria-label = "Previous")
-            span(aria-hidden = "true") &laquo;
-        - for (var i = 0; i < page.count; i++)
+        if(page.block > 1)
           li
-            a(href = "/free/?page=#{i+1}")  #{i+1}
-        li
-          a(href = "#" aria-label = "Next")
-            span(aria-hidden = "true") &raquo;
+            a(href = "/photos/?page=#{page.start-1}" aria-label = "Previous")
+              span(aria-hidden = "true") &laquo;
+        - for (var i = page.start; i <= page.end; i++)
+          li
+            a(href = "/photos/?page=#{i}")  #{i}
+        if(page.end != page.count)
+          li
+            a(href = "/photos/?page=#{page.end+1}" aria-label = "Next")
+              span(aria-hidden = "true") &raquo;
 
     button(type = "button" class = "btn btn-primary" onclick = "location.href='/photos/upload'") 업로드
 

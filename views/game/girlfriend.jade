@@ -94,8 +94,8 @@ block content
         button(id = "save" class = "btn btn-default") 저장 
       div(class = "girlfriend-text")
         p.description
-    div(class = "game car")
-      div.car-text
+    div(class = "game car end")
+      div(class = "bye-text")
         strong 차였습니다 ㅠㅠ
         br
         span 위로금 : 
@@ -115,17 +115,20 @@ block content
         button(class = "btn btn-default restart") 재회
         br
         button(class = "btn btn-default start") 다시하기
-    div(class = "game bye")
-      span 헤어졌습니다
-      br
-      span 위로금 : 
-      span.compensation 
-      span
-        span.money
-        | ( +
-        span.plus-money
-        | )원
-      button.start 다시하기
+    div(class = "game bye end")
+      div(class = "bye-text")
+        strong 헤어졌습니다
+        br
+        span 위로금 : 
+        span.compensation 
+        span
+          span.money
+          | ( +
+          span.plus-money
+          | )원
+        br
+      div.button
+        button(class = "btn btn-default start") 다시하기
     div(id = "store" class = "modal fade" role = "dialog")
       div.modal-dialog
         div.modal-content
@@ -134,25 +137,25 @@ block content
           div.modal-body 
             ul.store-list
               li.noFarewell
-                button(type = "button" class = "product btn btn-default" value = "50000")
-                  | 이별 방지권
+                button(type = "button" class = "product btn btn-default" value = "80000")
+                  | 이별방지권
                   br
-                  | 50,000원
+                  | 80,000원
               li.fiveNoFarewell
-                button(type = "button" class = "product btn btn-default" value = "240000") 
-                  | 이별 방지권(X 5)
+                button(type = "button" class = "product btn btn-default" value = "320000") 
+                  | 이별방지권(X 5)
                   br 
-                  | 240,000원
+                  | 320,000원
               li.tenNoFarewell
-                button(type = "button" class = "product btn btn-default" value = "400000")
-                  | 이별 방지권(X 10)
+                button(type = "button" class = "product btn btn-default" value = "720000")
+                  | 이별방지권(X 10)
                   br
-                  | 400,000원
+                  | 720,000원
               li.milionNoFarewell
-                button(type = "button" class = "product btn btn-default" value = "4750000") 
-                  | 이별 방지권(X 100)
+                button(type = "button" class = "product btn btn-default" value = "7920000") 
+                  | 이별방지권(X 100)
                   br 
-                  | 4,750,000원
+                  | 7,920,000원
               li.present
                 button(type = "button" class = "product btn btn-default" value = "10000") 
                   | 선물
@@ -233,10 +236,10 @@ block content
     var girlfriend = null;
 
     //전광판 문구 배열
-    var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '난이도가 어려운건 현실반영을 했기 때문이죠', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑', '사실상 제비뽑기겜...'];
+    var tipArr = ['로그인을 하면 저장도 할 수 있어요!', '성별 비하목적은 조금도 없어요', '강화 재료를 틈틈히 모아두는게 좋아요', '상위 랭커가 한번 되어보세요!', '발로 코딩했어요 흑흑', '사실상 제비뽑기겜...'];
 
     //제비뽑기 배열
-    var lotsArr = ["꽝", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "집", "꽝", "땅문서", "꽝", "꽝",  100000000];
+    var lotsArr = ["꽝", "이별 방지권", "꽝", 100, "꽝", "꽝", "선물", "꽝", "꽝", "커플링", "꽝", 5000, "꽝", "꽝", "선물", "꽝",  "커플링", "꽝",  "꽝",  "차", "꽝", "꽝", "꽝", "꽝", "집", "꽝", "꽝", "땅문서", "꽝", "꽝",  100000000, "꽝", "꽝"];
 
     //여자친구 생성자 함수
     function Girlfriend(girl){
@@ -271,8 +274,8 @@ block content
     //스위치
     var upBool = false;  //강화 스위치
     var saveBool = false;  //저장 스위치
-    var continueBool = false; //이어하기 스위치 
-  
+    var continueBool = false; //이어하기 스위치
+
     //위로금 넣어주는 함수
     function plusMoney(money){
       myInfo.setPItem(0, money);
@@ -358,7 +361,7 @@ block content
                 data: {idx:row.level},
                 url:'/game/girlfriend/up',
                 success: function(data){
-                  console.log(data.idx);
+                  
                   if(data.result){
                     $('p.description').html("오류 발생;<br/> 한번 더 클릭해주세요 ");
                   }else{
@@ -384,8 +387,6 @@ block content
                 }
               });
 
-            }else{
-
             }
 
             $("button.start").click();
@@ -405,7 +406,6 @@ block content
           upBool = true;
           
           if(randNum < percent){   
-            console.log("확률: " + percent + ", 나온숫자: " + randNum);
             myInfo.setMItem(0, girlfriend.getArr(4));
             myInfo.setMItem(2, girlfriend.getArr(5));
             myInfo.setMItem(3, girlfriend.getArr(6));
@@ -490,7 +490,7 @@ block content
     $("button.restart").click(function(){
       
       if(myInfo.getItem(1) < girlfriend.getArr(3)){
-        $("span.nLabel").text("이별 방지권이 모자랍니다.");
+        $("span.nLabel").text("이별방지권이 모자랍니다.");
 
         setTimeout(function(){
           $("span.nLabel").text(" ");
@@ -666,7 +666,9 @@ block content
       $("span.money").text(myInfo.getItem(0));
       $('#lots').modal('hide');
     
-
+      setTimeout(function(){
+        $("span.notice").text(" ");
+      }, 2000);
     });
 
 
@@ -687,7 +689,7 @@ block content
               if(data.result == "saved"){
                 $("span.notice").text("저장 되었습니다.");
               }else{
-                $("span.notice").tet("서버 오류발생!");
+                $("span.notice").text("서버 오류발생!");
               }
             },
             error:function(request, status, error){

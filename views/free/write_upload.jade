@@ -1,0 +1,57 @@
+doctype html
+html(lang="ko")
+  header
+   link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous") 
+   link(rel="stylesheet" href="/stylesheets/board.css")
+   script(src = "http://code.jquery.com/jquery.js")
+   script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", crossorigin="anonymous")
+  
+  body.container
+    form(method = "post" enctype="multipart/form-data")
+      div.modal-header
+        h4.modal-title 이미지 첨부
+      div.modal-body
+        input(type = "file" name = "writeImg" id = "writeImg")
+      div.modal-footer
+        button(type = "submit" class = "btn btn-primary") 첨부
+        button(type = "button" onClick = "javascript:popupClose();" class = "btn btn-default" data-dismiss = "modal") 닫기
+
+    script.
+      var popupClose = function(){
+        self.close();
+      }
+
+      var getFileType = function(filePath){
+        var index = -1;
+        var type = null;
+    
+        index = filePath.lastIndexOf('.');
+
+        if(index != -1){
+          type = filePath.substring(index+1, filePath.len);
+        }else{
+          type = null;
+        }
+
+        return type;
+      }
+
+
+    script.
+      $("form").submit(function(){
+        var fileValue = $("#writeImg").val();
+        var src = getFileType(fileValue);
+        var maxSize = 10485760;
+        var fileSize = Math.round(fileValue.fileSize);
+        console.log(fileSize);
+
+        if(src.toLowerCase() != "jpg" && src.toLowerCase() != "png" && src.toLowerCase() != "gif"){
+          alert("이미지 파일만 업로드 할 수 있습니다!");
+          return false;
+        }
+
+        if(fileSize > maxSize){
+          alert("10MB 이내 크기의 이미지만 첨부 가능합니다!");
+          return false;
+        }
+      });

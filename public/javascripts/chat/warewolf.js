@@ -1,23 +1,26 @@
 var popDiv = document.getElementById('popup');
 var jobDiv = document.getElementById('jobActive');
-var cardClick = 0, wake = 0;
 
+//잉여 카드 클릭하면 보여주는 함수
 function showCard(li, card){
   var surplusCard = document.getElementsByClassName('surplus-card');
 
   for( var i = 0; i < surplusCard.length; i++){
     if(surplusCard[i] == li){
-      li.innerHTML = card[i];
+      li.innerHTML = card[i].name;
     }
   }
 }
 
+//유저 목록 셀렉트 삼입하는 함수
 function selectUsers(people, myJob){
   var me = document.getElementById('myName').text;
   var select = document.createElement('select');
- 
-  select.onchange = function(){
-    if(myJob == "천리안"){
+  select.className = "select-user form-control"; 
+
+  //천리안은 카드랑 유저선택중 하나만 가능합니다 :)
+  select.onclick = function(){
+    if(myJob.name == "천리안"){
       var ul = document.getElementById('cards');
 
       if(ul){
@@ -30,7 +33,7 @@ function selectUsers(people, myJob){
     if(people[i] != me){
       var option = document.createElement('option');
       option.text = people[i];
-      option.value = i;
+      option.value = people[i];
       select.appendChild(option);
     }
   }
@@ -41,39 +44,29 @@ function selectUsers(people, myJob){
 
 function surplusCard(card, myJob){
   var ul = document.createElement('ul');
+  var cardClick = 0;
+
   ul.id = "cards";
  
   for(var i = 0; i < card.length; i++){
-
     var li = document.createElement('li');
+
     li.className = "surplus-card";
     li.onclick = function(){
       cardClick++;
  
-      if(myJob == "천리안"){
+      if(myJob.name == "천리안"){
         var select = document.getElementsByTagName('select');
 
         if(select[0]){
            jobDiv.removeChild(select[0]);
         }
       }
-      
-      if(myJob == "취객"){
-        if(cardClick <=1){
-          var surplusCard = document.getElementsByClassName('surplus-card');
 
-          for( var i = 0; i < surplusCard.length; i++){
-            if(surplusCard[i] == this){
-              socket.emit("showDrunk", {card:card[i]});
-            }
-          }
-        }
-      }else{
-        if(cardClick <=2){
-          var indexLi = this;
-          showCard(indexLi, card);
-        }
-      }
+      if(cardClick <=2){
+        var indexLi = this;
+        showCard(indexLi, card);
+      } 
     }
 
     ul.appendChild(li);
@@ -88,26 +81,20 @@ function jobDivRemove(){
   }
 }
 
-function closePopup(popup){
-  setTimeout(function(){
-    jobDivRemove();
-    popup.close();
-  }, 5000);
-}
-
-function doppelganger(game, myJob){
-  if(myJob == "도플갱어"){
-    console.log('준비중 ㅎ');
-  }
-};
 
 function warewolf(game, myJob){
-  if(myJob == "늑대인간"){
+  if(myJob.name == "늑대인간"){
     if(game.ware.length == 1){
-     var popup = new Popup(popDiv, {width:300, height:150});
-     surplusCard(game.card, myJob); 
-     popup.open();
-     closePopup(popup);
+      var popup = new Popup(popDiv, {width:300, height:150});
+      var time;
+      surplusCard(game.card, myJob); 
+      popup.open();
+
+      time = setTimeout(function(){
+        jobDivRemove();
+        popup.close();
+       clearTimeout(time);
+      }, 5000);
 
     }else if(game.ware.length >= 2){
       socket.emit('showWare', {});
@@ -127,160 +114,139 @@ function mason(game, myJob){
   }
 };
 
-function seer(game, myJob){
-  if(myJob == "천리안"){
+function seer(game, myJob, people){
+  if(myJob.name == "천리안"){
     var popup = new Popup(popDiv, {width:300, height:200});
-    selectUsers(game.people, myJob);
+    var time = null;
+
+    selectUsers(people, myJob);
     surplusCard(game.card, myJob);
     popup.open();
-    closePopup(popup);
-   
-  }
-};
 
-function robber(game, myJob){
-  if(myJob == "도둑"){
-    var popup = new Popup(popDiv, {width:300, height:100});
-    selectUsers(game.people, myJob);
-    popup.open();
-   
-    setTimeout(function(){
-      var showUser = document.getElementsByTagName('select');
-      socket.emit('showRobber', {showUser:showUser[0].value});
-      socket.emit('nextTurn', {game:game, wake:wake, myJob:myJob});
+    time = setTimeout(function(){
+      var user = document.getElementsByClassName('select-user')[0];
+
+      if(user !== undefined){
+        socket.emit("showSeer", {user:user.value});
+      }
+
       jobDivRemove();
       popup.close();
-    }, 5000);
-  }else{
-    setTimeout(function(){
-      socket.emit('nextTurn', {wake:wake});
-    }, 5000);
-  }
-};
-
-function troubleMaker(game, myJob){
-  if(myJob == "문제아"){
-    var popup = new Popup(popDiv, {width:300, height:150});
-    selectUsers(game.people, myJob);
-    selectUsers(game.people, myJob);
-    popup.open();
-
-    setTimeout(function(){
       
-      var showUser = document.getElementsByTagName('select');
-      socket.emit('showTrouble', {showUser:showUser[0].value, showUserTwo:showUser[1].value});
-      socket.emit('nextTurn', {game:game, myJob:myJob});
+      clearTimeout(time);
+    }, 5000);
+
+  }
+};
+
+function robber(people, myJob, wake){
+  var time;
+  if(myJob.name == "도둑"){
+    var popup = new Popup(popDiv, {width:300, height:200});
+    
+    selectUsers(people, myJob);
+    popup.open();
+ 
+    time = setTimeout(function(){
+      var select = document.getElementsByClassName('select-user')[0].value;
+      socket.emit("showRobber", {myJob:myJob, user:select});  
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      
       jobDivRemove();
       popup.close();
-    }, 5000);
+      clearTimeout(time);
+    }, 5000);    
+
   }else{
-    setTimeout(function(){
-      socket.emit('nextTurn', {game:game, myJob:myJob});
-    },5000);
+    time = setTimeout(function(){
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      clearTimeout(time);
+    }, 5000); 
+  }
+}
+
+function troubleMaker(people, myJob, wake){
+  var time;
+
+  if(myJob.name === "문제아"){
+    var popup = new Popup(popDiv, {width:300, height:200});
+    var me = document.getElementById('myName').text;
+    var select = document.createElement('select');
+    select.className = "select-user form-control";
+
+    for(var i = people.length-1; i >= 0; i--){
+      if(people[i] != me){
+        var option = document.createElement('option');
+        option.text = people[i];
+        option.value = people[i];
+        select.appendChild(option);
+      }
+    }
+
+    jobDiv.appendChild(select);
+    selectUsers(people, myJob);
+
+    popup.open();
+ 
+    time = setTimeout(function(){
+      var select = document.getElementsByClassName('select-user')[0].value;
+      var select2 = document.getElementsByClassName('select-user')[1].value;
+
+      socket.emit("showTrouble", {myJob:myJob, user1:select, user2:select2});  
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      
+      jobDivRemove();
+      popup.close();
+      clearTimeout(time);
+    }, 5000);    
+
+  }else{
+    time = setTimeout(function(){
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      clearTimeout(time);
+    }, 5000);
   }
 };
 
 function drunk(game, myJob){
-  if(myJob == "취객"){
-    var popup = new Popup(popDiv, {width:300, height:150});
+  var time;
 
-    var ul = document.createElement('ul');
-    ul.id = "cards";
- 
-    for(var i = 0; i < card.length; i++){
+  if(myJob.name === "주정뱅이"){
 
-      var li = document.createElement('li');
-      li.className = "surplus-card";
-      li.onclick = function(){
-        cardClick++;
- 
-        if(cardClick <=1){
-          var surplusCard = document.getElementsByClassName('surplus-card');
-
-          for( var i = 0; i < surplusCard.length; i++){
-            if(surplusCard[i] == this){
-              socket.emit("showDrunk", {card:card[i]});
-            }
-          }
-        }
-      }
-
-      ul.appendChild(li);
-    }
-
-    jobDiv.appendChild(ul);
-    
-    setTimeout(function(){
-      socket.emit('nextTurn', {wake:wake});
-      jobDivRemove();
-      popup.close();
-    }, 5000);
-  }else{
-    setTimeout(function(){
-      socket.emit('nextTurn', {wake:wake});
-    }, 5000);
   }
-};
+}
 
-function insomeniac(myJob){
-  if(myJob == "불면증환자"){
-    socket.emit('showInsome', {});
-  }
-
-  socket.emit('nextTurn', {wake:wake});
-};
-
-function moveNight(data){
-  console.log(data);
-  var game = data.game;
+function moveNight(game, people, myJob, wake){
   var moveWake = game.wake;
-  var myJob = data.myJob;
-
-  wake = data.wake;
-
+  
   if(wake < moveWake){
     switch(wake){
-      case 0:
-        var isDoppel = game.job.indexOf("도플갱어");
-        var surDoppel = game.card.indexOf('도플갱어');
-
-      if(isDoppel != -1 && surDoppel == -1){
-        doppelganger(game,  myJob);
-      }else{
-        socket.emit('nextTurn', {wake:wake});
-      }
-      break;
-
+      case 0: //도플갱어
+        socket.emit('nextTurn', {myJob:myJob, wake:wake}); 
+        break;
       case 1:
         warewolf(game, myJob);
+        seer(game, myJob, people);
         minion(game, myJob);
         mason(game, myJob);
-        seer(game, myJob);
-        socket.emit('nextTurn', {wake:wake});
+        socket.emit('nextTurn', {myJob:myJob, wake:wake});
         break;
-
       case 2:
-        robber(game, myJob);
+        robber(people, myJob, wake);
         break;
-
       case 3:
-        troubleMaker(game, myJob);
+        troubleMaker(people, myJob, wake);
         break;
-
       case 4:
         drunk(game, myJob);
         break;
-
       case 5:
-        insomeniac(game, myJob);
-        socket.emit('nextTurn', {wake:wake});
-        break;
-
-      default:
+        //insomniac(game, myJob);
         break;
     }
   }else{
-    return;
-    //밤 끝나다고 메세지 뿌리기
-  } 
-};
+    setTimeout(function(){
+      socket.emit('checkVote', {});
+    }, 50000);
+  }
+}

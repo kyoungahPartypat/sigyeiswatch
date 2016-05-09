@@ -140,7 +140,17 @@ router.get('/login', function(req, res, next){
   res.render('users/login', {title: "로그인 - 시계 is 와치", message:req.flash('error')});
 });
 
-router.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect:'login', failureFlash: true}));
+router.post('/login', passport.authenticate('local', {failureRedirect:'/users/login', failureFlash:true}), function(req, res){
+  
+  if(req.session.returnTo){
+    var url = req.session.returnTo;
+    delete req.session.returnTo;
+
+    res.redirect(url);
+  }else{
+    res.redirect('/');
+  }
+});
 
 router.get('/logout', function(req, res, next){
   req.logout();

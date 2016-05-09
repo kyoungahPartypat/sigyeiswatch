@@ -11,17 +11,29 @@ var join = path.join;
 
 var list = function(req, res, next, find, fn){
   var perpage = 25;
-  var page = Math.max(parseInt(req.param('page') || '1', 10), 1)-1;
+  var page = parseInt(req.param('page')) || 1;
+  var list = 10;
+  var block = Math.ceil(page/list);
+  var start = ((block-1) * list) +1;
+  var end = start + list - 1;
 
   Photo.count(function(err, total){
     req.page = res.locals.page = {
       number:page,
       perpage: perpage,
-      from: page*perpage,
-      to: page * perpage + perpage -1,
+      from: (page-1)*perpage,
+      to: (page-1) * perpage + perpage -1,
       total: total,
-      count: Math.ceil(total/perpage)
+      list: list,
+      block: block,
+      count: Math.ceil(total/perpage),
+      start: start,
+      end: end
     }; 
+
+    if(req.page.end > req.page.count){
+      req.page.end = req.page.count;
+    }
 
     Photo.find(find).sort({_id:'desc'}).exec(function(err, rows){
       if(err) throw err;
