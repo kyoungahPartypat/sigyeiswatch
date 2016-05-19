@@ -1,9 +1,9 @@
-@media all and (min-width:320px){
-	#level{display:none}
-	#mobileLevel{display:block}
+#level{display:none}
+#mobileLevel{display:block}
+#way{width:100%; padding:10px; box-sizing:border-box}
+#way > div.way_box{width:100%; margin-top:10px; padding:10px; box-sizing:border-box; background-color:#ffd672; line-height:22px; font-size:12px}
 
-	#way{width:100%; padding:10px; box-sizing:border-box}
-	#way > div.way_box{width:100%; margin-top:10px; padding:10px; box-sizing:border-box; background-color:#ffd672; line-height:22px; font-size:12px}
+@media all and (min-width:320px){
 }
 @media all and (min-width:360px){
 
@@ -36,7 +36,7 @@
 #level{width:600px; margin:20px auto}
 #level > ul{width:100%}
 #level > ul > li{float:left; width:100px; padding:10px; box-sizing:border-box}
-#level > ul > li > button{width:100%; cursor:pointer; border:1px solid #323232; border-radius:5px}
+#level > ul > li > button{width:100%; cursor:pointer; border:1px solid #323232; border-radius:5px; background-color:#FFF}
 #level > ul > li > button:hover{background-color:#d4d4d4}
 #level > ul > li.selected > button{background-color:#d4d4d4}
 #level:after{content:""; display:block; clear:both}

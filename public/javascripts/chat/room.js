@@ -161,11 +161,11 @@ $(document).ready(function(){
     var client = $("#myName").text();
     var jobNum = people.indexOf(client);
     var myJob = game.job[jobNum];
-    console.log(game);   
+    
     gameStart();
 
-    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob.name + " 입니다.</span>");
-    $("span.job").text(myJob.name);   
+    $("#message").append("<span class = 'chat-text'>당신의 직업은 " + myJob + " 입니다.</span>");
+    $("span.job").text(myJob);   
  
     socket.emit('firstTurn', {game:game, myJob:myJob});
   });
@@ -209,6 +209,10 @@ $(document).ready(function(){
       popup.close();
       clearTimeout(time);
     }, 8000);
+  });
+
+  socket.on("gameResult", function(data){
+    socket.emit('showResult', {});
   });
   // ------------------------------------ //
 

@@ -7,7 +7,7 @@ function showCard(li, card){
 
   for( var i = 0; i < surplusCard.length; i++){
     if(surplusCard[i] == li){
-      li.innerHTML = card[i].name;
+      li.innerHTML = card[i];
     }
   }
 }
@@ -20,7 +20,7 @@ function selectUsers(people, myJob){
 
   //천리안은 카드랑 유저선택중 하나만 가능합니다 :)
   select.onclick = function(){
-    if(myJob.name == "천리안"){
+    if(myJob == "천리안"){
       var ul = document.getElementById('cards');
 
       if(ul){
@@ -55,7 +55,7 @@ function surplusCard(card, myJob){
     li.onclick = function(){
       cardClick++;
  
-      if(myJob.name == "천리안"){
+      if(myJob == "천리안"){
         var select = document.getElementsByTagName('select');
 
         if(select[0]){
@@ -83,7 +83,7 @@ function jobDivRemove(){
 
 
 function warewolf(game, myJob){
-  if(myJob.name == "늑대인간"){
+  if(myJob == "늑대인간"){
     if(game.ware.length == 1){
       var popup = new Popup(popDiv, {width:300, height:150});
       var time;
@@ -115,7 +115,7 @@ function mason(game, myJob){
 };
 
 function seer(game, myJob, people){
-  if(myJob.name == "천리안"){
+  if(myJob == "천리안"){
     var popup = new Popup(popDiv, {width:300, height:200});
     var time = null;
 
@@ -141,7 +141,7 @@ function seer(game, myJob, people){
 
 function robber(people, myJob, wake){
   var time;
-  if(myJob.name == "도둑"){
+  if(myJob == "도둑"){
     var popup = new Popup(popDiv, {width:300, height:200});
     
     selectUsers(people, myJob);
@@ -168,7 +168,7 @@ function robber(people, myJob, wake){
 function troubleMaker(people, myJob, wake){
   var time;
 
-  if(myJob.name === "문제아"){
+  if(myJob === "문제아"){
     var popup = new Popup(popDiv, {width:300, height:200});
     var me = document.getElementById('myName').text;
     var select = document.createElement('select');
@@ -211,7 +211,7 @@ function troubleMaker(people, myJob, wake){
 function drunk(game, myJob){
   var time;
 
-  if(myJob.name === "주정뱅이"){
+  if(myJob === "주정뱅이"){
 
   }
 }

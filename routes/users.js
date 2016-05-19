@@ -29,8 +29,16 @@ router.get('/', function(req, res, next){
   res.redirect('/users/login', {title:'로그인 - 시계 is 와치'});
 });
 
+router.get('/joinMenu', function(req, res, next){ 
+  res.render('users/joinMenu', {title:'회원가입 - 시계 is 와치'});
+});
+
 router.get('/join', function(req, res, next){
-  
+  if(req.user){
+    res.locals.user = req.user;
+    req.logout();
+  }
+
   res.render('users/join', {title:'회원가입 - 시계 is 와치'});
 });
 
@@ -63,41 +71,52 @@ router.post('/join/nameCheck', function(req, res, next){
 
 router.post('/join', function(req, res, next){
 
-  var salt;
-
+  var salt = null; 
+  var id = req.query.type;
+ 
   bcrypt.genSalt(12, function(err, salt){
-   salt = salt; 
-   bcrypt.hash(req.body.password, salt, function(err, hash){
+    salt = salt; 
+    bcrypt.hash(req.body.password, salt, function(err, hash){
+ 
+      if(id === "local"){  
+        var mailOptions = {
+          from: '시계 is 와치 <sigye@sigyeiswatch.com>',
+          to: req.body.email,
+          subject: '시계 is 와치 회원가입 인증메일 입니다 :)',
+          html: '<span>' + req.body.name + '님, 시계 is 와치에 가입한게 맞으시다면 아래의 링크를 클릭해주세요.</span><br/><a href = "http://sigyeiswatch.com/users/join/emailConfirm/'+ encodeURIComponent(req.body.name) +'">이메일 인증 완료하기</a>'
+        }
      
-      var mailOptions = {
-        from: '시계 is 와치 <sigye@sigyeiswatch.com>',
-        to: req.body.email,
-        subject: '시계 is 와치 회원가입 인증메일 입니다 :)',
-        html: '<span>' + req.body.name + '님, 시계 is 와치에 가입한게 맞으시다면 아래의 링크를 클릭해주세요.</span><br/><a href = "http://sigyeiswatch.com/users/join/emailConfirm/'+ encodeURIComponent(req.body.name) +'">이메일 인증 완료하기</a>'
-      }
-     
-      var user = {
-        'email': req.body.email,
-        'password': hash,
-        'salt': salt,
-        'name': req.body.name,
-        'confirm' : 'N'
-      };
+        var user = {
+          'email': req.body.email,
+          'password': hash,
+          'salt': salt,
+          'name': req.body.name,
+          'confirm' : 'N'
+        };
       
-      connection.query('insert into users set ?', user, function(err, result){
-        if(err) throw err;
+        connection.query('insert into users set ?', user, function(err, result){
+          if(err) throw err;
 
-        smtpTransport.sendMail(mailOptions, function(error, response){
-	  if (error){
-            console.log(error);
-	  }else{
-            console.log("sent message to " + req.body.name);
-          }
-	  smtpTransport.close();
+          smtpTransport.sendMail(mailOptions, function(error, response){
+            if (error){
+              console.log(error);
+	    }else{
+              console.log("sent message to " + req.body.name);
+            }
+	    smtpTransport.close();
+          });
+
+          res.redirect('/users/join/joinResult/' + encodeURIComponent(req.body.name));
         });
+      }else{
+        var user = [hash, salt, req.body.name, 'Y', req.body.social];
 
-        res.redirect('/users/join/joinResult/' + encodeURIComponent(req.body.name));
-      });
+        connection.query('UPDATE users SET password = ?, salt = ?, name = ?, confirm = ? WHERE social = ?', user, function(err, result){
+          if(err) return err;
+
+          res.redirect('/users/auth/facebook');
+        });  
+      }
     });
   });
 
@@ -149,6 +168,23 @@ router.post('/login', passport.authenticate('local', {failureRedirect:'/users/lo
     res.redirect(url);
   }else{
     res.redirect('/');
+  }
+});
+
+router.get('/auth/facebook', passport.authenticate('facebook', {scope:['email'], failureRedirect: '/users/login'}));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {scope:['email'], failureRedirect:'/users/login', failureFlash:true}), function(req, res){
+
+  if(req.user.confirm === 'N'){
+    res.redirect("/users/join?type=social");
+  }else{
+    if(req.session.returnTo){
+      var url = req.session.returnTo;
+      delete req.session.returnTo;
+
+      res.redirect(url);
+    }else{
+      res.redirect('/');
+    }
   }
 });
 

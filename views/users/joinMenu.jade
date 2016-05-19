@@ -1,0 +1,12 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href = "/stylesheets/uesrs.css")
+
+block content
+  div#join
+    ul
+      li
+        button(type="button" onclick = "location.href='/users/join?type=local'") 이메일계정 만들기
+      li
+        button(type="button" onclick = "location.href='/users/auth/facebook'") 페이스북계정 만들기

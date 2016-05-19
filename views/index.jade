@@ -2,6 +2,11 @@ extends layout
 
 block head
   link(rel="stylesheet" href="/stylesheets/sigyeiswatch.css")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js")
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js")
 
 block content
   div.center
@@ -11,8 +16,5 @@ block content
         br
         span.watch= watch.name
 
-  div.main-board
-    div(class = "board hot")
-      span.txt 인기 글
-    div(class = "board new")
-      span.txt 새 글 
+  div(id = "mainBoard" class = "main-board")
+  script(type = "text/babel" src = "/javascripts/index.js")
