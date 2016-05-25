@@ -78,13 +78,16 @@
   div.popup-wrapper{background-color:#fff; border:1px solid #ddd; border-radius:5px; box-shadow:0 2px 8px #aaa; overflow:hidden}
   div.popup-title{padding:10px 15px; background-color:#f4f4f4; border-bottom:1px solid #f0f0f0}
 
-  /*늑대팝업*/
+  /*카드*/
   #popup > div.popup-content > div.popup-title > button{display:none}
-  #popup > div.popup-content > #jobActive{height:112px; padding:10px}
-  #popup > div.popup-content > #jobActive > ul{width:100%; height:100%;}
+  #popup > div.popup-content > #jobActive{height:112px; padding:10px; text-align:center}
+  #popup > div.popup-content > #jobActive > span{line-height:18px}
+  #popup > div.popup-content > #jobActive > ul{width:100%; height:90px; margin-top:10px}
   #popup > div.popup-content > #jobActive > ul > li{float:left; width:89px; height:100%; margin-right:5px; background-color:#999}
+  #popup > div.popup-content > #jobActive > ul > li.select-card{border:1px solid #999; background-color:#FFF; font-size:13px; text-align:center; line-height:90px; font-weight:600}
   #popup > div.popup-content > #jobActive > ul > li:last-child{margin-right:0}
 
+  #popup > div.popup-content > #jobActive > select{margin:5px 0}
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 360px) {
   #chat > div.content > #pane > table{left:0}

@@ -4,16 +4,13 @@ var bcrypt = require('bcrypt');
 var passport = require('passport');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var connect = require("../lib/dbConfig");
+var connection = connect.handleDisconnect();
 var router = express.Router();
 
 //require('../lib/passport').setup();
 
-var connection = mysql.createConnection({
-  host: 'sigyeiswatch.cca8wgdf70vy.ap-northeast-2.rds.amazonaws.com',
-  user: 'kyoungah',
-  password: 'dbrud3489',
-  database: 'SigyeisWatch'
-});
+connect.handleDisconnect(connection);
 
 var smtpTransport = nodemailer.createTransport(smtpTransport({
   service: 'gmail',
@@ -58,6 +55,7 @@ router.post('/join/emailCheck', function(req, res, next){
 
 router.post('/join/nameCheck', function(req, res, next){
   var chk;
+  console.log(connection);
   connection.query("SELECT COUNT(name) as nameNum from users where name = ?", req.body.name, function(err, result){
     
     if(result[0].nameNum > 0){

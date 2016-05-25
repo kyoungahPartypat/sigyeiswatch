@@ -7,6 +7,7 @@ function showCard(li, card){
 
   for( var i = 0; i < surplusCard.length; i++){
     if(surplusCard[i] == li){
+      li.className += " select-card";
       li.innerHTML = card[i];
     }
   }
@@ -42,7 +43,7 @@ function selectUsers(people, myJob){
   
 }
 
-function surplusCard(card, myJob){
+function surplusCard(card, myJob, num){
   var ul = document.createElement('ul');
   var cardClick = 0;
 
@@ -63,7 +64,7 @@ function surplusCard(card, myJob){
         }
       }
 
-      if(cardClick <=2){
+      if(cardClick <= num){
         var indexLi = this;
         showCard(indexLi, card);
       } 
@@ -85,9 +86,13 @@ function jobDivRemove(){
 function warewolf(game, myJob){
   if(myJob == "늑대인간"){
     if(game.ware.length == 1){
-      var popup = new Popup(popDiv, {width:300, height:150});
-      var time;
-      surplusCard(game.card, myJob); 
+      var popup = new Popup(popDiv, {width:300, height:160});
+      var time = null;
+      var text = document.createElement('span');
+      text.innerHTML = "카드 1장을 볼 수 있습니다.";
+      jobDiv.appendChild(text);
+ 
+      surplusCard(game.card, myJob, 1); 
       popup.open();
 
       time = setTimeout(function(){
@@ -116,11 +121,14 @@ function mason(game, myJob){
 
 function seer(game, myJob, people){
   if(myJob == "천리안"){
-    var popup = new Popup(popDiv, {width:300, height:200});
+    var popup = new Popup(popDiv, {width:300, height:210});
     var time = null;
-
+    var text = document.createElement('span');
+    text.innerHTML = "카드 2장을 보거나 다른 사람의 직업을 볼 수 있습니다.";
+    jobDiv.appendChild(text);
+    
     selectUsers(people, myJob);
-    surplusCard(game.card, myJob);
+    surplusCard(game.card, myJob, 2);
     popup.open();
 
     time = setTimeout(function(){
@@ -142,8 +150,11 @@ function seer(game, myJob, people){
 function robber(people, myJob, wake){
   var time;
   if(myJob == "도둑"){
-    var popup = new Popup(popDiv, {width:300, height:200});
-    
+    var popup = new Popup(popDiv, {width:300, height:100});
+    var text = document.createElement('span');
+    text.innerHTML = "다른 사람의 직업을 뻇어 올 수 있습니다.";
+    jobDiv.appendChild(text);
+     
     selectUsers(people, myJob);
     popup.open();
  
@@ -169,9 +180,14 @@ function troubleMaker(people, myJob, wake){
   var time;
 
   if(myJob === "문제아"){
-    var popup = new Popup(popDiv, {width:300, height:200});
+    var popup = new Popup(popDiv, {width:300, height:150});
     var me = document.getElementById('myName').text;
     var select = document.createElement('select');
+    var text = document.createElement('span');
+    text.innerHTML = "다른 사람들의 직업을 교환합니다.";
+    jobDiv.appendChild(text);
+ 
+
     select.className = "select-user form-control";
 
     for(var i = people.length-1; i >= 0; i--){
@@ -208,11 +224,56 @@ function troubleMaker(people, myJob, wake){
   }
 };
 
-function drunk(game, myJob){
+function drunk(game, myJob, wake){
   var time;
+  var ul = document.createElement('ul');
+  var cardClick = 0;
 
   if(myJob === "주정뱅이"){
+    var popup = new Popup(popDiv, {width:300, height:160}); 
+    var num = 0;
+    var text = document.createElement('span');
+    text.innerHTML = "카드 한장을 선택합니다.";
+    jobDiv.appendChild(text);
+ 
+    ul.id = "cards";
+ 
+    for(var i = 0; i < game.card.length; i++){
+      var li = document.createElement('li');
 
+      li.className = "surplus-card";
+      li.onclick = function(){
+        var surpluscard = document.getElementsByClassName('surplus-card');
+        var indexLi = this;
+
+        for(i = 0; i< surpluscard.length; i++){
+          if(indexLi === surpluscard[i]){
+            num = i;
+          }
+        }
+      }
+
+      ul.appendChild(li);
+    }
+
+    jobDiv.appendChild(ul);
+    popup.open();
+
+    time = setTimeout(function(){
+      socket.emit('showDrunk', {num:num});
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      
+      jobDivRemove();
+      popup.close();
+
+      clearTimeout(time);
+    }, 5000);
+
+  }else{
+    time = setTimeout(function(){
+      socket.emit("nextTurn", {myJob:myJob, wake:wake});
+      clearTimeout(time);
+    }, 5000);
   }
 }
 
@@ -238,7 +299,7 @@ function moveNight(game, people, myJob, wake){
         troubleMaker(people, myJob, wake);
         break;
       case 4:
-        drunk(game, myJob);
+        drunk(game, myJob, wake);
         break;
       case 5:
         //insomniac(game, myJob);

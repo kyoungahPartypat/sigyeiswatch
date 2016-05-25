@@ -185,7 +185,11 @@ $(document).ready(function(){
     var jobDiv = document.getElementById('jobActive');
     var me = document.getElementById('myName').text;
     var select = document.createElement('select');
+    var text = document.createElement('span');
     var popup = new Popup(popDiv, {width:300, height:150});
+
+    text.innerHTML = "늑대인간으로 의심되는 사람을 투표 해주세요";
+    jobDiv.appendChild(text);
 
     select.className = "select-user form-control";
 

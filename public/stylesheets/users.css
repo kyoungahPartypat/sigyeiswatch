@@ -2,6 +2,13 @@
 #join{width:100%; margin:0 auto}
 #join > h2, #login > h2{font-size:15px; text-align:center; margin:20px 0 15px}
 
+/*회원가입 메뉴*/
+#join > ul.join-menu{width:100%; margin-left:auto; margin-right:auto; padding:3px}
+#join > ul.join-menu > li{width:100%; margin-bottom:8px;}
+#join > ul.join-menu > li > button{width:100%}
+#join > ul.join-menu > li > button.facebook{background-color:#546c9b; color:#FFF}
+
+
 /*회원가입 폼*/
 #join > form > div.form-group > label{margin-bottom:6px}
 
@@ -18,6 +25,8 @@
 /*로그인 폼*/
 #login > div.col-md-4 > div.account-wall{margin:0px auto 5px}
 #login > div.col-md-4 > div.account-wall > form > input{margin-bottom:5px}
+#login > div.col-md-4 > div.account-wall > form > span.error{display:inline-block; margin-bottom:5px; color:#a94442}
+#login > div.col-md-4 > div.account-wall > form > button.facebook{width:100%; margin:5px; margin-left:auto; margin-right:auto; background-color:#546c9b; color:#FFF}
 
 #login > div.col-md-4 > a{float:right}
 #login > div.col-md-4 > a:after{content: " "; display:block; clear:both}
@@ -33,6 +42,9 @@
 
 /* Small Devices, Tablets */
 @media only screen and (min-width : 768px) {
+
+  /*회원가입 메뉴*/
+  #join > ul.join-menu{width:300px; margin-left:auto; margin-right:auto; padding:3px}
 
 
 }

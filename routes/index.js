@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
         collection.count(function(err, num){ 
           
           var count = Math.floor(Math.random() * num + 1);
-          console.log(count);
+          
           collection.find({idx:count}).toArray(function(err, result){
             if(err) throw err;
 
