@@ -1,67 +1,164 @@
-function Child(){
-  this.inven = document.getElementById("inventory");
-  
+/*
+  주호 생성자 함수
 
-  /*
-   새게임 시작 함수
+    age: 나이
+    size: 신체 사이즈 
+      width: 몸무게
+      height: 키
+    stat: 스텟
+      goodness: 착한마음
+      strength: 체력
+      dexterity: 손재주
+      knowledge: 지식
+*/
 
-   name : 캐릭터 이름
-   age : 캐릭터 나이
-   power : 체력 
-   knowledge : 지식
-   sens : 감수성
-   fat :비만도
-   good : 이거 머라 설명해야되지; 걍 착한일 하면 쌓이는거
-   cloth: 입고있는 옷
-   room: 현재 방
-  */
-  this.newGame = function(){
-    this.name = "juho";
-    this.age = 1;
-    this.power = 5;
-    this.knowledge = 10; 
-    this.sens = 5;
-    this.fat = 3;
-    this.good = 0;
+var Juho = function(){
+  var age = 10;
+  var size = {"width": 50, "height":150};
+  var stat = {"goodness": 10, "strength":10, "dexterity": 10, "knowledge": 10}
+  var money = 10000;  
 
-    this.cloth = "normal";
-    this.room = "normal";
+  var Func = function(){};
+
+  Func.prototype = {
+    getSize: function(type){
+      switch(type){
+        case 'width':
+          return size.width;
+        case 'height':
+          return size.height;
+        default:
+          break;
+      }
+    },
+
+    getStat: function(type){
+      switch(type){
+        case 'goodness':
+          return stat.goodness;
+        case 'strength':
+          return stat.strength;
+        case 'dexterity':
+          return stat.dexterity;
+        case 'knowledge':
+          return stat.knowledge;
+        default:
+          break;
+      }
+    },
+
+    setSize: function(type, num){
+      switch(type){
+        case 'width':
+          size.width += num;
+          break;
+        case 'height':
+          size.height += num;
+          break;
+        default:
+          break;
+        
+      }
+    },
+
+    setStat: function(type, num){
+      switch(type){
+        case 'goodness':
+          stat.goodness += num;
+          break;
+        case 'strength':
+          stat.strength += num;
+        case 'dexterity':
+          stat.dexterity += num;
+        case 'knowledge':
+          stat.knowledge += num;
+        default:
+          break;
+      }
+    },
+
+    getMoney: function(){
+      return money;
+    },
+
+    setMoney: functin(num){
+      money += num;
+    }
   };
 
-  this.continueGame = function(){
+}();
 
-  }; 
-  
-  
-  /*
-    인벤토리 여는 함수 
-    
-    input: 무슨 용도로 인벤 여는지 가르쳐주는 파라미터
-  */
+/*
+  방 생성자 함수
 
-  this.invenOpen = function(input){
-    this.inven.stlye.display = "block";
+    1: 기본 아이템
+    0: 소지하고 있는 아이템이 없음
+    --> 숫자가 높아질 수록 좋은 아이템
 
-    switch(input){
-      case "eat":
-        eat();
-        break;
-      case "study":
-        study();
-        break;
-      case "play":
-        play();
-        break;
-      default:
-        break;
-    }  
+    wall: 벽지
+    ground: 바닥
+    bed: 침대
+    tv: 티비
+    desk: 책상
+    etc: 기타
+*/
+
+var JuhoRoom = function(){
+  var wall = "normal";
+  var ground = "normal";
+  var bed = "normal";
+  var tv = null;
+  var desk = "normal";
+  var etc = null;
+
+  var Func = function(){};
+
+  Func.prototype = {
+    getRoom: function(type){
+      switch(type){
+        case "wall":
+          return wall;
+        case "ground":
+          return ground;
+        case "bed":
+          return bed;
+        case "tv":
+          return tv;
+        case "desk":
+          return desk;
+        case "etc":
+          return etc;
+        default:
+          break;
+      }
+    }
+
+    setRoom: function(type, name){
+      switch(type){
+        case "wall":
+          wall = name;
+        case "ground":
+          ground = name;
+        case "bed":
+          bed = name;
+        case "tv":
+          tv = name;
+        case "desk":
+          desk = name;
+        case "etc":
+          etc = name;
+        default:
+          break;
+      }
+    }
+
   };
+}();
 
-  this.invenClose = function(){
-    this.inven.style.display = "none";
-  }
 
-  this.eat = function(){
-   
-  }  
-}
+/*
+  가게 생성함수
+*/
+var store = function(text){
+  var name = text; 
+};

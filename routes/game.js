@@ -2,13 +2,8 @@ var express = require('express');
 var mysql = require('mysql');
 var redis = require('redis');
 var Girlfriend = require('../models/Girlfriend');
-
-var db = mysql.createConnection({
-  host: 'sigyeiswatch.cca8wgdf70vy.ap-northeast-2.rds.amazonaws.com',
-  user: 'kyoungah',
-  password: 'dbrud3489',
-  database: 'SigyeisWatch'
-});
+var connect = require('../lib/dbConfig');
+var connection = connect.connection;
 
 var client = redis.createClient(6379, "127.0.0.1");
 client.on('connect', function(){
@@ -16,6 +11,8 @@ client.on('connect', function(){
 });
 
 var router = express.Router();
+
+connect.handleDisconnect();
 
 /* GET home page. */
 router.get('/', function(req, res, next){
@@ -33,8 +30,8 @@ router.get('/knight', function(req,res,next){
 
 /*여자친구 겜*/
 router.get('/girlfriend', function(req, res, next){
-   db.query("SELECT * FROM girlfriends WHERE idx = ?", 0, function(err, result){
-    if(result[0] !== undefined){   
+   connection.query("SELECT * FROM girlfriends WHERE idx = ?", 0, function(err, result){
+    if(result !== undefined){   
       res.render('game/girlfriend', {title: "여자친구 강화 게임 - 시계 is 와치", result:result[0]});
     }else{
       res.render('game/girlfriend', {title:"여자친구 강화 게임 - 시계 is 와치", result:"false"});
@@ -43,8 +40,8 @@ router.get('/girlfriend', function(req, res, next){
 });
 
 router.get('/girlfriend/up', function(req, res, next){
-   db.query("SELECT * FROM girlfriends WHERE idx = ?", req.query.idx, function(err, result){
-    if(result[0] !== undefined){   
+   connection.query("SELECT * FROM girlfriends WHERE idx = ?", req.query.idx, function(err, result){
+    if(result !== undefined){   
       res.send(result[0]);
     }else{
       res.send({result:"false"});
@@ -106,6 +103,10 @@ router.get('/girlfriend/levelRank', function(req, res, next){
   client.ZREVRANGE(board, start, end, function(err, result){
     res.send({result:result});
   });
+});
+
+router.get('/juhoMaker', function(req, res, next){
+  res.render('game/juho', {title:'주호 키우기 - 시계 is 와치'});
 });
 
 module.exports = router;

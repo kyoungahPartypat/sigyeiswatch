@@ -12,6 +12,7 @@ div.main-board > div{width:100%; }
 div.main-board > div > div.board{width:100%; padding:10px; box-sizing:border-box; text-align:center;}
 div.main-board > div > div.board > div{width:100%; height:370px; padding:5px; border:2px solid #ddd}
 div.main-board > div > div.board > div table a{color:#555}
+div.adsense{width:100%; margin-left:auto; margin-right:auto; margin-top:3px; margin-bottom:3px}
 /* Custom, iPhone Retina */ 
 @media only screen and (min-width : 320px) {
 }
@@ -28,13 +29,15 @@ div.center > div.random > div.text > span.today{font-size:25px}
 div.center > div.random > div.text > span.watch{font-size:40px}
 
 div.main-board > div > div.board{width:50%; float:left}
-div.main-board > div > div.board:after{content:" "; display:block; clear:both}
+div.main-board > div{content:" "; display:block; clear:both}
+
+div.adsense{width:550px}
 
 }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width : 992px) {
- 
+div.adsense{width:760px}
 }
 
 /* Large Devices, Wide Screens */

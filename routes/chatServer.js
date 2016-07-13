@@ -25,8 +25,12 @@ router.post('/', ensureAuthenticated, function(req, res, next){
   }
 });
 
+router.get('/rule', ensureAuthenticated, function(req, res, next){
+  res.render('chat/rule');
+});
+
 router.get('/warewolf', ensureAuthenticated, function(req, res, next){
-res.render('chat/warewolf');
+  res.render('chat/warewolf');
 });
 
 router.get('/omok', ensureAuthenticated, function(req, res, next){

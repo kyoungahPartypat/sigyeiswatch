@@ -96,7 +96,7 @@ h1 > a{display:block; margin:0 auto; width:193px; height:44px; background-image:
 #gnb > ul.nav-gnb > li > a{color:#262626}
 
 /*content*/
-#wrap{min-height:100%; margin-bottom:-70px}
+#wrap{min-height:100%; margin-bottom:70px}
 #wrap:after{height:70px; content:" "; display:block}
 
 /*footer*/

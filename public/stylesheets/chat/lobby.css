@@ -6,6 +6,8 @@
   #lobby > table{width:100%; border-top:1px solid #ddd; border-bottom:1px solid #ddd}
   #lobby > table th, #lobby > table td{text-align:center}
 
+  #lobby > button.rule{margin-left:5px}
+
   #lobby > #lobbyChat{height:180px}
   #lobby > #lobbyChat:after{content:" "; display:block; clear:both}
   #lobby > #lobbyChat > #userList{display:none; float:right; height:100%; padding:3px;  margin-top:10px; margin-bottom:5px; border:1px solid #d3d3d3}

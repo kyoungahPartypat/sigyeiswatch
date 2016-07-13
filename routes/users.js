@@ -5,12 +5,12 @@ var passport = require('passport');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var connect = require("../lib/dbConfig");
-var connection = connect.handleDisconnect();
+var connection = connect.connection;
 var router = express.Router();
 
 //require('../lib/passport').setup();
 
-connect.handleDisconnect(connection);
+connect.handleDisconnect();
 
 var smtpTransport = nodemailer.createTransport(smtpTransport({
   service: 'gmail',

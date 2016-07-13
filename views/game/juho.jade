@@ -1,0 +1,16 @@
+extends ../layout
+
+block head
+  link(rel="stylesheet" href="/stylesheets/game/juhoMaker.css")
+
+block content
+  div#game
+    div(class = "game start")
+      span.title 쥬호 키우기 
+      div.button
+        button(id = "start" class = "btn btn-default") 새로 키우기 
+        button(id = "continue" class = "btn btn-default")계속 키우기
+    div(class = "game play")
+      div.room
+      div.charactor
+    div(class = "game ending")
